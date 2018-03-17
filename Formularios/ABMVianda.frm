@@ -124,9 +124,9 @@ Dim vDesFieldID As String
 
 'constantes para funcionalidad de uso del formulario
 Const cSugerirID = True 'si es True si sugiere un identificador cuando deja el campo en blanco
-Const cTabla = "Vianda"
+Const cTabla = "VIANDAS"
 Const cCampoID = "VIA_CODIGO"
-Const cDesRegistro = "Vianda"
+Const cDesRegistro = "Viandas"
 
 Function ActualizarListaBase(pMode As Integer)
     On Error GoTo moco

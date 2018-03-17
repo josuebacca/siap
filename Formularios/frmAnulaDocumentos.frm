@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmAnulaDocumentos 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Anulación de ...."
@@ -94,6 +94,32 @@ Begin VB.Form frmAnulaDocumentos
       TabIndex        =   10
       Top             =   30
       Width           =   9825
+      Begin MSComCtl2.DTPicker FechaHasta 
+         Height          =   315
+         Left            =   4800
+         TabIndex        =   4
+         Top             =   960
+         Width           =   1935
+         _ExtentX        =   3413
+         _ExtentY        =   556
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   109510657
+         CurrentDate     =   43174
+      End
+      Begin MSComCtl2.DTPicker FechaDesde 
+         Height          =   315
+         Left            =   2280
+         TabIndex        =   3
+         Top             =   960
+         Width           =   1455
+         _ExtentX        =   2566
+         _ExtentY        =   556
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   109510657
+         CurrentDate     =   43174
+      End
       Begin VB.TextBox txtDesCli 
          BeginProperty Font 
             Name            =   "Tahoma"
@@ -138,30 +164,6 @@ Begin VB.Form frmAnulaDocumentos
          TabIndex        =   2
          Top             =   615
          Width           =   3630
-      End
-      Begin FechaCtl.Fecha FechaHasta 
-         Height          =   285
-         Left            =   4785
-         TabIndex        =   4
-         Top             =   975
-         Width           =   1185
-         _ExtentX        =   2090
-         _ExtentY        =   503
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-      End
-      Begin FechaCtl.Fecha FechaDesde 
-         Height          =   330
-         Left            =   2280
-         TabIndex        =   3
-         Top             =   975
-         Width           =   1170
-         _ExtentX        =   2064
-         _ExtentY        =   582
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
       End
       Begin VB.Label lblFechaHasta 
          AutoSize        =   -1  'True
@@ -304,28 +306,28 @@ Private Sub BuscoFacturas()
     lblEstado.Caption = "Buscando Facturas..."
     Screen.MousePointer = vbHourglass
     'poner sucursal
-    SQL = "SELECT DISTINCT FC.FCL_NUMERO,FC.FCL_SUCURSAL,FC.FCL_FECHA, FC.EST_CODIGO, E.EST_DESCRI,"
-    SQL = SQL & " C.CLI_CODIGO, C.CLI_RAZSOC, TC.TCO_ABREVIA, FC.TCO_CODIGO"
-    SQL = SQL & " FROM FACTURA_CLIENTE FC, CLIENTE C,"
-    SQL = SQL & " TIPO_COMPROBANTE TC, ESTADO_DOCUMENTO E"
-    SQL = SQL & " WHERE"
-    SQL = SQL & " FC.TCO_CODIGO=TC.TCO_CODIGO"
-    SQL = SQL & " AND FC.EST_CODIGO=E.EST_CODIGO"
-    SQL = SQL & " AND FC.CLI_CODIGO=C.CLI_CODIGO"
+    sql = "SELECT DISTINCT FC.FCL_NUMERO,FC.FCL_SUCURSAL,FC.FCL_FECHA, FC.EST_CODIGO, E.EST_DESCRI,"
+    sql = sql & " C.CLI_CODIGO, C.CLI_RAZSOC, TC.TCO_ABREVIA, FC.TCO_CODIGO"
+    sql = sql & " FROM FACTURA_CLIENTE FC, CLIENTE C,"
+    sql = sql & " TIPO_COMPROBANTE TC, ESTADO_DOCUMENTO E"
+    sql = sql & " WHERE"
+    sql = sql & " FC.TCO_CODIGO=TC.TCO_CODIGO"
+    sql = sql & " AND FC.EST_CODIGO=E.EST_CODIGO"
+    sql = sql & " AND FC.CLI_CODIGO=C.CLI_CODIGO"
     If txtCliente.Text <> "" Then
-        SQL = SQL & " AND FC.CLI_CODIGO=" & XN(txtCliente.Text)
+        sql = sql & " AND FC.CLI_CODIGO=" & XN(txtCliente.Text)
     End If
     If FechaDesde.Text <> "" Then
-        SQL = SQL & " AND FC.FCL_FECHA>=" & XDQ(FechaDesde.Text)
+        sql = sql & " AND FC.FCL_FECHA>=" & XDQ(FechaDesde.Text)
     End If
     If FechaHasta.Text <> "" Then
-        SQL = SQL & " AND FC.FCL_FECHA<=" & XDQ(FechaHasta.Text)
+        sql = sql & " AND FC.FCL_FECHA<=" & XDQ(FechaHasta.Text)
     End If
     If cboDocumento.List(cboDocumento.ListIndex) <> "(Todos)" Then
-        SQL = SQL & " AND FC.TCO_CODIGO=" & XN(cboDocumento.ItemData(cboDocumento.ListIndex))
+        sql = sql & " AND FC.TCO_CODIGO=" & XN(cboDocumento.ItemData(cboDocumento.ListIndex))
     End If
-    SQL = SQL & " ORDER BY FC.FCL_FECHA,FC.FCL_NUMERO"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = sql & " ORDER BY FC.FCL_FECHA,FC.FCL_NUMERO"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Do While rec.EOF = False
             GrdModulos.AddItem rec!TCO_ABREVIA & Chr(9) & Format(rec!FCL_SUCURSAL, "0000") & "-" & Format(rec!FCL_NUMERO, "00000000") & Chr(9) & rec!FCL_FECHA _
@@ -363,7 +365,7 @@ Private Sub cmdGrabar_Click()
     DBConn.CommitTrans
     lblEstado.Caption = ""
     Screen.MousePointer = vbNormal
-    cmdNuevo_Click
+    CmdNuevo_Click
     Exit Sub
 
 SeClavo:
@@ -377,37 +379,37 @@ Private Sub ActualizoFactura()
     For i = 1 To GrdModulos.Rows - 1
         If GrdModulos.TextMatrix(i, 5) <> GrdModulos.TextMatrix(i, 6) Then 'PREGUNTA SI HUBO CAMBIO
             Set Rec2 = New ADODB.Recordset
-            SQL = "SELECT FCL_TCO_CODIGO FROM FACTURAS_NOTA_CREDITO_CLIENTE"
-            SQL = SQL & " WHERE"
-            SQL = SQL & " FCL_TCO_CODIGO=" & XN(GrdModulos.TextMatrix(i, 7))
-            SQL = SQL & " AND FCL_NUMERO=" & XN(Right(GrdModulos.TextMatrix(i, 1), 8))
-            SQL = SQL & " AND FCL_SUCURSAL=" & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
-            Rec2.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+            sql = "SELECT FCL_TCO_CODIGO FROM FACTURAS_NOTA_CREDITO_CLIENTE"
+            sql = sql & " WHERE"
+            sql = sql & " FCL_TCO_CODIGO=" & XN(GrdModulos.TextMatrix(i, 7))
+            sql = sql & " AND FCL_NUMERO=" & XN(Right(GrdModulos.TextMatrix(i, 1), 8))
+            sql = sql & " AND FCL_SUCURSAL=" & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
+            Rec2.Open sql, DBConn, adOpenStatic, adLockOptimistic
             
             If Rec2.EOF = True Then
-                SQL = "UPDATE FACTURA_CLIENTE"
-                SQL = SQL & " SET EST_CODIGO=" & XN(GrdModulos.TextMatrix(i, 6))
-                SQL = SQL & " WHERE"
-                SQL = SQL & " TCO_CODIGO=" & XN(GrdModulos.TextMatrix(i, 7))
-                SQL = SQL & " AND FCL_NUMERO=" & XN(Right(GrdModulos.TextMatrix(i, 1), 8))
-                SQL = SQL & " AND FCL_SUCURSAL=" & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
-                DBConn.Execute SQL
+                sql = "UPDATE FACTURA_CLIENTE"
+                sql = sql & " SET EST_CODIGO=" & XN(GrdModulos.TextMatrix(i, 6))
+                sql = sql & " WHERE"
+                sql = sql & " TCO_CODIGO=" & XN(GrdModulos.TextMatrix(i, 7))
+                sql = sql & " AND FCL_NUMERO=" & XN(Right(GrdModulos.TextMatrix(i, 1), 8))
+                sql = sql & " AND FCL_SUCURSAL=" & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
+                DBConn.Execute sql
                 
                 'VUELVO ATRAS EL STOCK
-                SQL = "SELECT PTO_CODIGO, DFC_CANTIDAD"
-                SQL = SQL & " FROM DETALLE_FACTURA_CLIENTE"
-                SQL = SQL & " WHERE"
-                SQL = SQL & " TCO_CODIGO=" & XN(GrdModulos.TextMatrix(i, 7))
-                SQL = SQL & " AND FCL_NUMERO=" & XN(Right(GrdModulos.TextMatrix(i, 1), 8))
-                SQL = SQL & " AND FCL_SUCURSAL=" & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
-                rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+                sql = "SELECT PTO_CODIGO, DFC_CANTIDAD"
+                sql = sql & " FROM DETALLE_FACTURA_CLIENTE"
+                sql = sql & " WHERE"
+                sql = sql & " TCO_CODIGO=" & XN(GrdModulos.TextMatrix(i, 7))
+                sql = sql & " AND FCL_NUMERO=" & XN(Right(GrdModulos.TextMatrix(i, 1), 8))
+                sql = sql & " AND FCL_SUCURSAL=" & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
+                rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
                 If rec.EOF = False Then
                     Do While rec.EOF = False
-                        SQL = "UPDATE STOCK SET"
-                        SQL = SQL & " DST_STKFIS = DST_STKFIS + " & XN(rec!DFC_CANTIDAD)
-                        SQL = SQL & " WHERE STK_CODIGO = " & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
-                        SQL = SQL & " AND PTO_CODIGO = " & XN(rec!PTO_CODIGO)
-                        DBConn.Execute SQL
+                        sql = "UPDATE STOCK SET"
+                        sql = sql & " DST_STKFIS = DST_STKFIS + " & XN(rec!DFC_CANTIDAD)
+                        sql = sql & " WHERE STK_CODIGO = " & XN(Left(GrdModulos.TextMatrix(i, 1), 4))
+                        sql = sql & " AND PTO_CODIGO = " & XN(rec!PTO_CODIGO)
+                        DBConn.Execute sql
                         rec.MoveNext
                     Loop
                 End If
@@ -431,14 +433,14 @@ Private Sub CambiColoryEstado(Estado As Boolean)
     End If
 End Sub
 
-Private Sub cmdSalir_Click()
+Private Sub CmdSalir_Click()
     Set frmAnulaDocumentos = Nothing
     Unload Me
 End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
     If KeyAscii = vbKeyReturn Then MySendKeys Chr(9)
-    If KeyAscii = vbKeyEscape Then cmdSalir_Click
+    If KeyAscii = vbKeyEscape Then CmdSalir_Click
 End Sub
 
 Private Sub Form_Load()
@@ -486,10 +488,10 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub LlenarComboNotaDebito()
-    SQL = "SELECT * FROM TIPO_COMPROBANTE"
-    SQL = SQL & " WHERE TCO_DESCRI LIKE 'NOTA DE DEB%'"
-    SQL = SQL & " ORDER BY TCO_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM TIPO_COMPROBANTE"
+    sql = sql & " WHERE TCO_DESCRI LIKE 'NOTA DE DEB%'"
+    sql = sql & " ORDER BY TCO_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboDocumento.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -503,10 +505,10 @@ Private Sub LlenarComboNotaDebito()
 End Sub
 
 Private Sub LlenarComboNotaCredito()
-    SQL = "SELECT * FROM TIPO_COMPROBANTE"
-    SQL = SQL & " WHERE TCO_DESCRI LIKE 'NOTA DE CRED%'"
-    SQL = SQL & " ORDER BY TCO_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM TIPO_COMPROBANTE"
+    sql = sql & " WHERE TCO_DESCRI LIKE 'NOTA DE CRED%'"
+    sql = sql & " ORDER BY TCO_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboDocumento.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -572,10 +574,10 @@ Private Sub ConfiguroGrillaFactura()
 End Sub
 
 Private Sub LlenarComboFactura()
-    SQL = "SELECT * FROM TIPO_COMPROBANTE"
-    SQL = SQL & " WHERE TCO_DESCRI LIKE 'FAC%'"
-    SQL = SQL & " ORDER BY TCO_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM TIPO_COMPROBANTE"
+    sql = sql & " WHERE TCO_DESCRI LIKE 'FAC%'"
+    sql = sql & " ORDER BY TCO_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboDocumento.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -589,10 +591,10 @@ Private Sub LlenarComboFactura()
 End Sub
 
 Private Sub LlenarComboRecibo()
-    SQL = "SELECT * FROM TIPO_COMPROBANTE"
-    SQL = SQL & " WHERE TCO_DESCRI LIKE 'RECIB%'"
-    SQL = SQL & " ORDER BY TCO_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM TIPO_COMPROBANTE"
+    sql = sql & " WHERE TCO_DESCRI LIKE 'RECIB%'"
+    sql = sql & " ORDER BY TCO_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboDocumento.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -687,7 +689,7 @@ Private Sub GrdModulos_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeySpace Then GrdModulos_dblClick
 End Sub
 
-Private Sub cmdNuevo_Click()
+Private Sub CmdNuevo_Click()
     txtCliente.Text = ""
     txtDesCli.Text = ""
     FechaDesde.Text = ""
@@ -721,12 +723,12 @@ End Sub
 Private Sub txtCliente_LostFocus()
     If txtCliente.Text <> "" Then
         Set rec = New ADODB.Recordset
-        SQL = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC"
-        SQL = SQL & " FROM CLIENTE C"
-        SQL = SQL & " WHERE"
-        SQL = SQL & " CLI_CODIGO =" & XN(txtCliente.Text)
+        sql = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC"
+        sql = sql & " FROM CLIENTE C"
+        sql = sql & " WHERE"
+        sql = sql & " CLI_CODIGO =" & XN(txtCliente.Text)
         If rec.State = 1 Then rec.Close
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             txtDesCli.Text = rec!CLI_RAZSOC
         Else
@@ -754,11 +756,11 @@ End Sub
 Private Sub txtDesCli_LostFocus()
     If txtCliente.Text = "" And txtDesCli.Text <> "" Then
         Set rec = New ADODB.Recordset
-        SQL = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC"
-        SQL = SQL & " FROM CLIENTE C"
-        SQL = SQL & " WHERE"
-        SQL = SQL & " CLI_RAZSOC LIKE '" & XN(Trim(txtDesCli.Text)) & "%'"
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC"
+        sql = sql & " FROM CLIENTE C"
+        sql = sql & " WHERE"
+        sql = sql & " CLI_RAZSOC LIKE '" & XN(Trim(txtDesCli.Text)) & "%'"
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             If rec.RecordCount > 1 Then
                 BuscarClientes txtCliente, "CADENA", Trim(txtDesCli.Text)
@@ -792,7 +794,7 @@ Public Sub BuscarClientes(Txt As Control, mQuien As String, Optional mCadena As 
         End If
         
         hSQL = "Nombre, Código"
-        .SQL = cSQL
+        .sql = cSQL
         .Headers = hSQL
         .Field = "CLI_RAZSOC"
         campo1 = .Field

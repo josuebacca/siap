@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form FrmListadePrecios 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Lista de Precios"
@@ -408,6 +408,19 @@ Begin VB.Form FrmListadePrecios
       TabIndex        =   15
       Top             =   0
       Width           =   11670
+      Begin MSComCtl2.DTPicker Fecha1 
+         Height          =   315
+         Left            =   3120
+         TabIndex        =   10
+         Top             =   240
+         Width           =   1455
+         _ExtentX        =   2566
+         _ExtentY        =   556
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   109772801
+         CurrentDate     =   43174
+      End
       Begin VB.ComboBox cbodescri 
          Height          =   315
          Left            =   5655
@@ -415,18 +428,6 @@ Begin VB.Form FrmListadePrecios
          TabIndex        =   0
          Top             =   240
          Width           =   2450
-      End
-      Begin FechaCtl.Fecha Fecha1 
-         Height          =   285
-         Left            =   3105
-         TabIndex        =   10
-         Top             =   255
-         Width           =   1155
-         _ExtentX        =   2037
-         _ExtentY        =   503
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
       End
       Begin VB.TextBox txtcodigo 
          Enabled         =   0   'False
@@ -686,12 +687,12 @@ Private Sub cmdAceptarP_Click()
             GrdModulos.TextMatrix(GrdModulos.RowSel, 5) = Valido_Importe(Chk0(txtActual.Text))
             
             DBConn.BeginTrans
-            SQL = "UPDATE DETALLE_LISTA_PRECIO"
-            SQL = SQL & " SET LIS_PRECIO=" & XN(txtActual.Text)
+            sql = "UPDATE DETALLE_LISTA_PRECIO"
+            sql = sql & " SET LIS_PRECIO=" & XN(txtActual.Text)
             'sql = sql & " ,LIS_COSTO=" & XN(txtCostoActual.Text)
-            SQL = SQL & " WHERE LIS_CODIGO=" & XN(txtcodigo.Text)
-            SQL = SQL & " AND PTO_CODIGO=" & XN(GrdModulos.TextMatrix(GrdModulos.RowSel, 0))
-            DBConn.Execute SQL
+            sql = sql & " WHERE LIS_CODIGO=" & XN(txtcodigo.Text)
+            sql = sql & " AND PTO_CODIGO=" & XN(GrdModulos.TextMatrix(GrdModulos.RowSel, 0))
+            DBConn.Execute sql
             
             Screen.MousePointer = vbNormal
             lblEstado.Caption = ""
@@ -712,16 +713,16 @@ Private Sub Agregoproducto()
     lblEstado.Caption = "Guardando ..."
     DBConn.BeginTrans
     
-    SQL = "SELECT PTO_DESCRI, PTO_PREVTA, PTO_CODIGO, L.LNA_DESCRI, M.MAR_DESCRI, P.PTO_CODBARRAS"
-    SQL = SQL & " FROM PRODUCTO P, LINEAS L, MARCAS M"
-    SQL = SQL & " WHERE"
-    SQL = SQL & " L.LNA_CODIGO=P.LNA_CODIGO"
-    SQL = SQL & " AND M.MAR_CODIGO = P.MAR_CODIGO"
-    SQL = SQL & " AND P.PTO_CODIGO = " & XN(CodigoProducto)
-    SQL = SQL & " ORDER BY PTO_DESCRI"
+    sql = "SELECT PTO_DESCRI, PTO_PREVTA, PTO_CODIGO, L.LNA_DESCRI, M.MAR_DESCRI, P.PTO_CODBARRAS"
+    sql = sql & " FROM PRODUCTO P, LINEAS L, MARCAS M"
+    sql = sql & " WHERE"
+    sql = sql & " L.LNA_CODIGO=P.LNA_CODIGO"
+    sql = sql & " AND M.MAR_CODIGO = P.MAR_CODIGO"
+    sql = sql & " AND P.PTO_CODIGO = " & XN(CodigoProducto)
+    sql = sql & " ORDER BY PTO_DESCRI"
         
     lblEstado.Caption = "Buscando..."
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
             If txtcodigo.Text = "" Then
                 'ACA ENTRA CUANDO ESTOY CREANDO UNA NUEVA LISTA DE PRECIO
@@ -731,12 +732,12 @@ Private Sub Agregoproducto()
 
             Else
                  'INSERTO EN LA LISTA DE PRECIO Y EN DETALLE DE LISTA DE PRECIO
-                 SQL = "INSERT INTO DETALLE_LISTA_PRECIO(LIS_CODIGO,PTO_CODIGO,LIS_PRECIO)"
-                 SQL = SQL & " VALUES ("
-                 SQL = SQL & XN(txtcodigo) & ","
-                 SQL = SQL & XN(CodigoProducto) & ","
-                 SQL = SQL & XN(Chk0(rec!PTO_PREVTA)) & " )"
-                 DBConn.Execute SQL
+                 sql = "INSERT INTO DETALLE_LISTA_PRECIO(LIS_CODIGO,PTO_CODIGO,LIS_PRECIO)"
+                 sql = sql & " VALUES ("
+                 sql = sql & XN(txtcodigo) & ","
+                 sql = sql & XN(CodigoProducto) & ","
+                 sql = sql & XN(Chk0(rec!PTO_PREVTA)) & " )"
+                 DBConn.Execute sql
                 
                 'INSERTO EN LA GRILLA
                 GrdModulos.AddItem Trim(rec!PTO_CODIGO) & Chr(9) & IIf(IsNull(rec!PTO_CODBARRAS), Trim(rec!PTO_CODIGO), Trim(rec!PTO_CODBARRAS)) _
@@ -849,19 +850,19 @@ Private Sub CmdBuscAprox_Click()
     
     LimpiarOpciones
     Screen.MousePointer = vbHourglass
-    SQL = " SELECT P.PTO_DESCRI,L.LNA_DESCRI, LP.LIS_FECHA, P.PTO_CODBARRAS,"
-    SQL = SQL & " D.LIS_PRECIO,P.PTO_CODIGO, LP.LIS_CODIGO, M.MAR_DESCRI"
-    SQL = SQL & " FROM PRODUCTO P, LINEAS L, MARCAS M,"
-    SQL = SQL & " LISTA_PRECIO LP, DETALLE_LISTA_PRECIO D"
-    SQL = SQL & " WHERE P.LNA_CODIGO = L.LNA_CODIGO AND D.PTO_CODIGO = P.PTO_CODIGO"
-    SQL = SQL & " AND LP.LIS_CODIGO = D.LIS_CODIGO"
-    SQL = SQL & " AND M.MAR_CODIGO = P.MAR_CODIGO"
-    SQL = SQL & " AND LP.LIS_CODIGO = " & XN(cbodescri.ItemData(cbodescri.ListIndex))
+    sql = " SELECT P.PTO_DESCRI,L.LNA_DESCRI, LP.LIS_FECHA, P.PTO_CODBARRAS,"
+    sql = sql & " D.LIS_PRECIO,P.PTO_CODIGO, LP.LIS_CODIGO, M.MAR_DESCRI"
+    sql = sql & " FROM PRODUCTO P, LINEAS L, MARCAS M,"
+    sql = sql & " LISTA_PRECIO LP, DETALLE_LISTA_PRECIO D"
+    sql = sql & " WHERE P.LNA_CODIGO = L.LNA_CODIGO AND D.PTO_CODIGO = P.PTO_CODIGO"
+    sql = sql & " AND LP.LIS_CODIGO = D.LIS_CODIGO"
+    sql = sql & " AND M.MAR_CODIGO = P.MAR_CODIGO"
+    sql = sql & " AND LP.LIS_CODIGO = " & XN(cbodescri.ItemData(cbodescri.ListIndex))
     'sql = sql & " AND LP.LIS_DESCRI LIKE '" & Trim(cbodescri.List(cbodescri.ListIndex)) & "%'"
-    SQL = SQL & " ORDER BY P.PTO_DESCRI"
+    sql = sql & " ORDER BY P.PTO_DESCRI"
         
     lblEstado.Caption = "Buscando..."
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         GrdModulos.Rows = 1
         Do While Not rec.EOF
@@ -950,27 +951,27 @@ Private Sub cmdfiltrar_Click()
         'ENTRA ACA CUANDO CONSULTA UNA LISTA
         Screen.MousePointer = vbHourglass
         lblEstado.Caption = "Buscando..."
-        SQL = " SELECT P.PTO_DESCRI,L.LNA_DESCRI, P.PTO_CODBARRAS,"
-        SQL = SQL & " D.LIS_PRECIO,P.PTO_CODIGO, D.LIS_COSTO, M.MAR_DESCRI"
-        SQL = SQL & " FROM PRODUCTO P, LINEAS L, MARCAS M,"
-        SQL = SQL & " LISTA_PRECIO LP, DETALLE_LISTA_PRECIO D"
-        SQL = SQL & " WHERE P.LNA_CODIGO = L.LNA_CODIGO"
-        SQL = SQL & " AND D.PTO_CODIGO = P.PTO_CODIGO"
-        SQL = SQL & " AND LP.LIS_CODIGO = D.LIS_CODIGO"
-        SQL = SQL & " AND M.MAR_CODIGO = P.MAR_CODIGO"
-        SQL = SQL & " AND LP.LIS_CODIGO = " & XN(txtcodigo.Text)
+        sql = " SELECT P.PTO_DESCRI,L.LNA_DESCRI, P.PTO_CODBARRAS,"
+        sql = sql & " D.LIS_PRECIO,P.PTO_CODIGO, D.LIS_COSTO, M.MAR_DESCRI"
+        sql = sql & " FROM PRODUCTO P, LINEAS L, MARCAS M,"
+        sql = sql & " LISTA_PRECIO LP, DETALLE_LISTA_PRECIO D"
+        sql = sql & " WHERE P.LNA_CODIGO = L.LNA_CODIGO"
+        sql = sql & " AND D.PTO_CODIGO = P.PTO_CODIGO"
+        sql = sql & " AND LP.LIS_CODIGO = D.LIS_CODIGO"
+        sql = sql & " AND M.MAR_CODIGO = P.MAR_CODIGO"
+        sql = sql & " AND LP.LIS_CODIGO = " & XN(txtcodigo.Text)
         If txtProducto.Text <> "" Then
-            SQL = SQL & " AND P.PTO_DESCRI LIKE '" & Trim(txtProducto.Text) & "%' "
+            sql = sql & " AND P.PTO_DESCRI LIKE '" & Trim(txtProducto.Text) & "%' "
         End If
         If cboLinea.List(cboLinea.ListIndex) <> "(Todas)" Then
-            SQL = SQL & " AND P.LNA_CODIGO = " & XN(cboLinea.ItemData(cboLinea.ListIndex))
+            sql = sql & " AND P.LNA_CODIGO = " & XN(cboLinea.ItemData(cboLinea.ListIndex))
         End If
         If cboRubro.List(cboRubro.ListIndex) <> "(Todos)" Then
-            SQL = SQL & " AND P.RUB_CODIGO = " & XN(cboRubro.ItemData(cboRubro.ListIndex))
+            sql = sql & " AND P.RUB_CODIGO = " & XN(cboRubro.ItemData(cboRubro.ListIndex))
         End If
-        SQL = SQL & " ORDER BY P.PTO_DESCRI"
+        sql = sql & " ORDER BY P.PTO_DESCRI"
              
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             GrdModulos.Rows = 1
             Do While Not rec.EOF
@@ -992,35 +993,35 @@ Private Sub cmdfiltrar_Click()
         'ENTRA ACA CUANDO CARGO UNA NUEVA LISTA
         Screen.MousePointer = vbHourglass
         
-        SQL = "SELECT P.PTO_DESCRI, L.LNA_DESCRI, P.PTO_CODBARRAS, M.MAR_DESCRI,"
+        sql = "SELECT P.PTO_DESCRI, L.LNA_DESCRI, P.PTO_CODBARRAS, M.MAR_DESCRI,"
         If cboListaPrecio.List(cboListaPrecio.ListIndex) = "(Todas)" Then
-            SQL = SQL & " P.PTO_PRECTO, P.PTO_PREVTA, P.PTO_CODIGO"
-            SQL = SQL & " FROM PRODUCTO P, LINEAS L, MARCAS M"
-            SQL = SQL & " WHERE P.LNA_CODIGO = L.LNA_CODIGO"
-            SQL = SQL & " AND M.MAR_CODIGO = P.MAR_CODIGO"
+            sql = sql & " P.PTO_PRECTO, P.PTO_PREVTA, P.PTO_CODIGO"
+            sql = sql & " FROM PRODUCTO P, LINEAS L, MARCAS M"
+            sql = sql & " WHERE P.LNA_CODIGO = L.LNA_CODIGO"
+            sql = sql & " AND M.MAR_CODIGO = P.MAR_CODIGO"
         Else
             'LIS_PRECIO
-            SQL = SQL & " P.PTO_PRECTO, D.LIS_PRECIO AS PTO_PREVTA, P.PTO_CODIGO, P.PTO_CODBARRAS, M.MAR_DESCRI"
-            SQL = SQL & " FROM PRODUCTO P, LINEAS L, DETALLE_LISTA_PRECIO D, MARCAS M"
-            SQL = SQL & " WHERE P.LNA_CODIGO = L.LNA_CODIGO"
-            SQL = SQL & " AND D.LIS_CODIGO=" & cboListaPrecio.ItemData(cboListaPrecio.ListIndex)
-            SQL = SQL & " AND P.PTO_CODIGO = D.PTO_CODIGO"
-            SQL = SQL & " AND M.MAR_CODIGO = P.MAR_CODIGO"
+            sql = sql & " P.PTO_PRECTO, D.LIS_PRECIO AS PTO_PREVTA, P.PTO_CODIGO, P.PTO_CODBARRAS, M.MAR_DESCRI"
+            sql = sql & " FROM PRODUCTO P, LINEAS L, DETALLE_LISTA_PRECIO D, MARCAS M"
+            sql = sql & " WHERE P.LNA_CODIGO = L.LNA_CODIGO"
+            sql = sql & " AND D.LIS_CODIGO=" & cboListaPrecio.ItemData(cboListaPrecio.ListIndex)
+            sql = sql & " AND P.PTO_CODIGO = D.PTO_CODIGO"
+            sql = sql & " AND M.MAR_CODIGO = P.MAR_CODIGO"
         End If
         If txtProducto.Text <> "" Then
-            SQL = SQL & " AND P.PTO_DESCRI LIKE '" & txtProducto.Text & "%' "
+            sql = sql & " AND P.PTO_DESCRI LIKE '" & txtProducto.Text & "%' "
         End If
         If cboLinea.List(cboLinea.ListIndex) <> "(Todas)" Then
-            SQL = SQL & " AND P.LNA_CODIGO = " & XN(cboLinea.ItemData(cboLinea.ListIndex))
+            sql = sql & " AND P.LNA_CODIGO = " & XN(cboLinea.ItemData(cboLinea.ListIndex))
         End If
         If cboRubro.List(cboRubro.ListIndex) <> "(Todos)" Then
-            SQL = SQL & " AND P.RUB_CODIGO = " & XN(cboRubro.ItemData(cboRubro.ListIndex))
+            sql = sql & " AND P.RUB_CODIGO = " & XN(cboRubro.ItemData(cboRubro.ListIndex))
         End If
-        SQL = SQL & " ORDER BY P.PTO_DESCRI "
+        sql = sql & " ORDER BY P.PTO_DESCRI "
         
         lblEstado.Caption = "Buscando..."
         
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             GrdModulos.Rows = 1
             Do While Not rec.EOF
@@ -1078,25 +1079,25 @@ Private Sub cmdGrabar_Click()
     DBConn.BeginTrans
     
     txtcodigo = "1"
-    SQL = "SELECT MAX(LIS_CODIGO) as maximo FROM LISTA_PRECIO"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT MAX(LIS_CODIGO) as maximo FROM LISTA_PRECIO"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Not IsNull(rec.Fields!Maximo) Then txtcodigo = XN(rec.Fields!Maximo) + 1
     rec.Close
     
-    SQL = "INSERT INTO LISTA_PRECIO(LIS_CODIGO,LIS_FECHA,LIS_DESCRI)    "
-    SQL = SQL & " VALUES ("
-    SQL = SQL & XN(txtcodigo) & ","
-    SQL = SQL & XDQ(Fecha1) & ","
-    SQL = SQL & XS(TxtDescriB) & ")"
-    DBConn.Execute SQL
+    sql = "INSERT INTO LISTA_PRECIO(LIS_CODIGO,LIS_FECHA,LIS_DESCRI)    "
+    sql = sql & " VALUES ("
+    sql = sql & XN(txtcodigo) & ","
+    sql = sql & XDQ(Fecha1) & ","
+    sql = sql & XS(TxtDescriB) & ")"
+    DBConn.Execute sql
     
     For J = 1 To GrdModulos.Rows - 1
-        SQL = "INSERT INTO DETALLE_LISTA_PRECIO(LIS_CODIGO,PTO_CODIGO,LIS_PRECIO)"
-        SQL = SQL & " VALUES ("
-        SQL = SQL & XN(txtcodigo) & ","
-        SQL = SQL & XN(GrdModulos.TextMatrix(J, 0)) & ","
-        SQL = SQL & XN(GrdModulos.TextMatrix(J, 5)) & " )"
-        DBConn.Execute SQL
+        sql = "INSERT INTO DETALLE_LISTA_PRECIO(LIS_CODIGO,PTO_CODIGO,LIS_PRECIO)"
+        sql = sql & " VALUES ("
+        sql = sql & XN(txtcodigo) & ","
+        sql = sql & XN(GrdModulos.TextMatrix(J, 0)) & ","
+        sql = sql & XN(GrdModulos.TextMatrix(J, 5)) & " )"
+        DBConn.Execute sql
     Next
     
     Screen.MousePointer = vbNormal
@@ -1169,7 +1170,7 @@ Private Sub cmdImprimir_Click()
     lblEstado.Caption = ""
 End Sub
 
-Private Sub cmdNuevo_Click()
+Private Sub CmdNuevo_Click()
     cmdGrabar.Enabled = True
     CmdBorrar.Enabled = False
     Fecha1.Text = Date
@@ -1196,14 +1197,14 @@ Function NuevaLista()
     GrdModulos.Rows = 1
     Screen.MousePointer = vbHourglass
     
-    SQL = " SELECT P.PTO_DESCRI,L.LNA_DESCRI,R.RUB_DESCRI,"
-    SQL = SQL & " RE.REP_RAZSOC,P.PTO_PRECIO,P.PTO_CODIGO "
-    SQL = SQL & " FROM PRODUCTO P,LINEAS L,RUBROS R,REPRESENTADA RE, TIPO_PRESENTACION TP"
-    SQL = SQL & " WHERE P.LNA_CODIGO = L.LNA_CODIGO "
-    SQL = SQL & " AND P.RUB_CODIGO = R.RUB_CODIGO AND P.REP_CODIGO = RE.REP_CODIGO ORDER BY P.PTO_DESCRI"
+    sql = " SELECT P.PTO_DESCRI,L.LNA_DESCRI,R.RUB_DESCRI,"
+    sql = sql & " RE.REP_RAZSOC,P.PTO_PRECIO,P.PTO_CODIGO "
+    sql = sql & " FROM PRODUCTO P,LINEAS L,RUBROS R,REPRESENTADA RE, TIPO_PRESENTACION TP"
+    sql = sql & " WHERE P.LNA_CODIGO = L.LNA_CODIGO "
+    sql = sql & " AND P.RUB_CODIGO = R.RUB_CODIGO AND P.REP_CODIGO = RE.REP_CODIGO ORDER BY P.PTO_DESCRI"
     
     lblEstado.Caption = " Creando Nueva Lista de Precios..."
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.RecordCount > 0 Then
         Do While Not rec.EOF
            GrdModulos.AddItem rec.Fields(0) & Chr(9) & rec.Fields(1) & Chr(9) & _
@@ -1252,9 +1253,9 @@ Private Sub cmdQuitar_Click()
                 lblEstado.Caption = "Borrando..."
                 ' CUANDO ELIMINO UN ITEM DE LA LISTA DE PRECIO YA CARGADA
                 DBConn.BeginTrans
-                SQL = "DELETE FROM DETALLE_LISTA_PRECIO WHERE LIS_CODIGO = " & XN(txtcodigo.Text)
-                SQL = SQL & " AND PTO_CODIGO = " & XN(GrdModulos.TextMatrix(GrdModulos.RowSel, 0))
-                DBConn.Execute SQL
+                sql = "DELETE FROM DETALLE_LISTA_PRECIO WHERE LIS_CODIGO = " & XN(txtcodigo.Text)
+                sql = sql & " AND PTO_CODIGO = " & XN(GrdModulos.TextMatrix(GrdModulos.RowSel, 0))
+                DBConn.Execute sql
                 If GrdModulos.Rows = 2 Then
                     GrdModulos.Rows = 1
                 Else
@@ -1274,7 +1275,7 @@ CLAVOSE:
     lblEstado.Caption = ""
 End Sub
 
-Private Sub cmdSalir_Click()
+Private Sub CmdSalir_Click()
     If MsgBox("Seguro que desea Salir", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
         Set FrmListadePrecios = Nothing
         Unload Me
@@ -1302,7 +1303,7 @@ End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
     If KeyAscii = vbKeyReturn Then MySendKeys Chr(9)
-    If KeyAscii = vbKeyEscape Then cmdSalir_Click
+    If KeyAscii = vbKeyEscape Then CmdSalir_Click
 End Sub
 
 Private Sub Form_Load()
@@ -1374,8 +1375,8 @@ End Sub
 
 Private Sub cargocboLinea()
     cboLinea.Clear
-    SQL = "SELECT * FROM LINEAS  ORDER BY LNA_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM LINEAS  ORDER BY LNA_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboLinea.AddItem "(Todas)"
         Do While rec.EOF = False
@@ -1390,12 +1391,12 @@ End Sub
 
 Private Sub cargocboRubro()
     cboRubro.Clear
-    SQL = "SELECT * FROM RUBROS"
+    sql = "SELECT * FROM RUBROS"
     If cboLinea.List(cboLinea.ListIndex) <> "(Todas)" Then
-        SQL = SQL & " WHERE LNA_CODIGO= " & XN(cboLinea.ItemData(cboLinea.ListIndex))
+        sql = sql & " WHERE LNA_CODIGO= " & XN(cboLinea.ItemData(cboLinea.ListIndex))
     End If
-    SQL = SQL & " ORDER BY RUB_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = sql & " ORDER BY RUB_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboRubro.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -1415,9 +1416,9 @@ Private Sub cargocboLista()
     cbodescri.Clear
     cboListaPrecio.Clear
     cboListaPrecio.AddItem "(Todas)"
-    SQL = "SELECT LIS_CODIGO,LIS_DESCRI,LIS_FECHA "
-    SQL = SQL & " FROM LISTA_PRECIO ORDER BY LIS_CODIGO DESC"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT LIS_CODIGO,LIS_DESCRI,LIS_FECHA "
+    sql = sql & " FROM LISTA_PRECIO ORDER BY LIS_CODIGO DESC"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Do While rec.EOF = False
             cboListaPrecio.AddItem rec!LIS_DESCRI
@@ -1503,7 +1504,7 @@ Private Sub txtAnterior_LostFocus()
     txtAnterior.Text = Valido_Importe(txtAnterior)
 End Sub
 
-Private Sub TxtCodigo_KeyPress(KeyAscii As Integer)
+Private Sub txtcodigo_KeyPress(KeyAscii As Integer)
     KeyAscii = CarNumeroEntero(KeyAscii)
 End Sub
 

@@ -208,12 +208,14 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   6526
             MinWidth        =   6526
+            TextSave        =   ""
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
          BeginProperty Panel2 {0713E89F-850A-101B-AFC0-4210102A8DA7} 
             Object.Width           =   7673
             MinWidth        =   7673
+            TextSave        =   ""
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -244,7 +246,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1587
             MinWidth        =   1587
-            TextSave        =   "8:54"
+            TextSave        =   "10:06"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -254,7 +256,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1940
             MinWidth        =   1940
-            TextSave        =   "14/03/2018"
+            TextSave        =   "17/03/2018"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -347,6 +349,12 @@ Begin VB.MDIForm Menu
       End
       Begin VB.Menu mnuViandas 
          Caption         =   "&Viandas"
+      End
+      Begin VB.Menu mnuComidas 
+         Caption         =   "Comidas"
+      End
+      Begin VB.Menu mnutipocomida 
+         Caption         =   "Tipo de Comidas"
       End
       Begin VB.Menu mnuRayaProf 
          Caption         =   "-"
@@ -728,6 +736,30 @@ Private Sub mnuBkpArchivos_Click()
     End With
 End Sub
 
+Private Sub mnuComidas_Click()
+    Dim cSQL As String
+    
+    mOrigen = True
+        
+    Set vABMComida = New CListaBaseABM
+    
+    With vABMComida
+        .Caption = "Actualización de Comidas"
+        .sql = "SELECT COM_DESCRI, COM_CODIGO" & _
+               " FROM COMIDAS"
+               
+        .HeaderSQL = "Descripción, Código"
+        .FieldID = "COM_CODIGO"
+        '.Report = RptPath & "tipocomp.rpt"
+        Set .FormBase = vFormComida
+        Set .FormDatos = ABMComida
+    End With
+    
+    Set auxDllActiva = vABMComida
+    
+    vABMComida.Show
+End Sub
+
 Private Sub mnuconectar_Click()
     'FrmInicio.Show vbModal
     inicio
@@ -1082,6 +1114,30 @@ Private Sub mnuAyuda_Click()
    ' Open Ayuda & "HC000.HTM" For Input As #1
 End Sub
 
+Private Sub mnutipocomida_Click()
+    Dim cSQL As String
+    
+    mOrigen = True
+        
+    Set vABMTipoComida = New CListaBaseABM
+    
+    With vABMTipoComida
+        .Caption = "Actualizacion de Tipos de Comida"
+        .sql = "SELECT TCOM_DESCRI, TCOM_CODIGO " & _
+               " FROM TIPO_COMIDA"
+               '" WHERE C.LOC_CODIGO = L.LOC_CODIGO AND P.PR_CODIGO = C.PR_CODIGO "
+        .HeaderSQL = "Codigo,Descripcion"
+        .FieldID = "TCOM_CODIGO"
+        '.Report = RptPath & "tipocomp.rpt"
+        Set .FormBase = vFormTipoComida
+        Set .FormDatos = ABMTipoComida
+    End With
+    
+    Set auxDllActiva = vABMTipoComida
+    
+    vABMTipoComida.Show
+End Sub
+
 Private Sub mnuTratamientos_Click()
     Dim cSQL As String
     
@@ -1116,7 +1172,7 @@ Private Sub mnuViandas_Click()
     With vABMVianda
         .Caption = "Actualización de Viandas"
         .sql = "SELECT VIA_DESCRI, VIA_CODIGO, VIA_PRECIO" & _
-               " FROM VIANDA"
+               " FROM VIANDAS"
                
         .HeaderSQL = "Descripción, Código, Precio"
         .FieldID = "VIA_CODIGO"
@@ -1302,9 +1358,9 @@ End Function
 
 Private Function configuroLetrero(Fecha As Date) As String
     
-    Dim dia As Integer
+    Dim DIA As Integer
     Dim Doc As Integer
-    dia = Weekday(Fecha, vbMonday)
+    DIA = Weekday(Fecha, vbMonday)
     Doc = 0
     'If User <> 99 Then
    '     Doc = XN(User)
@@ -1324,7 +1380,7 @@ Private Function configuroLetrero(Fecha As Date) As String
         If Doc = 0 Then
             Doc = rec!VEN_CODIGO
         End If
-        Letrero = "Turnos del día " & WeekdayName(dia, False) & " " & day(Fecha) & " de " & MonthName(month(Fecha), False) & " de " & year(Fecha) & " del Dr: " & rec!VEN_NOMBRE & ": "
+        Letrero = "Turnos del día " & WeekdayName(DIA, False) & " " & day(Fecha) & " de " & MonthName(month(Fecha), False) & " de " & year(Fecha) & " del Dr: " & rec!VEN_NOMBRE & ": "
         Do While rec.EOF = False
             If Doc <> rec!VEN_CODIGO Then
                 Letrero = Letrero & ". Turnos del Dr: " & rec!VEN_NOMBRE & ": "

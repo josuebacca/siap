@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmFacturaProveedores 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Facturas de Proveedores..."
@@ -70,6 +70,7 @@ Begin VB.Form frmFacturaProveedores
       _ExtentY        =   10610
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -83,7 +84,7 @@ Begin VB.Form frmFacturaProveedores
       EndProperty
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmFacturaProveedores.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "FrameProveedor"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Frame1"
@@ -91,7 +92,7 @@ Begin VB.Form frmFacturaProveedores
       Tab(0).ControlCount=   2
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmFacturaProveedores.frx":001C
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "GrdModulos"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame4"
@@ -109,10 +110,23 @@ Begin VB.Form frmFacturaProveedores
             Strikethrough   =   0   'False
          EndProperty
          Height          =   4905
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   25
          Top             =   1050
          Width           =   9705
+         Begin MSComCtl2.DTPicker FechaComprobante 
+            Height          =   315
+            Left            =   6600
+            TabIndex        =   6
+            Top             =   600
+            Width           =   1335
+            _ExtentX        =   2355
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
          Begin VB.TextBox txtCodInt 
             Height          =   345
             Left            =   7995
@@ -283,18 +297,6 @@ Begin VB.Form frmFacturaProveedores
             Top             =   600
             Width           =   960
          End
-         Begin FechaCtl.Fecha FechaComprobante 
-            Height          =   315
-            Left            =   6525
-            TabIndex        =   6
-            Top             =   615
-            Width           =   1095
-            _ExtentX        =   1931
-            _ExtentY        =   556
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-         End
          Begin MSFlexGridLib.MSFlexGrid GrdDetalleFactura 
             Height          =   2850
             Left            =   120
@@ -463,10 +465,36 @@ Begin VB.Form frmFacturaProveedores
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1575
-         Left            =   -74835
+         Left            =   165
          TabIndex        =   30
          Top             =   375
          Width           =   9645
+         Begin MSComCtl2.DTPicker FechaHasta 
+            Height          =   315
+            Left            =   4080
+            TabIndex        =   20
+            Top             =   960
+            Width           =   1335
+            _ExtentX        =   2355
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
+         Begin MSComCtl2.DTPicker FechaDesde 
+            Height          =   315
+            Left            =   1560
+            TabIndex        =   19
+            Top             =   1080
+            Width           =   1215
+            _ExtentX        =   2143
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
          Begin VB.TextBox txtDesProv 
             BackColor       =   &H8000000F&
             Enabled         =   0   'False
@@ -537,30 +565,6 @@ Begin VB.Form frmFacturaProveedores
             UseMaskColor    =   -1  'True
             Width           =   405
          End
-         Begin FechaCtl.Fecha FechaHasta 
-            Height          =   285
-            Left            =   4095
-            TabIndex        =   20
-            Top             =   1005
-            Width           =   1185
-            _ExtentX        =   2090
-            _ExtentY        =   503
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-         End
-         Begin FechaCtl.Fecha FechaDesde 
-            Height          =   330
-            Left            =   1545
-            TabIndex        =   19
-            Top             =   990
-            Width           =   1170
-            _ExtentX        =   2064
-            _ExtentY        =   582
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-         End
          Begin VB.Label lbl 
             Appearance      =   0  'Flat
             AutoSize        =   -1  'True
@@ -606,7 +610,7 @@ Begin VB.Form frmFacturaProveedores
             Strikethrough   =   0   'False
          EndProperty
          Height          =   720
-         Left            =   135
+         Left            =   -74865
          TabIndex        =   28
          Top             =   345
          Width           =   9705
@@ -684,7 +688,7 @@ Begin VB.Form frmFacturaProveedores
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
          Height          =   3870
-         Left            =   -74865
+         Left            =   135
          TabIndex        =   22
          Top             =   1995
          Width           =   9660
@@ -750,10 +754,10 @@ Private Sub CalculoTotal()
 End Sub
 
 Private Sub LlenarComboGastos()
-    SQL = "SELECT TGT_CODIGO, TGT_DESCRI " & _
+    sql = "SELECT TGT_CODIGO, TGT_DESCRI " & _
           "  FROM TIPO_GASTO " & _
           " ORDER BY TGT_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
        Do While rec.EOF = False
           CboGastos.AddItem rec!TGT_DESCRI
@@ -766,11 +770,11 @@ Private Sub LlenarComboGastos()
 End Sub
 
 Private Sub LlenarComboComprobante()
-    SQL = "SELECT TCO_CODIGO,TCO_DESCRI"
-    SQL = SQL & " FROM TIPO_COMPROBANTE"
-    SQL = SQL & " WHERE TCO_DESCRI LIKE 'FACTU%'"
-    SQL = SQL & " ORDER BY TCO_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT TCO_CODIGO,TCO_DESCRI"
+    sql = sql & " FROM TIPO_COMPROBANTE"
+    sql = sql & " WHERE TCO_DESCRI LIKE 'FACTU%'"
+    sql = sql & " ORDER BY TCO_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Do While rec.EOF = False
             cboComprobante.AddItem rec!TCO_DESCRI
@@ -788,9 +792,9 @@ Private Sub cmdAsignar_Click()
         txtCantidad.SetFocus
         Exit Sub
     End If
-    If txtPrecio.Text = "" Then
+    If txtprecio.Text = "" Then
         MsgBox "Debe Ingresar el Precio", vbExclamation, TIT_MSGBOX
-        txtPrecio.SetFocus
+        txtprecio.SetFocus
         Exit Sub
     End If
     If txtcodigo.Text <> "" Then
@@ -802,8 +806,8 @@ Private Sub cmdAsignar_Click()
             End If
         Next
         GrdDetalleFactura.AddItem Trim(txtcodigo.Text) & Chr(9) & Trim(txtDescri.Text) & Chr(9) & _
-                                  Trim(txtCantidad.Text) & Chr(9) & txtPrecio.Text & Chr(9) & _
-                                  Valido_Importe(CInt(txtCantidad.Text) * CDbl(txtPrecio.Text)) & Chr(9) & Trim(txtCodInt.Text)
+                                  Trim(txtCantidad.Text) & Chr(9) & txtprecio.Text & Chr(9) & _
+                                  Valido_Importe(CInt(txtCantidad.Text) * CDbl(txtprecio.Text)) & Chr(9) & Trim(txtCodInt.Text)
          
         CalculoTotal
         txtcodigo.Text = ""
@@ -840,7 +844,7 @@ Private Sub cmdBorrar_Click()
          DBConn.CommitTrans
          lblEstado.Caption = ""
          Screen.MousePointer = vbNormal
-         cmdNuevo_Click
+         CmdNuevo_Click
     End If
     Exit Sub
     
@@ -854,18 +858,18 @@ End Sub
 Private Sub CmdBuscAprox_Click()
     Set Rec1 = New ADODB.Recordset
     GrdModulos.Rows = 1
-    SQL = "SELECT F.TPR_CODIGO,F.PROV_CODIGO, P.PROV_RAZSOC, F.TCO_CODIGO, C.TCO_DESCRI,"
-    SQL = SQL & " F.FPR_NROSUC,F.FPR_NUMERO,F.FPR_FECHA, F.FPR_TOTAL"
-    SQL = SQL & " FROM PROVEEDOR P, FACTURA_PROVEEDOR F, TIPO_COMPROBANTE C"
-    SQL = SQL & " WHERE P.TPR_CODIGO = F.TPR_CODIGO"
-    SQL = SQL & " AND P.PROV_CODIGO = F.PROV_CODIGO"
-    SQL = SQL & " AND F.TCO_CODIGO = C.TCO_CODIGO"
-    If txtProveedor.Text <> "" Then SQL = SQL & " AND P.PROV_CODIGO=" & XN(txtProveedor)
-    If FechaDesde <> "" Then SQL = SQL & " AND F.FPR_FECHA >=" & XDQ(FechaDesde)
-    If FechaHasta <> "" Then SQL = SQL & " AND F.FPR_FECHA <=" & XDQ(FechaHasta)
-    SQL = SQL & " ORDER BY F.FPR_FECHA DESC"
+    sql = "SELECT F.TPR_CODIGO,F.PROV_CODIGO, P.PROV_RAZSOC, F.TCO_CODIGO, C.TCO_DESCRI,"
+    sql = sql & " F.FPR_NROSUC,F.FPR_NUMERO,F.FPR_FECHA, F.FPR_TOTAL"
+    sql = sql & " FROM PROVEEDOR P, FACTURA_PROVEEDOR F, TIPO_COMPROBANTE C"
+    sql = sql & " WHERE P.TPR_CODIGO = F.TPR_CODIGO"
+    sql = sql & " AND P.PROV_CODIGO = F.PROV_CODIGO"
+    sql = sql & " AND F.TCO_CODIGO = C.TCO_CODIGO"
+    If txtProveedor.Text <> "" Then sql = sql & " AND P.PROV_CODIGO=" & XN(txtProveedor)
+    If FechaDesde <> "" Then sql = sql & " AND F.FPR_FECHA >=" & XDQ(FechaDesde)
+    If FechaHasta <> "" Then sql = sql & " AND F.FPR_FECHA <=" & XDQ(FechaHasta)
+    sql = sql & " ORDER BY F.FPR_FECHA DESC"
     
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         Do While Rec1.EOF = False
             GrdModulos.AddItem Rec1!FPR_FECHA & Chr(9) & _
@@ -910,60 +914,60 @@ Private Sub cmdGrabar_Click()
     On Error GoTo HayErrorCarga
     
     DBConn.BeginTrans
-    SQL = "SELECT FPR_FECHA "
-    SQL = SQL & " FROM FACTURA_PROVEEDOR "
-    SQL = SQL & " WHERE TPR_CODIGO  = " & XN(txtCodTipoProv.Text)
-    SQL = SQL & "   AND PROV_CODIGO = " & XN(txtCodProveedor.Text)
-    SQL = SQL & "   AND TCO_CODIGO  = " & XN(cboComprobante.ItemData(cboComprobante.ListIndex))
-    SQL = SQL & "   AND FPR_NROSUC  = " & XN(txtNroSucursal.Text)
-    SQL = SQL & "   AND FPR_NUMERO  = " & XN(txtNroComprobante.Text)
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT FPR_FECHA "
+    sql = sql & " FROM FACTURA_PROVEEDOR "
+    sql = sql & " WHERE TPR_CODIGO  = " & XN(txtCodTipoProv.Text)
+    sql = sql & "   AND PROV_CODIGO = " & XN(txtCodProveedor.Text)
+    sql = sql & "   AND TCO_CODIGO  = " & XN(cboComprobante.ItemData(cboComprobante.ListIndex))
+    sql = sql & "   AND FPR_NROSUC  = " & XN(txtNroSucursal.Text)
+    sql = sql & "   AND FPR_NUMERO  = " & XN(txtNroComprobante.Text)
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     Screen.MousePointer = vbHourglass
     lblEstado.Caption = "Guardando..."
     
     If rec.EOF = True Then
-        SQL = "INSERT INTO FACTURA_PROVEEDOR(TPR_CODIGO,PROV_CODIGO,"
-        SQL = SQL & " TCO_CODIGO,FPR_NROSUC,FPR_NUMERO,"
-        SQL = SQL & " FPR_FECHA,FPR_TOTAL,FPR_SALDO,TGT_CODIGO)"
-        SQL = SQL & " VALUES ("
-        SQL = SQL & XN(txtCodTipoProv.Text) & ", "
-        SQL = SQL & XN(txtCodProveedor.Text) & ", "
-        SQL = SQL & XN(cboComprobante.ItemData(cboComprobante.ListIndex)) & ", "
-        SQL = SQL & XN(txtNroSucursal.Text) & ", "
-        SQL = SQL & XN(txtNroComprobante.Text) & ", "
-        SQL = SQL & XDQ(FechaComprobante.Text) & ", "
-        SQL = SQL & XN(txtTotal.Text) & ", " 'TOTAL FACTURA
-        SQL = SQL & XN("0") & ", " 'SALDO
-        SQL = SQL & XN(CboGastos.ItemData(CboGastos.ListIndex)) & ")"
-        DBConn.Execute SQL
+        sql = "INSERT INTO FACTURA_PROVEEDOR(TPR_CODIGO,PROV_CODIGO,"
+        sql = sql & " TCO_CODIGO,FPR_NROSUC,FPR_NUMERO,"
+        sql = sql & " FPR_FECHA,FPR_TOTAL,FPR_SALDO,TGT_CODIGO)"
+        sql = sql & " VALUES ("
+        sql = sql & XN(txtCodTipoProv.Text) & ", "
+        sql = sql & XN(txtCodProveedor.Text) & ", "
+        sql = sql & XN(cboComprobante.ItemData(cboComprobante.ListIndex)) & ", "
+        sql = sql & XN(txtNroSucursal.Text) & ", "
+        sql = sql & XN(txtNroComprobante.Text) & ", "
+        sql = sql & XDQ(FechaComprobante.Text) & ", "
+        sql = sql & XN(txtTotal.Text) & ", " 'TOTAL FACTURA
+        sql = sql & XN("0") & ", " 'SALDO
+        sql = sql & XN(CboGastos.ItemData(CboGastos.ListIndex)) & ")"
+        DBConn.Execute sql
         
         
         'DETALLE FACTURA
         For i = 1 To GrdDetalleFactura.Rows - 1
             If GrdDetalleFactura.TextMatrix(i, 0) <> "" And GrdDetalleFactura.TextMatrix(i, 1) <> "" Then
-                SQL = "INSERT INTO DETALLE_FACTURA_PROVEEDOR(TPR_CODIGO,PROV_CODIGO,TCO_CODIGO,"
-                SQL = SQL & " FPR_NROSUC,FPR_NUMERO,FPR_NROITEM,PTO_CODIGO,FPR_DESCRI,"
-                SQL = SQL & " FPR_CANTIDAD,FPR_PRECIO,FPR_SUBTOT)"
-                SQL = SQL & " VALUES ("
-                SQL = SQL & XN(txtCodTipoProv.Text) & ", "
-                SQL = SQL & XN(txtCodProveedor.Text) & ", "
-                SQL = SQL & XN(cboComprobante.ItemData(cboComprobante.ListIndex)) & ", "
-                SQL = SQL & XN(txtNroSucursal.Text) & ", "
-                SQL = SQL & XN(txtNroComprobante.Text) & ", "
-                SQL = SQL & i & ", "
-                SQL = SQL & XN(GrdDetalleFactura.TextMatrix(i, 5)) & ", "
-                SQL = SQL & XS(GrdDetalleFactura.TextMatrix(i, 1)) & ", "
-                SQL = SQL & XN(GrdDetalleFactura.TextMatrix(i, 2)) & ", "
-                SQL = SQL & XN(GrdDetalleFactura.TextMatrix(i, 3)) & ", "
-                SQL = SQL & XN(GrdDetalleFactura.TextMatrix(i, 4)) & ")"
-                DBConn.Execute SQL
+                sql = "INSERT INTO DETALLE_FACTURA_PROVEEDOR(TPR_CODIGO,PROV_CODIGO,TCO_CODIGO,"
+                sql = sql & " FPR_NROSUC,FPR_NUMERO,FPR_NROITEM,PTO_CODIGO,FPR_DESCRI,"
+                sql = sql & " FPR_CANTIDAD,FPR_PRECIO,FPR_SUBTOT)"
+                sql = sql & " VALUES ("
+                sql = sql & XN(txtCodTipoProv.Text) & ", "
+                sql = sql & XN(txtCodProveedor.Text) & ", "
+                sql = sql & XN(cboComprobante.ItemData(cboComprobante.ListIndex)) & ", "
+                sql = sql & XN(txtNroSucursal.Text) & ", "
+                sql = sql & XN(txtNroComprobante.Text) & ", "
+                sql = sql & i & ", "
+                sql = sql & XN(GrdDetalleFactura.TextMatrix(i, 5)) & ", "
+                sql = sql & XS(GrdDetalleFactura.TextMatrix(i, 1)) & ", "
+                sql = sql & XN(GrdDetalleFactura.TextMatrix(i, 2)) & ", "
+                sql = sql & XN(GrdDetalleFactura.TextMatrix(i, 3)) & ", "
+                sql = sql & XN(GrdDetalleFactura.TextMatrix(i, 4)) & ")"
+                DBConn.Execute sql
                 
                 'CATUALIZO EL STOCK
-                SQL = "UPDATE STOCK SET"
-                SQL = SQL & " DST_STKFIS = DST_STKFIS + " & XN(GrdDetalleFactura.TextMatrix(i, 2))
-                SQL = SQL & " WHERE STK_CODIGO = " & XN(Sucursal)
-                SQL = SQL & " AND PTO_CODIGO = " & XN(GrdDetalleFactura.TextMatrix(i, 5))
-                DBConn.Execute SQL
+                sql = "UPDATE STOCK SET"
+                sql = sql & " DST_STKFIS = DST_STKFIS + " & XN(GrdDetalleFactura.TextMatrix(i, 2))
+                sql = sql & " WHERE STK_CODIGO = " & XN(Sucursal)
+                sql = sql & " AND PTO_CODIGO = " & XN(GrdDetalleFactura.TextMatrix(i, 5))
+                DBConn.Execute sql
             End If
         Next
         
@@ -975,7 +979,7 @@ Private Sub cmdGrabar_Click()
     Screen.MousePointer = vbNormal
     lblEstado.Caption = ""
     DBConn.CommitTrans
-    cmdNuevo_Click
+    CmdNuevo_Click
     Exit Sub
     
 HayErrorCarga:
@@ -1031,7 +1035,7 @@ Private Function ValidarGastosProveedor() As Boolean
     ValidarGastosProveedor = True
 End Function
 
-Private Sub cmdNuevo_Click()
+Private Sub CmdNuevo_Click()
     LimpiarBusqueda
     txtCodProveedor.Text = ""
     txtCodTipoProv.Text = ""
@@ -1071,7 +1075,7 @@ Private Sub cmdQuitar_Click()
     End If
 End Sub
 
-Private Sub cmdSalir_Click()
+Private Sub CmdSalir_Click()
     If MsgBox("Seguro que desea Salir", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
         Set frmFacturaProveedores = Nothing
         Unload Me
@@ -1094,7 +1098,7 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
     If KeyAscii = vbKeyReturn Then
         MySendKeys Chr(9)
     End If
-    If KeyAscii = vbKeyEscape Then cmdSalir_Click
+    If KeyAscii = vbKeyEscape Then CmdSalir_Click
 End Sub
 
 Private Sub LimpiarBusqueda()
@@ -1186,14 +1190,14 @@ Private Sub BuscarfacturaProveedor(Fila As Integer)
 
     Dim rec As New ADODB.Recordset
     
-    SQL = "SELECT * FROM FACTURA_PROVEEDOR"
-    SQL = SQL & " WHERE"
-    SQL = SQL & " TPR_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 7))
-    SQL = SQL & " AND PROV_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 6))
-    SQL = SQL & " AND TCO_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 5))
-    SQL = SQL & " AND FPR_NROSUC=" & XN(Left(GrdModulos.TextMatrix(Fila, 2), 4))
-    SQL = SQL & " AND FPR_NUMERO=" & XN(Right(GrdModulos.TextMatrix(Fila, 2), 8))
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM FACTURA_PROVEEDOR"
+    sql = sql & " WHERE"
+    sql = sql & " TPR_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 7))
+    sql = sql & " AND PROV_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 6))
+    sql = sql & " AND TCO_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 5))
+    sql = sql & " AND FPR_NROSUC=" & XN(Left(GrdModulos.TextMatrix(Fila, 2), 4))
+    sql = sql & " AND FPR_NUMERO=" & XN(Right(GrdModulos.TextMatrix(Fila, 2), 8))
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         txtCodProveedor.Text = rec!PROV_CODIGO
         txtCodProveedor_LostFocus
@@ -1207,16 +1211,16 @@ Private Sub BuscarfacturaProveedor(Fila As Integer)
     rec.Close
     
     'DETALLE FACTURA
-    SQL = "SELECT D.*, P.PTO_CODBARRAS"
-    SQL = SQL & " FROM DETALLE_FACTURA_PROVEEDOR D, PRODUCTO P"
-    SQL = SQL & " WHERE"
-    SQL = SQL & " D.TPR_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 7))
-    SQL = SQL & " AND D.PROV_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 6))
-    SQL = SQL & " AND D.TCO_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 5))
-    SQL = SQL & " AND D.FPR_NROSUC=" & XN(Left(GrdModulos.TextMatrix(Fila, 2), 4))
-    SQL = SQL & " AND D.FPR_NUMERO=" & XN(Right(GrdModulos.TextMatrix(Fila, 2), 8))
-    SQL = SQL & " AND P.PTO_CODIGO=D.PTO_CODIGO"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT D.*, P.PTO_CODBARRAS"
+    sql = sql & " FROM DETALLE_FACTURA_PROVEEDOR D, PRODUCTO P"
+    sql = sql & " WHERE"
+    sql = sql & " D.TPR_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 7))
+    sql = sql & " AND D.PROV_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 6))
+    sql = sql & " AND D.TCO_CODIGO=" & XN(GrdModulos.TextMatrix(Fila, 5))
+    sql = sql & " AND D.FPR_NROSUC=" & XN(Left(GrdModulos.TextMatrix(Fila, 2), 4))
+    sql = sql & " AND D.FPR_NUMERO=" & XN(Right(GrdModulos.TextMatrix(Fila, 2), 8))
+    sql = sql & " AND P.PTO_CODIGO=D.PTO_CODIGO"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         i = 1
         Do While rec.EOF = False
@@ -1250,12 +1254,12 @@ Private Sub txtCantidad_KeyPress(KeyAscii As Integer)
     KeyAscii = CarNumeroEntero(KeyAscii)
 End Sub
 
-Private Sub TxtCodigo_Change()
+Private Sub txtcodigo_Change()
     If txtcodigo.Text = "" Then
         txtcodigo.Text = ""
         txtDescri.Text = ""
         txtCantidad.Text = ""
-        txtPrecio.Text = ""
+        txtprecio.Text = ""
         txtCodInt.Text = ""
         cmdAsignar.Enabled = False
     Else
@@ -1263,7 +1267,7 @@ Private Sub TxtCodigo_Change()
     End If
 End Sub
 
-Private Sub TxtCodigo_GotFocus()
+Private Sub txtcodigo_GotFocus()
     SelecTexto txtcodigo
 End Sub
 
@@ -1274,23 +1278,23 @@ Private Sub txtcodigo_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub TxtCodigo_KeyPress(KeyAscii As Integer)
+Private Sub txtcodigo_KeyPress(KeyAscii As Integer)
     KeyAscii = CarTexto(KeyAscii)
 End Sub
 
 Private Sub TxtCodigo_LostFocus()
     If txtcodigo.Text <> "" Then
         Set rec = New ADODB.Recordset
-        SQL = " SELECT P.PTO_DESCRI, P.PTO_CODIGO"
-        SQL = SQL & " FROM PRODUCTO P"
-        SQL = SQL & " WHERE"
+        sql = " SELECT P.PTO_DESCRI, P.PTO_CODIGO"
+        sql = sql & " FROM PRODUCTO P"
+        sql = sql & " WHERE"
         If IsNumeric(txtcodigo.Text) Then
-            SQL = SQL & " P.PTO_CODIGO =" & XN(txtcodigo.Text) & " OR P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
+            sql = sql & " P.PTO_CODIGO =" & XN(txtcodigo.Text) & " OR P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
         Else
-            SQL = SQL & " P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
+            sql = sql & " P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
         End If
-        SQL = SQL & " ORDER BY P.PTO_CODIGO"
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = sql & " ORDER BY P.PTO_CODIGO"
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             txtDescri.Text = Trim(rec!PTO_DESCRI)
             txtCodInt.Text = rec!PTO_CODIGO
@@ -1366,10 +1370,10 @@ Private Sub txtDescri_LostFocus()
    If txtcodigo.Text = "" And txtDescri.Text <> "" Then
         Set Rec1 = New ADODB.Recordset
         Screen.MousePointer = vbHourglass
-        SQL = "SELECT PTO_CODIGO,PTO_DESCRI,PTO_CODBARRAS"
-        SQL = SQL & " FROM PRODUCTO"
-        SQL = SQL & " WHERE PTO_DESCRI LIKE '" & txtDescri.Text & "%'"
-        Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT PTO_CODIGO,PTO_DESCRI,PTO_CODBARRAS"
+        sql = sql & " FROM PRODUCTO"
+        sql = sql & " WHERE PTO_DESCRI LIKE '" & txtDescri.Text & "%'"
+        Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If Rec1.EOF = False Then
             If Rec1.RecordCount > 1 Then
                 'grdGrilla.SetFocus
@@ -1477,21 +1481,21 @@ Private Sub txtNroSucursal_LostFocus()
     End If
 End Sub
 
-Private Sub txtPrecio_GotFocus()
-    SelecTexto txtPrecio
+Private Sub txtprecio_GotFocus()
+    SelecTexto txtprecio
 End Sub
 
-Private Sub txtPrecio_KeyPress(KeyAscii As Integer)
-    KeyAscii = CarNumeroDecimal(txtPrecio, KeyAscii)
+Private Sub txtprecio_KeyPress(KeyAscii As Integer)
+    KeyAscii = CarNumeroDecimal(txtprecio, KeyAscii)
 End Sub
 
 Private Sub txtPrecio_LostFocus()
-    If txtPrecio.Text = "" Then
+    If txtprecio.Text = "" Then
         If txtcodigo.Text <> "" Then
-            txtPrecio.Text = "0,00"
+            txtprecio.Text = "0,00"
         End If
     Else
-        txtPrecio.Text = Valido_Importe(txtPrecio.Text)
+        txtprecio.Text = Valido_Importe(txtprecio.Text)
     End If
 End Sub
 
@@ -1538,10 +1542,10 @@ End Sub
 Private Sub txtProveedor_LostFocus()
     If txtProveedor.Text <> "" Then
         Set Rec1 = New ADODB.Recordset
-        SQL = "SELECT PROV_CODIGO, PROV_RAZSOC"
-        SQL = SQL & " FROM PROVEEDOR"
-        SQL = SQL & " WHERE PROV_CODIGO=" & XN(txtProveedor.Text)
-        Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT PROV_CODIGO, PROV_RAZSOC"
+        sql = sql & " FROM PROVEEDOR"
+        sql = sql & " WHERE PROV_CODIGO=" & XN(txtProveedor.Text)
+        Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If Rec1.EOF = False Then
             txtDesProv.Text = Rec1!PROV_RAZSOC
         Else
@@ -1593,15 +1597,15 @@ Private Sub txtProvRazSoc_LostFocus()
 End Sub
 
 Private Function BuscoProveedor(Pro As String) As String
-    SQL = "SELECT PROV_CODIGO, PROV_RAZSOC, TPR_CODIGO"
-    SQL = SQL & " FROM PROVEEDOR "
-    SQL = SQL & " WHERE "
+    sql = "SELECT PROV_CODIGO, PROV_RAZSOC, TPR_CODIGO"
+    sql = sql & " FROM PROVEEDOR "
+    sql = sql & " WHERE "
     If txtCodProveedor.Text <> "" Then
-        SQL = SQL & " PROV_CODIGO=" & XN(Pro)
+        sql = sql & " PROV_CODIGO=" & XN(Pro)
     Else
-        SQL = SQL & " PROV_RAZSOC LIKE '" & Pro & "%'"
+        sql = sql & " PROV_RAZSOC LIKE '" & Pro & "%'"
     End If
-    BuscoProveedor = SQL
+    BuscoProveedor = sql
 End Function
 
 Private Sub TxtTotal_LostFocus()
@@ -1630,7 +1634,7 @@ Public Sub BuscarProducto(mQuien As String, Optional mCadena As String)
         End If
         
         hSQL = "Descripción, Código"
-        .SQL = cSQL
+        .sql = cSQL
         .Headers = hSQL
         .Field = "PTO_DESCRI"
         campo1 = .Field
@@ -1668,7 +1672,7 @@ Public Sub BusquedaDeProveedor(Txt As TextBox, mQuien As String, Optional mCaden
         End If
         
         hSQL = "Razón Social, Código"
-        .SQL = cSQL
+        .sql = cSQL
         .Headers = hSQL
         .Field = "PROV_RAZSOC"
         campo1 = .Field

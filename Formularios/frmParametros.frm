@@ -1,6 +1,5 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmParametros 
    BorderStyle     =   1  'Fixed Single
@@ -183,17 +182,14 @@ Begin VB.Form frmParametros
             Top             =   915
             Width           =   3150
          End
-         Begin FechaCtl.Fecha fechaInicio 
+         Begin VB.PictureBox fechaInicio 
             Height          =   315
             Left            =   1335
+            ScaleHeight     =   255
+            ScaleWidth      =   1110
             TabIndex        =   7
             Top             =   1260
             Width           =   1170
-            _ExtentX        =   2064
-            _ExtentY        =   556
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
          End
          Begin MSMask.MaskEdBox txtCuit 
             Height          =   315
@@ -739,14 +735,14 @@ Private Function Validar_Parametros() As Boolean
       Validar_Parametros = True
 End Function
 
-Private Sub cmdSalir_Click()
+Private Sub CmdSalir_Click()
     Set frmParametros = Nothing
     Unload Me
 End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
     If KeyAscii = vbKeyReturn Then MySendKeys Chr(9)
-    If KeyAscii = vbKeyEscape Then cmdSalir_Click
+    If KeyAscii = vbKeyEscape Then CmdSalir_Click
 End Sub
 
 Private Sub Form_Load()

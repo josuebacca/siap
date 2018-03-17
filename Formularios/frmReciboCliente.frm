@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmReciboCliente 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Recibo de Cliente"
@@ -94,13 +94,13 @@ Begin VB.Form frmReciboCliente
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmReciboCliente.frx":0000
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "tabComprobantes"
+      Tab(0).Control(0)=   "FrameRecibo"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "tabValores"
+      Tab(0).Control(1)=   "FrameRemito"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "FrameRemito"
+      Tab(0).Control(2)=   "tabValores"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "FrameRecibo"
+      Tab(0).Control(3)=   "tabComprobantes"
       Tab(0).Control(3).Enabled=   0   'False
       Tab(0).ControlCount=   4
       TabCaption(1)   =   "&Buscar"
@@ -766,17 +766,14 @@ Begin VB.Form frmReciboCliente
             Top             =   225
             Width           =   2400
          End
-         Begin FechaCtl.Fecha FechaRecibo 
+         Begin VB.PictureBox FechaRecibo 
             Height          =   285
             Left            =   1305
+            ScaleHeight     =   225
+            ScaleWidth      =   1095
             TabIndex        =   3
             Top             =   945
             Width           =   1155
-            _ExtentX        =   2037
-            _ExtentY        =   503
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
          End
          Begin VB.Label lblEstadoRecibo 
             AutoSize        =   -1  'True
@@ -850,6 +847,32 @@ Begin VB.Form frmReciboCliente
          TabIndex        =   20
          Top             =   480
          Width           =   11115
+         Begin MSComCtl2.DTPicker FechaHasta 
+            Height          =   315
+            Left            =   5400
+            TabIndex        =   15
+            Top             =   720
+            Width           =   1455
+            _ExtentX        =   2566
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109510657
+            CurrentDate     =   43174
+         End
+         Begin MSComCtl2.DTPicker FechaDesde 
+            Height          =   315
+            Left            =   2760
+            TabIndex        =   14
+            Top             =   720
+            Width           =   1215
+            _ExtentX        =   2143
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109510657
+            CurrentDate     =   43174
+         End
          Begin VB.TextBox txtCliente 
             Alignment       =   2  'Center
             BeginProperty Font 
@@ -905,30 +928,6 @@ Begin VB.Form frmReciboCliente
             TabIndex        =   16
             Top             =   975
             Width           =   2400
-         End
-         Begin FechaCtl.Fecha FechaHasta 
-            Height          =   315
-            Left            =   5310
-            TabIndex        =   15
-            Top             =   660
-            Width           =   1185
-            _ExtentX        =   2090
-            _ExtentY        =   556
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-         End
-         Begin FechaCtl.Fecha FechaDesde 
-            Height          =   330
-            Left            =   2805
-            TabIndex        =   14
-            Top             =   660
-            Width           =   1170
-            _ExtentX        =   2064
-            _ExtentY        =   582
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
          End
          Begin VB.Label lbl 
             Appearance      =   0  'Flat
@@ -1065,8 +1064,8 @@ Private Sub cmdImprimir_Click()
     Screen.MousePointer = vbHourglass
     lblEstado.Caption = "Buscando Recibo..."
 
-    SQL = "DELETE FROM TMP_RECIBO_CLIENTE"
-    DBConn.Execute SQL
+    sql = "DELETE FROM TMP_RECIBO_CLIENTE"
+    DBConn.Execute sql
     i = 1
     
     ReciboFacturas
@@ -1100,82 +1099,82 @@ End Sub
 Private Sub ReciboFacturas()
     Set Rec1 = New ADODB.Recordset
     'BUSCO FACTURAS_PROVEEDOR
-    SQL = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
-    SQL = SQL & ",CI.IVA_DESCRI, TC.TCO_ABREVIA, FR.FCL_SUCURSAL, FR.FCL_NUMERO, FR.FCL_FECHA ,F.FCL_TOTAL, FR.REC_IMPORTE, R.REC_TOTAL"
-    SQL = SQL & " FROM CLIENTE C, RECIBO_CLIENTE R ,CONDICION_IVA CI ,LOCALIDAD L"
-    SQL = SQL & " , PROVINCIA PR, TIPO_COMPROBANTE TC, FACTURAS_RECIBO_CLIENTE FR,"
-    SQL = SQL & " FACTURA_CLIENTE F"
-    SQL = SQL & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
-    SQL = SQL & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
-    SQL = SQL & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
-    SQL = SQL & " AND R.REC_NUMERO=FR.REC_NUMERO"
-    SQL = SQL & " AND R.REC_SUCURSAL=FR.REC_SUCURSAL"
-    SQL = SQL & " AND R.TCO_CODIGO=FR.TCO_CODIGO"
-    SQL = SQL & " AND R.CLI_CODIGO=C.CLI_CODIGO"
-    SQL = SQL & " AND C.LOC_CODIGO=L.LOC_CODIGO"
-    SQL = SQL & " AND C.PAI_CODIGO=L.PAI_CODIGO"
-    SQL = SQL & " AND C.PRO_CODIGO=L.PRO_CODIGO"
-    SQL = SQL & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
-    SQL = SQL & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
-    SQL = SQL & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
-    SQL = SQL & " AND FR.FCL_TCO_CODIGO=TC.TCO_CODIGO"
-    SQL = SQL & " AND FR.FCL_TCO_CODIGO=F.TCO_CODIGO"
-    SQL = SQL & " AND FR.FCL_SUCURSAL=F.FCL_SUCURSAL"
-    SQL = SQL & " AND FR.FCL_NUMERO=F.FCL_NUMERO"
+    sql = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
+    sql = sql & ",CI.IVA_DESCRI, TC.TCO_ABREVIA, FR.FCL_SUCURSAL, FR.FCL_NUMERO, FR.FCL_FECHA ,F.FCL_TOTAL, FR.REC_IMPORTE, R.REC_TOTAL"
+    sql = sql & " FROM CLIENTE C, RECIBO_CLIENTE R ,CONDICION_IVA CI ,LOCALIDAD L"
+    sql = sql & " , PROVINCIA PR, TIPO_COMPROBANTE TC, FACTURAS_RECIBO_CLIENTE FR,"
+    sql = sql & " FACTURA_CLIENTE F"
+    sql = sql & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
+    sql = sql & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
+    sql = sql & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
+    sql = sql & " AND R.REC_NUMERO=FR.REC_NUMERO"
+    sql = sql & " AND R.REC_SUCURSAL=FR.REC_SUCURSAL"
+    sql = sql & " AND R.TCO_CODIGO=FR.TCO_CODIGO"
+    sql = sql & " AND R.CLI_CODIGO=C.CLI_CODIGO"
+    sql = sql & " AND C.LOC_CODIGO=L.LOC_CODIGO"
+    sql = sql & " AND C.PAI_CODIGO=L.PAI_CODIGO"
+    sql = sql & " AND C.PRO_CODIGO=L.PRO_CODIGO"
+    sql = sql & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
+    sql = sql & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
+    sql = sql & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
+    sql = sql & " AND FR.FCL_TCO_CODIGO=TC.TCO_CODIGO"
+    sql = sql & " AND FR.FCL_TCO_CODIGO=F.TCO_CODIGO"
+    sql = sql & " AND FR.FCL_SUCURSAL=F.FCL_SUCURSAL"
+    sql = sql & " AND FR.FCL_NUMERO=F.FCL_NUMERO"
 
     'BUSCAR NOTA_DEBITO_PROVEEDOR
-    SQL = SQL & " UNION ALL"
-    SQL = SQL & " SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
-    SQL = SQL & ",CI.IVA_DESCRI, TC.TCO_ABREVIA, FR.FCL_SUCURSAL, FR.FCL_NUMERO, FR.FCL_FECHA ,N.NDC_TOTAL, FR.REC_IMPORTE, R.REC_TOTAL"
-    SQL = SQL & " FROM CLIENTE C, RECIBO_CLIENTE R ,CONDICION_IVA CI ,LOCALIDAD L"
-    SQL = SQL & " , PROVINCIA PR, TIPO_COMPROBANTE TC, FACTURAS_RECIBO_CLIENTE FR,"
-    SQL = SQL & " NOTA_DEBITO_CLIENTE N"
-    SQL = SQL & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
-    SQL = SQL & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
-    SQL = SQL & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
-    SQL = SQL & " AND R.REC_NUMERO=FR.REC_NUMERO"
-    SQL = SQL & " AND R.REC_SUCURSAL=FR.REC_SUCURSAL"
-    SQL = SQL & " AND R.TCO_CODIGO=FR.TCO_CODIGO"
-    SQL = SQL & " AND R.CLI_CODIGO=C.CLI_CODIGO"
-    SQL = SQL & " AND C.LOC_CODIGO=L.LOC_CODIGO"
-    SQL = SQL & " AND C.PAI_CODIGO=L.PAI_CODIGO"
-    SQL = SQL & " AND C.PRO_CODIGO=L.PRO_CODIGO"
-    SQL = SQL & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
-    SQL = SQL & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
-    SQL = SQL & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
-    SQL = SQL & " AND FR.FCL_TCO_CODIGO=TC.TCO_CODIGO"
-    SQL = SQL & " AND FR.FCL_TCO_CODIGO=N.TCO_CODIGO"
-    SQL = SQL & " AND FR.FCL_SUCURSAL=N.NDC_SUCURSAL"
-    SQL = SQL & " AND FR.FCL_NUMERO=N.NDC_NUMERO"
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = sql & " UNION ALL"
+    sql = sql & " SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
+    sql = sql & ",CI.IVA_DESCRI, TC.TCO_ABREVIA, FR.FCL_SUCURSAL, FR.FCL_NUMERO, FR.FCL_FECHA ,N.NDC_TOTAL, FR.REC_IMPORTE, R.REC_TOTAL"
+    sql = sql & " FROM CLIENTE C, RECIBO_CLIENTE R ,CONDICION_IVA CI ,LOCALIDAD L"
+    sql = sql & " , PROVINCIA PR, TIPO_COMPROBANTE TC, FACTURAS_RECIBO_CLIENTE FR,"
+    sql = sql & " NOTA_DEBITO_CLIENTE N"
+    sql = sql & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
+    sql = sql & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
+    sql = sql & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
+    sql = sql & " AND R.REC_NUMERO=FR.REC_NUMERO"
+    sql = sql & " AND R.REC_SUCURSAL=FR.REC_SUCURSAL"
+    sql = sql & " AND R.TCO_CODIGO=FR.TCO_CODIGO"
+    sql = sql & " AND R.CLI_CODIGO=C.CLI_CODIGO"
+    sql = sql & " AND C.LOC_CODIGO=L.LOC_CODIGO"
+    sql = sql & " AND C.PAI_CODIGO=L.PAI_CODIGO"
+    sql = sql & " AND C.PRO_CODIGO=L.PRO_CODIGO"
+    sql = sql & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
+    sql = sql & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
+    sql = sql & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
+    sql = sql & " AND FR.FCL_TCO_CODIGO=TC.TCO_CODIGO"
+    sql = sql & " AND FR.FCL_TCO_CODIGO=N.TCO_CODIGO"
+    sql = sql & " AND FR.FCL_SUCURSAL=N.NDC_SUCURSAL"
+    sql = sql & " AND FR.FCL_NUMERO=N.NDC_NUMERO"
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         Do While Rec1.EOF = False
             
-            SQL = "INSERT INTO TMP_RECIBO_CLIENTE ("
-            SQL = SQL & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
-            SQL = SQL & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
-            SQL = SQL & "REC_TOTAL,FAC_ABREVIA,FAC_NUMERO,FAC_FECHA,FAC_IMPORTE,FAC_TOTAL,REC_ITEM) VALUES ("
-            SQL = SQL & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
-            SQL = SQL & XDQ(FechaRecibo.Text) & ","
-            SQL = SQL & XS(Rec1!CLI_RAZSOC) & ","
-            SQL = SQL & XS(Rec1!CLI_DOMICI) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
-            SQL = SQL & XS(Rec1!LOC_DESCRI) & ","
-            SQL = SQL & XS(Rec1!PRO_DESCRI) & ","
-            SQL = SQL & XS(Rec1!IVA_DESCRI) & ","
-            SQL = SQL & "NULL,"
-            SQL = SQL & "NULL,"
-            SQL = SQL & "NULL,"
-            SQL = SQL & "NULL,"
-            SQL = SQL & XN(Rec1!REC_TOTAL) & ","
-            SQL = SQL & XS(Rec1!TCO_ABREVIA) & ","
-            SQL = SQL & XS(Format(Rec1!FCL_SUCURSAL, "0000") & "-" & Format(Rec1!FCL_NUMERO, "00000000")) & ","
-            SQL = SQL & XS(Rec1!FCL_FECHA) & ","
-            SQL = SQL & XN(Rec1!REC_IMPORTE) & ","
-            SQL = SQL & XN(Rec1!FCL_TOTAL) & ","
-            SQL = SQL & i & ")"
-            DBConn.Execute SQL
+            sql = "INSERT INTO TMP_RECIBO_CLIENTE ("
+            sql = sql & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
+            sql = sql & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
+            sql = sql & "REC_TOTAL,FAC_ABREVIA,FAC_NUMERO,FAC_FECHA,FAC_IMPORTE,FAC_TOTAL,REC_ITEM) VALUES ("
+            sql = sql & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
+            sql = sql & XDQ(FechaRecibo.Text) & ","
+            sql = sql & XS(Rec1!CLI_RAZSOC) & ","
+            sql = sql & XS(Rec1!CLI_DOMICI) & ","
+            sql = sql & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
+            sql = sql & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
+            sql = sql & XS(Rec1!LOC_DESCRI) & ","
+            sql = sql & XS(Rec1!PRO_DESCRI) & ","
+            sql = sql & XS(Rec1!IVA_DESCRI) & ","
+            sql = sql & "NULL,"
+            sql = sql & "NULL,"
+            sql = sql & "NULL,"
+            sql = sql & "NULL,"
+            sql = sql & XN(Rec1!REC_TOTAL) & ","
+            sql = sql & XS(Rec1!TCO_ABREVIA) & ","
+            sql = sql & XS(Format(Rec1!FCL_SUCURSAL, "0000") & "-" & Format(Rec1!FCL_NUMERO, "00000000")) & ","
+            sql = sql & XS(Rec1!FCL_FECHA) & ","
+            sql = sql & XN(Rec1!REC_IMPORTE) & ","
+            sql = sql & XN(Rec1!FCL_TOTAL) & ","
+            sql = sql & i & ")"
+            DBConn.Execute sql
             
             i = i + 1
             Rec1.MoveNext
@@ -1186,48 +1185,48 @@ End Sub
 
 Private Sub ReciboComprobante()
     Set Rec1 = New ADODB.Recordset
-    SQL = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
-    SQL = SQL & ",CI.IVA_DESCRI, TC.TCO_ABREVIA, DR.DRE_COMFECHA, DR.DRE_COMSUCURSAL ,DR.DRE_COMNUMERO, DR.DRE_COMIMP, R.REC_TOTAL"
-    SQL = SQL & " FROM CLIENTE C, DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R ,CONDICION_IVA CI"
-    SQL = SQL & " ,LOCALIDAD L, PROVINCIA PR, TIPO_COMPROBANTE TC"
-    SQL = SQL & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
-    SQL = SQL & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
-    SQL = SQL & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
-    SQL = SQL & " AND R.REC_NUMERO=DR.REC_NUMERO"
-    SQL = SQL & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
-    SQL = SQL & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
-    SQL = SQL & " AND R.CLI_CODIGO=C.CLI_CODIGO"
-    SQL = SQL & " AND C.LOC_CODIGO=L.LOC_CODIGO"
-    SQL = SQL & " AND C.PAI_CODIGO=L.PAI_CODIGO"
-    SQL = SQL & " AND C.PRO_CODIGO=L.PRO_CODIGO"
-    SQL = SQL & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
-    SQL = SQL & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
-    SQL = SQL & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
-    SQL = SQL & " AND DR.DRE_TCO_CODIGO=TC.TCO_CODIGO"
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
+    sql = sql & ",CI.IVA_DESCRI, TC.TCO_ABREVIA, DR.DRE_COMFECHA, DR.DRE_COMSUCURSAL ,DR.DRE_COMNUMERO, DR.DRE_COMIMP, R.REC_TOTAL"
+    sql = sql & " FROM CLIENTE C, DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R ,CONDICION_IVA CI"
+    sql = sql & " ,LOCALIDAD L, PROVINCIA PR, TIPO_COMPROBANTE TC"
+    sql = sql & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
+    sql = sql & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
+    sql = sql & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
+    sql = sql & " AND R.REC_NUMERO=DR.REC_NUMERO"
+    sql = sql & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
+    sql = sql & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
+    sql = sql & " AND R.CLI_CODIGO=C.CLI_CODIGO"
+    sql = sql & " AND C.LOC_CODIGO=L.LOC_CODIGO"
+    sql = sql & " AND C.PAI_CODIGO=L.PAI_CODIGO"
+    sql = sql & " AND C.PRO_CODIGO=L.PRO_CODIGO"
+    sql = sql & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
+    sql = sql & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
+    sql = sql & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
+    sql = sql & " AND DR.DRE_TCO_CODIGO=TC.TCO_CODIGO"
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         Do While Rec1.EOF = False
                         
-            SQL = "INSERT INTO TMP_RECIBO_CLIENTE ("
-            SQL = SQL & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
-            SQL = SQL & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
-            SQL = SQL & "REC_TOTAL,REC_ITEM) VALUES ("
-            SQL = SQL & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
-            SQL = SQL & XDQ(FechaRecibo.Text) & ","
-            SQL = SQL & XS(Rec1!CLI_RAZSOC) & ","
-            SQL = SQL & XS(Rec1!CLI_DOMICI) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
-            SQL = SQL & XS(Rec1!LOC_DESCRI) & ","
-            SQL = SQL & XS(Rec1!PRO_DESCRI) & ","
-            SQL = SQL & XS(Rec1!IVA_DESCRI) & ","
-            SQL = SQL & XS(Rec1!TCO_ABREVIA) & ","
-            SQL = SQL & XDQ(Rec1!DRE_COMFECHA) & ","
-            SQL = SQL & XS(Rec1!DRE_COMSUCURSAL & "-" & Format(Rec1!DRE_COMNUMERO, "00000000")) & ","
-            SQL = SQL & XN(Rec1!DRE_COMIMP) & ","
-            SQL = SQL & XN(Rec1!REC_TOTAL) & ","
-            SQL = SQL & i & ")"
-            DBConn.Execute SQL
+            sql = "INSERT INTO TMP_RECIBO_CLIENTE ("
+            sql = sql & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
+            sql = sql & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
+            sql = sql & "REC_TOTAL,REC_ITEM) VALUES ("
+            sql = sql & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
+            sql = sql & XDQ(FechaRecibo.Text) & ","
+            sql = sql & XS(Rec1!CLI_RAZSOC) & ","
+            sql = sql & XS(Rec1!CLI_DOMICI) & ","
+            sql = sql & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
+            sql = sql & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
+            sql = sql & XS(Rec1!LOC_DESCRI) & ","
+            sql = sql & XS(Rec1!PRO_DESCRI) & ","
+            sql = sql & XS(Rec1!IVA_DESCRI) & ","
+            sql = sql & XS(Rec1!TCO_ABREVIA) & ","
+            sql = sql & XDQ(Rec1!DRE_COMFECHA) & ","
+            sql = sql & XS(Rec1!DRE_COMSUCURSAL & "-" & Format(Rec1!DRE_COMNUMERO, "00000000")) & ","
+            sql = sql & XN(Rec1!DRE_COMIMP) & ","
+            sql = sql & XN(Rec1!REC_TOTAL) & ","
+            sql = sql & i & ")"
+            DBConn.Execute sql
             
             i = i + 1
             Rec1.MoveNext
@@ -1239,50 +1238,50 @@ End Sub
 Private Sub ReciboCheques()
     Set Rec1 = New ADODB.Recordset
     'PARA CHEQUES DE TERCEROS
-    SQL = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
-    SQL = SQL & ",CI.IVA_DESCRI, B.BAN_NOMCOR, CH.CHE_FECVTO ,DR.CHE_NUMERO, CH.CHE_IMPORT, R.REC_TOTAL"
-    SQL = SQL & " FROM CLIENTE C, DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R ,CONDICION_IVA CI"
-    SQL = SQL & " ,LOCALIDAD L, PROVINCIA PR, CHEQUE CH, BANCO B"
-    SQL = SQL & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
-    SQL = SQL & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
-    SQL = SQL & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
-    SQL = SQL & " AND R.REC_NUMERO=DR.REC_NUMERO"
-    SQL = SQL & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
-    SQL = SQL & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
-    SQL = SQL & " AND R.CLI_CODIGO=C.CLI_CODIGO"
-    SQL = SQL & " AND C.LOC_CODIGO=L.LOC_CODIGO"
-    SQL = SQL & " AND C.PAI_CODIGO=L.PAI_CODIGO"
-    SQL = SQL & " AND C.PRO_CODIGO=L.PRO_CODIGO"
-    SQL = SQL & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
-    SQL = SQL & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
-    SQL = SQL & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
-    SQL = SQL & " AND DR.BAN_CODINT=CH.BAN_CODINT"
-    SQL = SQL & " AND DR.CHE_NUMERO=CH.CHE_NUMERO"
-    SQL = SQL & " AND CH.BAN_CODINT=B.BAN_CODINT"
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
+    sql = sql & ",CI.IVA_DESCRI, B.BAN_NOMCOR, CH.CHE_FECVTO ,DR.CHE_NUMERO, CH.CHE_IMPORT, R.REC_TOTAL"
+    sql = sql & " FROM CLIENTE C, DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R ,CONDICION_IVA CI"
+    sql = sql & " ,LOCALIDAD L, PROVINCIA PR, CHEQUE CH, BANCO B"
+    sql = sql & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
+    sql = sql & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
+    sql = sql & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
+    sql = sql & " AND R.REC_NUMERO=DR.REC_NUMERO"
+    sql = sql & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
+    sql = sql & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
+    sql = sql & " AND R.CLI_CODIGO=C.CLI_CODIGO"
+    sql = sql & " AND C.LOC_CODIGO=L.LOC_CODIGO"
+    sql = sql & " AND C.PAI_CODIGO=L.PAI_CODIGO"
+    sql = sql & " AND C.PRO_CODIGO=L.PRO_CODIGO"
+    sql = sql & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
+    sql = sql & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
+    sql = sql & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
+    sql = sql & " AND DR.BAN_CODINT=CH.BAN_CODINT"
+    sql = sql & " AND DR.CHE_NUMERO=CH.CHE_NUMERO"
+    sql = sql & " AND CH.BAN_CODINT=B.BAN_CODINT"
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         Do While Rec1.EOF = False
             
-            SQL = "INSERT INTO TMP_RECIBO_CLIENTE ("
-            SQL = SQL & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
-            SQL = SQL & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
-            SQL = SQL & "REC_TOTAL,REC_ITEM) VALUES ("
-            SQL = SQL & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
-            SQL = SQL & XDQ(FechaRecibo.Text) & ","
-            SQL = SQL & XS(Rec1!CLI_RAZSOC) & ","
-            SQL = SQL & XS(Rec1!CLI_DOMICI) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
-            SQL = SQL & XS(Rec1!LOC_DESCRI) & ","
-            SQL = SQL & XS(Rec1!PRO_DESCRI) & ","
-            SQL = SQL & XS(Rec1!IVA_DESCRI) & ","
-            SQL = SQL & XS(Rec1!BAN_NOMCOR) & ","
-            SQL = SQL & XDQ(Rec1!CHE_FECVTO) & ","
-            SQL = SQL & XS(Rec1!CHE_NUMERO) & ","
-            SQL = SQL & XN(Rec1!CHE_IMPORT) & ","
-            SQL = SQL & XN(Rec1!REC_TOTAL) & ","
-            SQL = SQL & i & ")"
-            DBConn.Execute SQL
+            sql = "INSERT INTO TMP_RECIBO_CLIENTE ("
+            sql = sql & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
+            sql = sql & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
+            sql = sql & "REC_TOTAL,REC_ITEM) VALUES ("
+            sql = sql & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
+            sql = sql & XDQ(FechaRecibo.Text) & ","
+            sql = sql & XS(Rec1!CLI_RAZSOC) & ","
+            sql = sql & XS(Rec1!CLI_DOMICI) & ","
+            sql = sql & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
+            sql = sql & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
+            sql = sql & XS(Rec1!LOC_DESCRI) & ","
+            sql = sql & XS(Rec1!PRO_DESCRI) & ","
+            sql = sql & XS(Rec1!IVA_DESCRI) & ","
+            sql = sql & XS(Rec1!BAN_NOMCOR) & ","
+            sql = sql & XDQ(Rec1!CHE_FECVTO) & ","
+            sql = sql & XS(Rec1!CHE_NUMERO) & ","
+            sql = sql & XN(Rec1!CHE_IMPORT) & ","
+            sql = sql & XN(Rec1!REC_TOTAL) & ","
+            sql = sql & i & ")"
+            DBConn.Execute sql
             
             i = i + 1
             Rec1.MoveNext
@@ -1290,50 +1289,50 @@ Private Sub ReciboCheques()
     End If
     Rec1.Close
     'PARA CHEQUES PROPIOS
-    SQL = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
-    SQL = SQL & ",CI.IVA_DESCRI, B.BAN_NOMCOR, CH.CHEP_FECVTO ,DR.CHE_NUMERO, CH.CHEP_IMPORT, R.REC_TOTAL"
-    SQL = SQL & " FROM CLIENTE C,DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R ,CONDICION_IVA CI"
-    SQL = SQL & " ,LOCALIDAD L, PROVINCIA PR, CHEQUE_PROPIO CH, BANCO B"
-    SQL = SQL & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
-    SQL = SQL & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
-    SQL = SQL & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
-    SQL = SQL & " AND R.REC_NUMERO=DR.REC_NUMERO"
-    SQL = SQL & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
-    SQL = SQL & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
-    SQL = SQL & " AND R.CLI_CODIGO=C.CLI_CODIGO"
-    SQL = SQL & " AND C.LOC_CODIGO=L.LOC_CODIGO"
-    SQL = SQL & " AND C.PAI_CODIGO=L.PAI_CODIGO"
-    SQL = SQL & " AND C.PRO_CODIGO=L.PRO_CODIGO"
-    SQL = SQL & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
-    SQL = SQL & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
-    SQL = SQL & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
-    SQL = SQL & " AND DR.BAN_CODINT=CH.BAN_CODINT"
-    SQL = SQL & " AND DR.CHE_NUMERO=CH.CHEP_NUMERO"
-    SQL = SQL & " AND CH.BAN_CODINT=B.BAN_CODINT"
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
+    sql = sql & ",CI.IVA_DESCRI, B.BAN_NOMCOR, CH.CHEP_FECVTO ,DR.CHE_NUMERO, CH.CHEP_IMPORT, R.REC_TOTAL"
+    sql = sql & " FROM CLIENTE C,DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R ,CONDICION_IVA CI"
+    sql = sql & " ,LOCALIDAD L, PROVINCIA PR, CHEQUE_PROPIO CH, BANCO B"
+    sql = sql & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
+    sql = sql & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
+    sql = sql & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
+    sql = sql & " AND R.REC_NUMERO=DR.REC_NUMERO"
+    sql = sql & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
+    sql = sql & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
+    sql = sql & " AND R.CLI_CODIGO=C.CLI_CODIGO"
+    sql = sql & " AND C.LOC_CODIGO=L.LOC_CODIGO"
+    sql = sql & " AND C.PAI_CODIGO=L.PAI_CODIGO"
+    sql = sql & " AND C.PRO_CODIGO=L.PRO_CODIGO"
+    sql = sql & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
+    sql = sql & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
+    sql = sql & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
+    sql = sql & " AND DR.BAN_CODINT=CH.BAN_CODINT"
+    sql = sql & " AND DR.CHE_NUMERO=CH.CHEP_NUMERO"
+    sql = sql & " AND CH.BAN_CODINT=B.BAN_CODINT"
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         Do While Rec1.EOF = False
             
-            SQL = "INSERT INTO TMP_RECIBO_CLIENTE ("
-            SQL = SQL & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
-            SQL = SQL & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
-            SQL = SQL & "REC_TOTAL,REC_ITEM) VALUES ("
-            SQL = SQL & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
-            SQL = SQL & XDQ(FechaRecibo.Text) & ","
-            SQL = SQL & XS(Rec1!CLI_RAZSOC) & ","
-            SQL = SQL & XS(Rec1!CLI_DOMICI) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
-            SQL = SQL & XS(Rec1!LOC_DESCRI) & ","
-            SQL = SQL & XS(Rec1!PRO_DESCRI) & ","
-            SQL = SQL & XS(Rec1!IVA_DESCRI) & ","
-            SQL = SQL & XS(Rec1!BAN_NOMCOR) & ","
-            SQL = SQL & XDQ(Rec1!CHEP_FECVTO) & ","
-            SQL = SQL & XS(Rec1!CHE_NUMERO) & ","
-            SQL = SQL & XN(Rec1!CHEP_IMPORT) & ","
-            SQL = SQL & XN(Rec1!OPG_TOTAL) & ","
-            SQL = SQL & i & ")"
-            DBConn.Execute SQL
+            sql = "INSERT INTO TMP_RECIBO_CLIENTE ("
+            sql = sql & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
+            sql = sql & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_FECHA,COM_NUMERO,COM_IMPORTE,"
+            sql = sql & "REC_TOTAL,REC_ITEM) VALUES ("
+            sql = sql & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
+            sql = sql & XDQ(FechaRecibo.Text) & ","
+            sql = sql & XS(Rec1!CLI_RAZSOC) & ","
+            sql = sql & XS(Rec1!CLI_DOMICI) & ","
+            sql = sql & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
+            sql = sql & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
+            sql = sql & XS(Rec1!LOC_DESCRI) & ","
+            sql = sql & XS(Rec1!PRO_DESCRI) & ","
+            sql = sql & XS(Rec1!IVA_DESCRI) & ","
+            sql = sql & XS(Rec1!BAN_NOMCOR) & ","
+            sql = sql & XDQ(Rec1!CHEP_FECVTO) & ","
+            sql = sql & XS(Rec1!CHE_NUMERO) & ","
+            sql = sql & XN(Rec1!CHEP_IMPORT) & ","
+            sql = sql & XN(Rec1!OPG_TOTAL) & ","
+            sql = sql & i & ")"
+            DBConn.Execute sql
             
             i = i + 1
             Rec1.MoveNext
@@ -1344,47 +1343,47 @@ End Sub
 
 Private Sub ReciboMoneda()
     Set Rec1 = New ADODB.Recordset
-    SQL = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
-    SQL = SQL & ", M.MON_DESCRI, DR.DRE_MONIMP, R.REC_TOTAL, CI.IVA_DESCRI"
-    SQL = SQL & " FROM CLIENTE C, DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R"
-    SQL = SQL & " ,LOCALIDAD L, PROVINCIA PR, MONEDA M, CONDICION_IVA CI"
-    SQL = SQL & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
-    SQL = SQL & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
-    SQL = SQL & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
-    SQL = SQL & " AND R.REC_NUMERO=DR.REC_NUMERO"
-    SQL = SQL & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
-    SQL = SQL & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
-    SQL = SQL & " AND R.CLI_CODIGO=C.CLI_CODIGO"
-    SQL = SQL & " AND DR.MON_CODIGO=M.MON_CODIGO"
-    SQL = SQL & " AND C.LOC_CODIGO=L.LOC_CODIGO"
-    SQL = SQL & " AND C.PAI_CODIGO=L.PAI_CODIGO"
-    SQL = SQL & " AND C.PRO_CODIGO=L.PRO_CODIGO"
-    SQL = SQL & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
-    SQL = SQL & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
-    SQL = SQL & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
+    sql = "SELECT C.CLI_RAZSOC, C.CLI_DOMICI, L.LOC_DESCRI, PR.PRO_DESCRI, C.CLI_CUIT, C.CLI_INGBRU"
+    sql = sql & ", M.MON_DESCRI, DR.DRE_MONIMP, R.REC_TOTAL, CI.IVA_DESCRI"
+    sql = sql & " FROM CLIENTE C, DETALLE_RECIBO_CLIENTE DR, RECIBO_CLIENTE R"
+    sql = sql & " ,LOCALIDAD L, PROVINCIA PR, MONEDA M, CONDICION_IVA CI"
+    sql = sql & " WHERE R.REC_NUMERO=" & XN(txtNroRecibo.Text)
+    sql = sql & " AND R.REC_SUCURSAL=" & XN(txtNroSucursal.Text)
+    sql = sql & " AND R.TCO_CODIGO=" & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
+    sql = sql & " AND R.REC_NUMERO=DR.REC_NUMERO"
+    sql = sql & " AND R.REC_SUCURSAL=DR.REC_SUCURSAL"
+    sql = sql & " AND R.TCO_CODIGO=DR.TCO_CODIGO"
+    sql = sql & " AND R.CLI_CODIGO=C.CLI_CODIGO"
+    sql = sql & " AND DR.MON_CODIGO=M.MON_CODIGO"
+    sql = sql & " AND C.LOC_CODIGO=L.LOC_CODIGO"
+    sql = sql & " AND C.PAI_CODIGO=L.PAI_CODIGO"
+    sql = sql & " AND C.PRO_CODIGO=L.PRO_CODIGO"
+    sql = sql & " AND L.PRO_CODIGO=PR.PRO_CODIGO"
+    sql = sql & " AND L.PAI_CODIGO=PR.PAI_CODIGO"
+    sql = sql & " AND C.IVA_CODIGO=CI.IVA_CODIGO"
     
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         Do While Rec1.EOF = False
             
-            SQL = "INSERT INTO TMP_RECIBO_CLIENTE ("
-            SQL = SQL & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
-            SQL = SQL & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_IMPORTE,"
-            SQL = SQL & "REC_TOTAL,REC_ITEM) VALUES ("
-            SQL = SQL & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
-            SQL = SQL & XDQ(FechaRecibo.Text) & ","
-            SQL = SQL & XS(Rec1!CLI_RAZSOC) & ","
-            SQL = SQL & XS(Rec1!CLI_DOMICI) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
-            SQL = SQL & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
-            SQL = SQL & XS(Rec1!LOC_DESCRI) & ","
-            SQL = SQL & XS(Rec1!PRO_DESCRI) & ","
-            SQL = SQL & XS(Rec1!IVA_DESCRI) & ","
-            SQL = SQL & XS(Rec1!MON_DESCRI) & ","
-            SQL = SQL & XN(Rec1!DRE_MONIMP) & ","
-            SQL = SQL & XN(Rec1!REC_TOTAL) & ","
-            SQL = SQL & i & ")"
-            DBConn.Execute SQL
+            sql = "INSERT INTO TMP_RECIBO_CLIENTE ("
+            sql = sql & "REC_NUMERO,REC_FECHA,CLI_RAZSOC,CLI_DOMICI,CLI_CUIT,CLI_INGBRU,"
+            sql = sql & "LOC_DESCRI,PRO_DESCRI,IVA_DESCRI,TCO_ABREVIA,COM_IMPORTE,"
+            sql = sql & "REC_TOTAL,REC_ITEM) VALUES ("
+            sql = sql & XS(Format(txtNroSucursal.Text, "0000") & "-" & Format(txtNroRecibo.Text, "00000000")) & ","
+            sql = sql & XDQ(FechaRecibo.Text) & ","
+            sql = sql & XS(Rec1!CLI_RAZSOC) & ","
+            sql = sql & XS(Rec1!CLI_DOMICI) & ","
+            sql = sql & XS(Format(Rec1!CLI_CUIT, "##-########-#")) & ","
+            sql = sql & XS(Format(Rec1!CLI_INGBRU, "###-#####-##")) & ","
+            sql = sql & XS(Rec1!LOC_DESCRI) & ","
+            sql = sql & XS(Rec1!PRO_DESCRI) & ","
+            sql = sql & XS(Rec1!IVA_DESCRI) & ","
+            sql = sql & XS(Rec1!MON_DESCRI) & ","
+            sql = sql & XN(Rec1!DRE_MONIMP) & ","
+            sql = sql & XN(Rec1!REC_TOTAL) & ","
+            sql = sql & i & ")"
+            DBConn.Execute sql
             
             i = i + 1
             Rec1.MoveNext
@@ -1482,10 +1481,10 @@ End Sub
 
 Private Function BuscarTipoDocAbre(Codigo As String) As String
     Set Rec1 = New ADODB.Recordset
-    SQL = "SELECT TCO_ABREVIA"
-    SQL = SQL & " FROM TIPO_COMPROBANTE"
-    SQL = SQL & " WHERE TCO_CODIGO = " & XN(Codigo)
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT TCO_ABREVIA"
+    sql = sql & " FROM TIPO_COMPROBANTE"
+    sql = sql & " WHERE TCO_CODIGO = " & XN(Codigo)
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         BuscarTipoDocAbre = Rec1!TCO_ABREVIA
     Else
@@ -1562,18 +1561,18 @@ Private Sub CmdBuscAprox_Click()
     Screen.MousePointer = vbHourglass
     
     Set Rec1 = New ADODB.Recordset
-    SQL = "SELECT RC.REC_NUMERO, RC.REC_SUCURSAL,"
-    SQL = SQL & " RC.REC_FECHA, RC.TCO_CODIGO, TC.TCO_ABREVIA, C.CLI_RAZSOC, RC.REC_TOTAL "
-    SQL = SQL & " FROM RECIBO_CLIENTE RC, CLIENTE C,  TIPO_COMPROBANTE TC"
-    SQL = SQL & " WHERE RC.TCO_CODIGO=TC.TCO_CODIGO"
-    SQL = SQL & "   AND RC.CLI_CODIGO=C.CLI_CODIGO"
-    If txtCliente.Text <> "" Then SQL = SQL & " AND RC.CLI_CODIGO=" & XN(txtCliente.Text)
-    If FechaDesde.Text <> "" Then SQL = SQL & " AND RC.REC_FECHA>=" & XDQ(FechaDesde.Text)
-    If FechaHasta.Text <> "" Then SQL = SQL & " AND RC.REC_FECHA<=" & XDQ(FechaHasta.Text)
-    If cboRecibo1.List(cboRecibo1.ListIndex) <> "(Todos)" Then SQL = SQL & " AND RC.TCO_CODIGO=" & XN(cboRecibo1.ItemData(cboRecibo1.ListIndex))
-    SQL = SQL & " ORDER BY RC.REC_SUCURSAL, RC.REC_NUMERO"
+    sql = "SELECT RC.REC_NUMERO, RC.REC_SUCURSAL,"
+    sql = sql & " RC.REC_FECHA, RC.TCO_CODIGO, TC.TCO_ABREVIA, C.CLI_RAZSOC, RC.REC_TOTAL "
+    sql = sql & " FROM RECIBO_CLIENTE RC, CLIENTE C,  TIPO_COMPROBANTE TC"
+    sql = sql & " WHERE RC.TCO_CODIGO=TC.TCO_CODIGO"
+    sql = sql & "   AND RC.CLI_CODIGO=C.CLI_CODIGO"
+    If txtCliente.Text <> "" Then sql = sql & " AND RC.CLI_CODIGO=" & XN(txtCliente.Text)
+    If FechaDesde.Text <> "" Then sql = sql & " AND RC.REC_FECHA>=" & XDQ(FechaDesde.Text)
+    If FechaHasta.Text <> "" Then sql = sql & " AND RC.REC_FECHA<=" & XDQ(FechaHasta.Text)
+    If cboRecibo1.List(cboRecibo1.ListIndex) <> "(Todos)" Then sql = sql & " AND RC.TCO_CODIGO=" & XN(cboRecibo1.ItemData(cboRecibo1.ListIndex))
+    sql = sql & " ORDER BY RC.REC_SUCURSAL, RC.REC_NUMERO"
     
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         Do While Rec1.EOF = False
             GrdModulos.AddItem Rec1!TCO_ABREVIA & Chr(9) & Format(Rec1!REC_SUCURSAL, "0000") & "-" & Format(Rec1!REC_NUMERO, "00000000") _
@@ -1623,80 +1622,80 @@ Private Sub cmdGrabar_Click()
     Screen.MousePointer = vbHourglass
     lblEstado.Caption = "Guardando..."
     
-    SQL = "SELECT EST_CODIGO"
-    SQL = SQL & " FROM RECIBO_CLIENTE"
-    SQL = SQL & " WHERE TCO_CODIGO = " & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
-    SQL = SQL & "   AND REC_NUMERO = " & XN(txtNroRecibo.Text)
-    SQL = SQL & "   AND REC_SUCURSAL = " & XN(txtNroSucursal.Text)
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT EST_CODIGO"
+    sql = sql & " FROM RECIBO_CLIENTE"
+    sql = sql & " WHERE TCO_CODIGO = " & XN(cboRecibo.ItemData(cboRecibo.ListIndex))
+    sql = sql & "   AND REC_NUMERO = " & XN(txtNroRecibo.Text)
+    sql = sql & "   AND REC_SUCURSAL = " & XN(txtNroSucursal.Text)
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     
     If rec.EOF = True Then
         
         'CABEZA DEL RECIBO
-        SQL = "INSERT INTO RECIBO_CLIENTE ("
-        SQL = SQL & " TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
-        SQL = SQL & " EST_CODIGO, CLI_CODIGO,"
-        SQL = SQL & " REC_NUMEROTXT, REC_TOTAL)"
-        SQL = SQL & " VALUES ("
-        SQL = SQL & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ", "
-        SQL = SQL & XN(txtNroRecibo.Text) & ","
-        SQL = SQL & XN(txtNroSucursal.Text) & ","
-        SQL = SQL & XDQ(FechaRecibo.Text) & ","
-        SQL = SQL & "3,"                          'ESTADO DEFINITIVO
-        SQL = SQL & XN(txtCodCliente.Text) & ","
-        SQL = SQL & XS(Format(txtNroRecibo.Text, "00000000")) & ","
-        SQL = SQL & XN(txtImporteApagar.Text) & ")"
-        DBConn.Execute SQL
+        sql = "INSERT INTO RECIBO_CLIENTE ("
+        sql = sql & " TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
+        sql = sql & " EST_CODIGO, CLI_CODIGO,"
+        sql = sql & " REC_NUMEROTXT, REC_TOTAL)"
+        sql = sql & " VALUES ("
+        sql = sql & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ", "
+        sql = sql & XN(txtNroRecibo.Text) & ","
+        sql = sql & XN(txtNroSucursal.Text) & ","
+        sql = sql & XDQ(FechaRecibo.Text) & ","
+        sql = sql & "3,"                          'ESTADO DEFINITIVO
+        sql = sql & XN(txtCodCliente.Text) & ","
+        sql = sql & XS(Format(txtNroRecibo.Text, "00000000")) & ","
+        sql = sql & XN(txtImporteApagar.Text) & ")"
+        DBConn.Execute sql
         
         'DETALLE DEL RECIBO
         For i = 1 To grillaValores.Rows - 1
-            SQL = "INSERT INTO DETALLE_RECIBO_CLIENTE"
-            SQL = SQL & " (TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
-            SQL = SQL & " DRE_NROITEM, MON_CODIGO,"
-            SQL = SQL & " DRE_MONIMP, DRE_TCO_CODIGO, DRE_COMFECHA, DRE_COMNUMERO,"
-            SQL = SQL & " DRE_COMSUCURSAL, DRE_COMIMP)"
-            SQL = SQL & " VALUES ("
-            SQL = SQL & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ","
-            SQL = SQL & XN(txtNroRecibo.Text) & ","
-            SQL = SQL & XN(txtNroSucursal.Text) & ","
-            SQL = SQL & XDQ(FechaRecibo.Text) & ","
-            SQL = SQL & XN(CStr(i)) & ","
+            sql = "INSERT INTO DETALLE_RECIBO_CLIENTE"
+            sql = sql & " (TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
+            sql = sql & " DRE_NROITEM, MON_CODIGO,"
+            sql = sql & " DRE_MONIMP, DRE_TCO_CODIGO, DRE_COMFECHA, DRE_COMNUMERO,"
+            sql = sql & " DRE_COMSUCURSAL, DRE_COMIMP)"
+            sql = sql & " VALUES ("
+            sql = sql & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ","
+            sql = sql & XN(txtNroRecibo.Text) & ","
+            sql = sql & XN(txtNroSucursal.Text) & ","
+            sql = sql & XDQ(FechaRecibo.Text) & ","
+            sql = sql & XN(CStr(i)) & ","
             
             If grillaValores.TextMatrix(i, 0) = "EFT" Then
-                SQL = SQL & XN(grillaValores.TextMatrix(i, 5)) & "," 'MONEDA
-                SQL = SQL & XN(grillaValores.TextMatrix(i, 1)) & "," 'IMPORTE
+                sql = sql & XN(grillaValores.TextMatrix(i, 5)) & "," 'MONEDA
+                sql = sql & XN(grillaValores.TextMatrix(i, 1)) & "," 'IMPORTE
             Else
-                SQL = SQL & "NULL,NULL,"
+                sql = sql & "NULL,NULL,"
             End If
             
             If grillaValores.TextMatrix(i, 0) = "COMP" Or grillaValores.TextMatrix(i, 0) = "A-CTA" Then
-                SQL = SQL & XN(grillaValores.TextMatrix(i, 5)) & ","
-                SQL = SQL & XDQ(grillaValores.TextMatrix(i, 2)) & ","
-                SQL = SQL & XN(Right(grillaValores.TextMatrix(i, 4), 8)) & "," 'NUMERO COMPROBANTE
-                SQL = SQL & XN(Left(grillaValores.TextMatrix(i, 4), 4)) & ","  'NUMERO SUCURSAL
-                SQL = SQL & XN(grillaValores.TextMatrix(i, 1)) & ")"
+                sql = sql & XN(grillaValores.TextMatrix(i, 5)) & ","
+                sql = sql & XDQ(grillaValores.TextMatrix(i, 2)) & ","
+                sql = sql & XN(Right(grillaValores.TextMatrix(i, 4), 8)) & "," 'NUMERO COMPROBANTE
+                sql = sql & XN(Left(grillaValores.TextMatrix(i, 4), 4)) & ","  'NUMERO SUCURSAL
+                sql = sql & XN(grillaValores.TextMatrix(i, 1)) & ")"
             Else
-                SQL = SQL & "NULL,NULL,NULL,NULL,NULL)"
+                sql = sql & "NULL,NULL,NULL,NULL,NULL)"
             End If
-            DBConn.Execute SQL
+            DBConn.Execute sql
         Next
         
         'FACTURAS Y NOTA DE DEBITO CANCELADAS EN EL RECIBO
         For i = 1 To GrillaAplicar.Rows - 1
            If CDbl(txtImporteApagar.Text) > 0 Then
-                SQL = "INSERT INTO FACTURAS_RECIBO_CLIENTE"
-                SQL = SQL & " (TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
-                SQL = SQL & " FCL_TCO_CODIGO, FCL_NUMERO, FCL_SUCURSAL,"
-                SQL = SQL & " FCL_FECHA,REC_IMPORTE,REC_ABONA,REC_SALDO)"
-                SQL = SQL & " VALUES ("
-                SQL = SQL & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ","
-                SQL = SQL & XN(txtNroRecibo.Text) & ","
-                SQL = SQL & XN(txtNroSucursal.Text) & ","
-                SQL = SQL & XDQ(FechaRecibo) & ","
-                SQL = SQL & XN(GrillaAplicar.TextMatrix(i, 6)) & ","           'TIPO FACTURA O NOTA DEBITO
-                SQL = SQL & XN(Right(GrillaAplicar.TextMatrix(i, 1), 8)) & "," 'NUMERO FACTURA O NOTA DEBITO
-                SQL = SQL & XN(Left(GrillaAplicar.TextMatrix(i, 1), 4)) & ","  'NUMERO SUCURSAL
-                SQL = SQL & XDQ(GrillaAplicar.TextMatrix(i, 2)) & ","          'FECHA FACTURA O NOTA DEBITO
+                sql = "INSERT INTO FACTURAS_RECIBO_CLIENTE"
+                sql = sql & " (TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
+                sql = sql & " FCL_TCO_CODIGO, FCL_NUMERO, FCL_SUCURSAL,"
+                sql = sql & " FCL_FECHA,REC_IMPORTE,REC_ABONA,REC_SALDO)"
+                sql = sql & " VALUES ("
+                sql = sql & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ","
+                sql = sql & XN(txtNroRecibo.Text) & ","
+                sql = sql & XN(txtNroSucursal.Text) & ","
+                sql = sql & XDQ(FechaRecibo) & ","
+                sql = sql & XN(GrillaAplicar.TextMatrix(i, 6)) & ","           'TIPO FACTURA O NOTA DEBITO
+                sql = sql & XN(Right(GrillaAplicar.TextMatrix(i, 1), 8)) & "," 'NUMERO FACTURA O NOTA DEBITO
+                sql = sql & XN(Left(GrillaAplicar.TextMatrix(i, 1), 4)) & ","  'NUMERO SUCURSAL
+                sql = sql & XDQ(GrillaAplicar.TextMatrix(i, 2)) & ","          'FECHA FACTURA O NOTA DEBITO
                 
                 'Comparo para ver si me queda saldo
                 If CDbl(txtImporteApagar.Text) > Valido_Importe(GrillaAplicar.TextMatrix(i, 5)) Then
@@ -1713,64 +1712,64 @@ Private Sub cmdGrabar_Click()
                    txtImporteApagar.Text = "0,00"
                 End If
                 
-                SQL = SQL & XN(GrillaAplicar.TextMatrix(i, 3)) & _
+                sql = sql & XN(GrillaAplicar.TextMatrix(i, 3)) & _
                      ", " & XN(GrillaAplicar.TextMatrix(i, 4)) & _
                      ", " & XN(GrillaAplicar.TextMatrix(i, 5)) & ")"
-                DBConn.Execute SQL
+                DBConn.Execute sql
            End If
         Next
         
         'ACTUALIZO EL SALDO DE LAS FACTURAS ELEGIDAS
         For i = 1 To GrillaAplicar.Rows - 1
            If Trim(GrillaAplicar.TextMatrix(i, 4)) <> "0,00" Then
-                SQL = "UPDATE FACTURA_CLIENTE"
-                SQL = SQL & " SET FCL_SALDO = " & XN(GrillaAplicar.TextMatrix(i, 5))
-                SQL = SQL & " WHERE TCO_CODIGO=" & XN(GrillaAplicar.TextMatrix(i, 6))
-                SQL = SQL & "   AND FCL_NUMERO=" & XN(Right(GrillaAplicar.TextMatrix(i, 1), 8))  'NUMERO FACTURA
-                SQL = SQL & "   AND FCL_SUCURSAL=" & XN(Left(GrillaAplicar.TextMatrix(i, 1), 4)) 'NUMERO SUCURSAL
-                DBConn.Execute SQL
+                sql = "UPDATE FACTURA_CLIENTE"
+                sql = sql & " SET FCL_SALDO = " & XN(GrillaAplicar.TextMatrix(i, 5))
+                sql = sql & " WHERE TCO_CODIGO=" & XN(GrillaAplicar.TextMatrix(i, 6))
+                sql = sql & "   AND FCL_NUMERO=" & XN(Right(GrillaAplicar.TextMatrix(i, 1), 8))  'NUMERO FACTURA
+                sql = sql & "   AND FCL_SUCURSAL=" & XN(Left(GrillaAplicar.TextMatrix(i, 1), 4)) 'NUMERO SUCURSAL
+                DBConn.Execute sql
            End If
         Next
 
         'ACTUALIZO EL DINERO A CUENTA (RECIBO_CLIENTE_SALDO)
         For i = 1 To GrillaAFavor.Rows - 1
             If GrillaAFavor.TextMatrix(i, 5) <> "19" Then '19 ANTICIPO DE COBRO
-                SQL = "UPDATE RECIBO_CLIENTE_SALDO"
-                SQL = SQL & " SET REC_SALDO = " & XN(GrillaAFavor.TextMatrix(i, 4))
-                SQL = SQL & " WHERE TCO_CODIGO = " & XN(GrillaAFavor.TextMatrix(i, 5))
-                SQL = SQL & "   AND REC_NUMERO = " & XN(Right(GrillaAFavor.TextMatrix(i, 1), 8)) 'NUMERO RECIBO
-                SQL = SQL & "   AND REC_SUCURSAL = " & XN(Left(GrillaAFavor.TextMatrix(i, 1), 4)) 'NUMERO SUCURSAL
-                DBConn.Execute SQL
+                sql = "UPDATE RECIBO_CLIENTE_SALDO"
+                sql = sql & " SET REC_SALDO = " & XN(GrillaAFavor.TextMatrix(i, 4))
+                sql = sql & " WHERE TCO_CODIGO = " & XN(GrillaAFavor.TextMatrix(i, 5))
+                sql = sql & "   AND REC_NUMERO = " & XN(Right(GrillaAFavor.TextMatrix(i, 1), 8)) 'NUMERO RECIBO
+                sql = sql & "   AND REC_SUCURSAL = " & XN(Left(GrillaAFavor.TextMatrix(i, 1), 4)) 'NUMERO SUCURSAL
+                DBConn.Execute sql
             Else
-                SQL = "UPDATE ANTICIPO_COBRO"
-                SQL = SQL & " SET ANC_SALDO = " & XN(GrillaAFavor.TextMatrix(i, 4))
-                SQL = SQL & " WHERE ANC_NUMERO = " & XN(Right(GrillaAFavor.TextMatrix(i, 1), 8)) 'NUMERO ANTICIPO
-                SQL = SQL & "   AND ANC_SUCURSAL = " & XN(Left(GrillaAFavor.TextMatrix(i, 1), 4)) 'NUMERO SUCURSAL
-                SQL = SQL & "   AND ANC_FECHA = " & XDQ(GrillaAFavor.TextMatrix(i, 2))
-                DBConn.Execute SQL
+                sql = "UPDATE ANTICIPO_COBRO"
+                sql = sql & " SET ANC_SALDO = " & XN(GrillaAFavor.TextMatrix(i, 4))
+                sql = sql & " WHERE ANC_NUMERO = " & XN(Right(GrillaAFavor.TextMatrix(i, 1), 8)) 'NUMERO ANTICIPO
+                sql = sql & "   AND ANC_SUCURSAL = " & XN(Left(GrillaAFavor.TextMatrix(i, 1), 4)) 'NUMERO SUCURSAL
+                sql = sql & "   AND ANC_FECHA = " & XDQ(GrillaAFavor.TextMatrix(i, 2))
+                DBConn.Execute sql
             End If
         Next
 
         'VERIFICO SI HAY DINERO A CUENTA
         If CDbl(txtImporteApagar.Text) > 0 Then
-            SQL = "INSERT INTO RECIBO_CLIENTE_SALDO"
-            SQL = SQL & " (TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
-            SQL = SQL & " REC_TOTSALDO, REC_SALDO)"
-            SQL = SQL & " VALUES ("
-            SQL = SQL & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ","
-            SQL = SQL & XN(txtNroRecibo.Text) & ","
-            SQL = SQL & XN(txtNroSucursal.Text) & ","
-            SQL = SQL & XDQ(FechaRecibo.Text) & ","
-            SQL = SQL & XN(CDbl(txtTotalValores.Text)) & ","
-            SQL = SQL & XN(CDbl(txtImporteApagar.Text)) & ")"
-            DBConn.Execute SQL
+            sql = "INSERT INTO RECIBO_CLIENTE_SALDO"
+            sql = sql & " (TCO_CODIGO, REC_NUMERO, REC_SUCURSAL, REC_FECHA,"
+            sql = sql & " REC_TOTSALDO, REC_SALDO)"
+            sql = sql & " VALUES ("
+            sql = sql & XN(cboRecibo.ItemData(cboRecibo.ListIndex)) & ","
+            sql = sql & XN(txtNroRecibo.Text) & ","
+            sql = sql & XN(txtNroSucursal.Text) & ","
+            sql = sql & XDQ(FechaRecibo.Text) & ","
+            sql = sql & XN(CDbl(txtTotalValores.Text)) & ","
+            sql = sql & XN(CDbl(txtImporteApagar.Text)) & ")"
+            DBConn.Execute sql
         End If
                                                 
         'ACTUALIZO LA TABLA PARAMENTROS Y LE SUMO UNO AL RECIBO QUE CORRESPONDA
         Select Case cboRecibo.ItemData(cboRecibo.ListIndex)
             Case 12
-                SQL = "UPDATE PARAMETROS SET RECIBO_C=" & XN(txtNroRecibo)
-                DBConn.Execute SQL
+                sql = "UPDATE PARAMETROS SET RECIBO_C=" & XN(txtNroRecibo)
+                DBConn.Execute sql
         End Select
         
         DBConn.CommitTrans
@@ -1789,7 +1788,7 @@ Private Sub cmdGrabar_Click()
     Screen.MousePointer = vbNormal
     lblEstado.Caption = ""
     rec.Close
-    cmdNuevo_Click
+    CmdNuevo_Click
     Exit Sub
     
 HayError:
@@ -1849,7 +1848,7 @@ Private Function ValidarRecibo() As Boolean
     ValidarRecibo = True
 End Function
 
-Private Sub cmdNuevo_Click()
+Private Sub CmdNuevo_Click()
     Estado = 1
     If mBorroTransfe = True Then
        'VERIFICO SI HAY UNA TRASFERENCIA CARGADA
@@ -1931,11 +1930,15 @@ Private Sub QuitoDineroACta()
     Next
 End Sub
 
-Private Sub cmdSalir_Click()
+Private Sub CmdSalir_Click()
     'If MsgBox("Seguro que desea Salir", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
         Set frmReciboCliente = Nothing
         Unload Me
     'End If
+End Sub
+
+Private Sub FechaHasta_CallbackKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal CallbackField As String, CallbackDate As Date)
+
 End Sub
 
 Private Sub FechaRecibo_LostFocus()
@@ -1958,7 +1961,7 @@ End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
     If KeyAscii = vbKeyReturn Then MySendKeys Chr(9)
-    If KeyAscii = vbKeyEscape Then cmdSalir_Click
+    If KeyAscii = vbKeyEscape Then CmdSalir_Click
 End Sub
 
 Private Sub Form_Load()
@@ -2106,10 +2109,10 @@ Private Sub configurogrillas()
 End Sub
 
 Private Sub LlenarComboRecibo()
-    SQL = "SELECT * FROM TIPO_COMPROBANTE"
-    SQL = SQL & " WHERE TCO_DESCRI LIKE 'RECIBO C%'"
-    SQL = SQL & " ORDER BY TCO_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM TIPO_COMPROBANTE"
+    sql = sql & " WHERE TCO_DESCRI LIKE 'RECIBO C%'"
+    sql = sql & " ORDER BY TCO_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboRecibo1.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -2126,8 +2129,8 @@ Private Sub LlenarComboRecibo()
 End Sub
 
 Private Sub LLenarComboMoneda()
-    SQL = "SELECT * FROM MONEDA ORDER BY MON_DESCRI"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * FROM MONEDA ORDER BY MON_DESCRI"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Do While rec.EOF = False
             cboMoneda.AddItem rec!MON_DESCRI
@@ -2142,7 +2145,7 @@ End Sub
 Private Sub GrdModulos_dblClick()
      If GrdModulos.Rows > 1 Then
         mBorroTransfe = False
-        cmdNuevo_Click
+        CmdNuevo_Click
         Call BuscaCodigoProxItemData(CInt(GrdModulos.TextMatrix(GrdModulos.RowSel, 4)), cboRecibo)
         txtNroRecibo.Text = Right(GrdModulos.TextMatrix(GrdModulos.RowSel, 1), 8)
         txtNroSucursal.Text = Left(GrdModulos.TextMatrix(GrdModulos.RowSel, 1), 4)
@@ -2293,11 +2296,11 @@ End Sub
 
 Private Sub txtCliRazSoc_LostFocus()
     If txtCodCliente.Text = "" And txtCliRazSoc.Text <> "" Then
-        SQL = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC,C.CLI_DOMICI"
-        SQL = SQL & "  FROM CLIENTE C "
-        SQL = SQL & " WHERE C.CLI_RAZSOC LIKE '" & txtCliRazSoc.Text & "%'"
+        sql = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC,C.CLI_DOMICI"
+        sql = sql & "  FROM CLIENTE C "
+        sql = sql & " WHERE C.CLI_RAZSOC LIKE '" & txtCliRazSoc.Text & "%'"
         If rec.State = 1 Then rec.Close
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             If rec.RecordCount > 1 Then
                 BuscarClientes "txtCodCliente", "CADENA", Trim(txtCliRazSoc.Text)
@@ -2346,9 +2349,9 @@ End Sub
 Private Sub txtCliente_LostFocus()
     If txtCliente.Text <> "" Then
         Set rec = New ADODB.Recordset
-        SQL = "SELECT CLI_RAZSOC FROM CLIENTE"
-        SQL = SQL & " WHERE CLI_CODIGO=" & XN(txtCliente)
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT CLI_RAZSOC FROM CLIENTE"
+        sql = sql & " WHERE CLI_CODIGO=" & XN(txtCliente)
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             txtDesCli.Text = rec!CLI_RAZSOC
         Else
@@ -2398,11 +2401,11 @@ End Sub
 Private Sub txtCodCliente_LostFocus()
     If txtCodCliente.Text <> "" Then
         Set rec = New ADODB.Recordset
-        SQL = "SELECT C.CLI_RAZSOC,C.CLI_DOMICI"
-        SQL = SQL & " FROM CLIENTE C"
-        SQL = SQL & " WHERE"
-        SQL = SQL & " C.CLI_CODIGO=" & XN(txtCodCliente)
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT C.CLI_RAZSOC,C.CLI_DOMICI"
+        sql = sql & " FROM CLIENTE C"
+        sql = sql & " WHERE"
+        sql = sql & " C.CLI_CODIGO=" & XN(txtCodCliente)
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             txtCliRazSoc.Text = rec!CLI_RAZSOC
             txtDomici.Text = ChkNull(rec!CLI_DOMICI)
@@ -2450,12 +2453,12 @@ End Sub
 
 Private Sub txtDesCli_LostFocus()
     If txtCliente.Text = "" And txtDesCli.Text <> "" Then
-        SQL = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC,C.CLI_DOMICI"
-        SQL = SQL & " FROM CLIENTE C"
-        SQL = SQL & " WHERE"
-        SQL = SQL & " C.CLI_RAZSOC LIKE '" & txtDesCli.Text & "%'"
+        sql = "SELECT C.CLI_CODIGO,C.CLI_RAZSOC,C.CLI_DOMICI"
+        sql = sql & " FROM CLIENTE C"
+        sql = sql & " WHERE"
+        sql = sql & " C.CLI_RAZSOC LIKE '" & txtDesCli.Text & "%'"
         If rec.State = 1 Then rec.Close
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             If rec.RecordCount > 1 Then
                 BuscarClientes "txtCliente", "CADENA", Trim(txtDesCli.Text)
@@ -2554,24 +2557,24 @@ Private Function BuscarFactura(CodCli As String) As Boolean
         Dim TotalDeuda As Double
         TotalDeuda = 0
         'BUSCA LAS FACTURAS
-        SQL = "SELECT FCL_NUMERO AS NUMERO, FCL_SUCURSAL AS SUCURSAL, "
-        SQL = SQL & " FCL_FECHA AS FECHA, FCL_TOTAL AS TOTAL, FCL_SALDO AS SALDO"
-        SQL = SQL & " ,TCO_CODIGO AS TIPO, TCO_ABREVIA AS ABREVIA"
-        SQL = SQL & " FROM SALDO_FACTURAS_CLIENTE_V"
-        SQL = SQL & " WHERE "
-        SQL = SQL & " CLI_CODIGO=" & XN(CodCli)
-        SQL = SQL & " UNION ALL"
+        sql = "SELECT FCL_NUMERO AS NUMERO, FCL_SUCURSAL AS SUCURSAL, "
+        sql = sql & " FCL_FECHA AS FECHA, FCL_TOTAL AS TOTAL, FCL_SALDO AS SALDO"
+        sql = sql & " ,TCO_CODIGO AS TIPO, TCO_ABREVIA AS ABREVIA"
+        sql = sql & " FROM SALDO_FACTURAS_CLIENTE_V"
+        sql = sql & " WHERE "
+        sql = sql & " CLI_CODIGO=" & XN(CodCli)
+        sql = sql & " UNION ALL"
         
         'BUSCA LAS NOTA DE DEBITO
-        SQL = SQL & " SELECT NDC_NUMERO AS NUMERO, NDC_SUCURSAL AS SUCURSAL, "
-        SQL = SQL & " NDC_FECHA AS FECHA, NDC_TOTAL AS TOTAL, NDC_SALDO AS SALDO"
-        SQL = SQL & " ,TCO_CODIGO AS TIPO, TCO_ABREVIA AS ABREVIA"
-        SQL = SQL & " FROM SALDO_NOTA_DEBITO_CLIENTE_V"
-        SQL = SQL & " WHERE "
-        SQL = SQL & " CLI_CODIGO=" & XN(CodCli)
-        SQL = SQL & " ORDER BY FECHA , NUMERO ASC"
+        sql = sql & " SELECT NDC_NUMERO AS NUMERO, NDC_SUCURSAL AS SUCURSAL, "
+        sql = sql & " NDC_FECHA AS FECHA, NDC_TOTAL AS TOTAL, NDC_SALDO AS SALDO"
+        sql = sql & " ,TCO_CODIGO AS TIPO, TCO_ABREVIA AS ABREVIA"
+        sql = sql & " FROM SALDO_NOTA_DEBITO_CLIENTE_V"
+        sql = sql & " WHERE "
+        sql = sql & " CLI_CODIGO=" & XN(CodCli)
+        sql = sql & " ORDER BY FECHA , NUMERO ASC"
         
-        Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If Rec1.EOF = False Then
             Do While Rec1.EOF = False
                 If Rec1!Saldo > 0 Then
@@ -2594,18 +2597,18 @@ End Function
 Private Sub BuscarSaldosAFavor(CodCli As String)
         GrillaAFavor.Rows = 1
         Set Rec1 = New ADODB.Recordset
-        SQL = "SELECT RS.TCO_CODIGO, RS.REC_NUMERO, RS.REC_SUCURSAL, RS.REC_FECHA,"
-        SQL = SQL & " RS.REC_TOTSALDO,RS.REC_SALDO, T.TCO_ABREVIA"
-        SQL = SQL & " FROM RECIBO_CLIENTE_SALDO RS, RECIBO_CLIENTE R,TIPO_COMPROBANTE T"
-        SQL = SQL & " WHERE RS.TCO_CODIGO = T.TCO_CODIGO"
-        SQL = SQL & "   AND RS.TCO_CODIGO = R.TCO_CODIGO"
-        SQL = SQL & "   AND RS.REC_NUMERO = R.REC_NUMERO"
-        SQL = SQL & "   AND RS.REC_SUCURSAL = R.REC_SUCURSAL"
-        SQL = SQL & "   AND RS.REC_FECHA = R.REC_FECHA"
-        SQL = SQL & "   AND RS.REC_SALDO > 0"
-        SQL = SQL & "   AND R.CLI_CODIGO = " & XN(CodCli)
-        SQL = SQL & " ORDER BY RS.TCO_CODIGO,RS.REC_SUCURSAL,RS.REC_NUMERO, RS.REC_FECHA"
-        Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT RS.TCO_CODIGO, RS.REC_NUMERO, RS.REC_SUCURSAL, RS.REC_FECHA,"
+        sql = sql & " RS.REC_TOTSALDO,RS.REC_SALDO, T.TCO_ABREVIA"
+        sql = sql & " FROM RECIBO_CLIENTE_SALDO RS, RECIBO_CLIENTE R,TIPO_COMPROBANTE T"
+        sql = sql & " WHERE RS.TCO_CODIGO = T.TCO_CODIGO"
+        sql = sql & "   AND RS.TCO_CODIGO = R.TCO_CODIGO"
+        sql = sql & "   AND RS.REC_NUMERO = R.REC_NUMERO"
+        sql = sql & "   AND RS.REC_SUCURSAL = R.REC_SUCURSAL"
+        sql = sql & "   AND RS.REC_FECHA = R.REC_FECHA"
+        sql = sql & "   AND RS.REC_SALDO > 0"
+        sql = sql & "   AND R.CLI_CODIGO = " & XN(CodCli)
+        sql = sql & " ORDER BY RS.TCO_CODIGO,RS.REC_SUCURSAL,RS.REC_NUMERO, RS.REC_FECHA"
+        Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If Rec1.EOF = False Then
             GrillaAFavor.HighLight = flexHighlightAlways
             Do While Rec1.EOF = False
@@ -2702,9 +2705,9 @@ End Sub
 
 Private Function BuscoUltimoRecibo(TipoRec As Integer) As String
     'ACA BUSCA EL NUMERO DE REMITO SIGUIENTE AL ULTIMO CARGADO
-    SQL = "SELECT (RECIBO_C) + 1 AS REC_C"
-    SQL = SQL & " FROM PARAMETROS"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT (RECIBO_C) + 1 AS REC_C"
+    sql = sql & " FROM PARAMETROS"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Select Case TipoRec
             Case 12
@@ -2717,12 +2720,12 @@ End Function
 Private Sub BuscarRecibo(TipoRec As String, NroRec As String, NroSuc As String)
     Set Rec2 = New ADODB.Recordset
     
-    SQL = "SELECT * "
-    SQL = SQL & "  FROM RECIBO_CLIENTE"
-    SQL = SQL & " WHERE TCO_CODIGO = " & XN(TipoRec)
-    SQL = SQL & "   AND REC_NUMERO = " & XN(NroRec)
-    SQL = SQL & "   AND REC_SUCURSAL = " & XN(NroSuc)
-    Rec2.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT * "
+    sql = sql & "  FROM RECIBO_CLIENTE"
+    sql = sql & " WHERE TCO_CODIGO = " & XN(TipoRec)
+    sql = sql & "   AND REC_NUMERO = " & XN(NroRec)
+    sql = sql & "   AND REC_SUCURSAL = " & XN(NroSuc)
+    Rec2.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec2.EOF = False Then
         If Rec2.RecordCount > 2 Then
             Rec2.Close
@@ -2740,12 +2743,12 @@ Private Sub BuscarRecibo(TipoRec As String, NroRec As String, NroSuc As String)
         
         'DETALLE_DEL RECIBO CHEQUES
         Set rec = New ADODB.Recordset
-        SQL = "SELECT *"
-        SQL = SQL & " FROM DETALLE_RECIBO_CLIENTE"
-        SQL = SQL & " WHERE TCO_CODIGO =" & XN(TipoRec)
-        SQL = SQL & "   AND REC_NUMERO =" & XN(NroRec)
-        SQL = SQL & "   AND REC_SUCURSAL =" & XN(NroSuc)
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT *"
+        sql = sql & " FROM DETALLE_RECIBO_CLIENTE"
+        sql = sql & " WHERE TCO_CODIGO =" & XN(TipoRec)
+        sql = sql & "   AND REC_NUMERO =" & XN(NroRec)
+        sql = sql & "   AND REC_SUCURSAL =" & XN(NroSuc)
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         
         If rec.EOF = False Then
             Do While rec.EOF = False
@@ -2780,12 +2783,12 @@ Private Sub BuscarRecibo(TipoRec As String, NroRec As String, NroSuc As String)
         rec.Close
                    
         'DETALLE_DEL RECIBO FACTURA
-        SQL = "SELECT * "
-        SQL = SQL & " FROM FACTURAS_RECIBO_CLIENTE"
-        SQL = SQL & " WHERE TCO_CODIGO=" & XN(TipoRec)
-        SQL = SQL & "   AND REC_NUMERO=" & XN(NroRec)
-        SQL = SQL & "   AND REC_SUCURSAL=" & XN(NroSuc)
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT * "
+        sql = sql & " FROM FACTURAS_RECIBO_CLIENTE"
+        sql = sql & " WHERE TCO_CODIGO=" & XN(TipoRec)
+        sql = sql & "   AND REC_NUMERO=" & XN(NroRec)
+        sql = sql & "   AND REC_SUCURSAL=" & XN(NroSuc)
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         
         If rec.EOF = False Then
             Do While rec.EOF = False
@@ -2811,12 +2814,12 @@ End Sub
 Private Function BuscarCheque(Codigo As String, NroChe As String) As String
     
     Set Rec1 = New ADODB.Recordset
-    SQL = "SELECT B.BAN_DESCRI,C.CHE_IMPORT,C.CHE_FECVTO"
-    SQL = SQL & " FROM BANCO B, CHEQUE C"
-    SQL = SQL & " WHERE C.BAN_CODINT=" & XN(Codigo)
-    SQL = SQL & " AND C.CHE_NUMERO=" & XS(NroChe)
-    SQL = SQL & " AND C.BAN_CODINT=B.BAN_CODINT"
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT B.BAN_DESCRI,C.CHE_IMPORT,C.CHE_FECVTO"
+    sql = sql & " FROM BANCO B, CHEQUE C"
+    sql = sql & " WHERE C.BAN_CODINT=" & XN(Codigo)
+    sql = sql & " AND C.CHE_NUMERO=" & XS(NroChe)
+    sql = sql & " AND C.BAN_CODINT=B.BAN_CODINT"
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         grillaValores.AddItem "CHE" & Chr(9) & Valido_Importe(Rec1!CHE_IMPORT) & Chr(9) & Rec1!CHE_FECVTO _
                            & Chr(9) & Rec1!BAN_DESCRI & Chr(9) & NroChe & Chr(9) & Codigo
@@ -2827,10 +2830,10 @@ End Function
 Private Function BuscarMoneda(Codigo As String) As String
     
     Set Rec1 = New ADODB.Recordset
-    SQL = "SELECT MON_DESCRI"
-    SQL = SQL & " FROM MONEDA"
-    SQL = SQL & " WHERE MON_CODIGO=" & XN(Codigo)
-    Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT MON_DESCRI"
+    sql = sql & " FROM MONEDA"
+    sql = sql & " WHERE MON_CODIGO=" & XN(Codigo)
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If Rec1.EOF = False Then
         BuscarMoneda = Rec1!MON_DESCRI
     Else
@@ -2871,7 +2874,7 @@ Public Sub BuscarClientes(Txt As String, mQuien As String, Optional mCadena As S
         End If
         
         hSQL = "Nombre, Código"
-        .SQL = cSQL
+        .sql = cSQL
         .Headers = hSQL
         .Field = "CLI_RAZSOC"
         campo1 = .Field

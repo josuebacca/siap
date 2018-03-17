@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmEntradaProductos 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Movimiento de Mercadería"
@@ -73,6 +73,7 @@ Begin VB.Form frmEntradaProductos
       _ExtentY        =   10478
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   529
       ForeColor       =   -2147483630
@@ -87,7 +88,7 @@ Begin VB.Form frmEntradaProductos
       EndProperty
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmEntradaProductos.frx":19AA
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Label6"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "FrameGeneral"
@@ -101,14 +102,17 @@ Begin VB.Form frmEntradaProductos
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmEntradaProductos.frx":19C6
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameVer"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "GRDGrilla"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame4"
-      Tab(1).Control(2)=   "GRDGrilla"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "frameVer"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).ControlCount=   3
       Begin VB.TextBox txtObservaciones 
          Height          =   465
-         Left            =   1275
+         Left            =   -73725
          MaxLength       =   199
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
@@ -128,7 +132,7 @@ Begin VB.Form frmEntradaProductos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   540
-         Left            =   -74910
+         Left            =   90
          TabIndex        =   48
          Top             =   6480
          Width           =   9090
@@ -182,10 +186,36 @@ Begin VB.Form frmEntradaProductos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1440
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   22
          Top             =   345
          Width           =   9045
+         Begin MSComCtl2.DTPicker FechaHasta 
+            Height          =   315
+            Left            =   4440
+            TabIndex        =   18
+            Top             =   1080
+            Width           =   1335
+            _ExtentX        =   2355
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
+         Begin MSComCtl2.DTPicker FechaDesde 
+            Height          =   315
+            Left            =   2040
+            TabIndex        =   17
+            Top             =   1080
+            Width           =   1215
+            _ExtentX        =   2143
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
          Begin VB.ComboBox cboMovimiento1 
             Height          =   315
             Left            =   1965
@@ -230,30 +260,6 @@ Begin VB.Form frmEntradaProductos
             Top             =   885
             UseMaskColor    =   -1  'True
             Width           =   2175
-         End
-         Begin FechaCtl.Fecha FechaHasta 
-            Height          =   285
-            Left            =   4455
-            TabIndex        =   18
-            Top             =   1020
-            Width           =   1185
-            _ExtentX        =   2090
-            _ExtentY        =   503
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-         End
-         Begin FechaCtl.Fecha FechaDesde 
-            Height          =   330
-            Left            =   1965
-            TabIndex        =   17
-            Top             =   1020
-            Width           =   1170
-            _ExtentX        =   2064
-            _ExtentY        =   582
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
          End
          Begin VB.Label Label11 
             AutoSize        =   -1  'True
@@ -311,7 +317,7 @@ Begin VB.Form frmEntradaProductos
       End
       Begin MSFlexGridLib.MSFlexGrid GRDGrilla 
          Height          =   3960
-         Left            =   -74895
+         Left            =   105
          TabIndex        =   20
          Top             =   1830
          Width           =   9105
@@ -347,7 +353,7 @@ Begin VB.Form frmEntradaProductos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   3765
-         Left            =   90
+         Left            =   -74910
          TabIndex        =   27
          Top             =   1605
          Width           =   9105
@@ -543,7 +549,7 @@ Begin VB.Form frmEntradaProductos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   345
-         Left            =   45
+         Left            =   -74955
          TabIndex        =   45
          Top             =   5565
          Visible         =   0   'False
@@ -640,10 +646,23 @@ Begin VB.Form frmEntradaProductos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1260
-         Left            =   90
+         Left            =   -74910
          TabIndex        =   35
          Top             =   360
          Width           =   9105
+         Begin MSComCtl2.DTPicker Fecha 
+            Height          =   315
+            Left            =   2880
+            TabIndex        =   37
+            Top             =   240
+            Width           =   1455
+            _ExtentX        =   2566
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
          Begin VB.TextBox txtSigno 
             Alignment       =   2  'Center
             BeginProperty Font 
@@ -705,18 +724,6 @@ Begin VB.Form frmEntradaProductos
             TabIndex        =   2
             Top             =   630
             Width           =   2775
-         End
-         Begin FechaCtl.Fecha Fecha 
-            Height          =   360
-            Left            =   2775
-            TabIndex        =   37
-            Top             =   300
-            Width           =   1155
-            _ExtentX        =   2037
-            _ExtentY        =   635
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
          End
          Begin VB.Label Label1 
             AutoSize        =   -1  'True
@@ -796,7 +803,7 @@ Begin VB.Form frmEntradaProductos
          AutoSize        =   -1  'True
          Caption         =   "Observaciones:"
          Height          =   195
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   52
          Top             =   5400
          Width           =   1125
@@ -851,10 +858,10 @@ Dim VnumeroListado As Long
 
 Private Sub cboMovimiento_Click()
     If cboMovimiento.ListIndex <> -1 Then
-        SQL = "SELECT ESP_SIGNO "
-        SQL = SQL & " FROM ESTADO_PRODUCTO"
-        SQL = SQL & " WHERE ESP_CODIGO=" & cboMovimiento.ItemData(cboMovimiento.ListIndex)
-        Rec2.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT ESP_SIGNO "
+        sql = sql & " FROM ESTADO_PRODUCTO"
+        sql = sql & " WHERE ESP_CODIGO=" & cboMovimiento.ItemData(cboMovimiento.ListIndex)
+        Rec2.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If Rec2.EOF = False Then
             txtSigno.Text = ChkNull(Rec2!ESP_SIGNO)
         End If
@@ -910,30 +917,30 @@ Private Sub cmdBorrar_Click()
                 DBConn.BeginTrans
                 
                 'ANULO LA ENTRADA
-                SQL = "UPDATE ENTRADA_PRODUCTO"
-                SQL = SQL & " SET EST_CODIGO=2"
-                SQL = SQL & " WHERE EPR_CODIGO=" & XN(txtNumero.Text)
-                DBConn.Execute SQL
+                sql = "UPDATE ENTRADA_PRODUCTO"
+                sql = sql & " SET EST_CODIGO=2"
+                sql = sql & " WHERE EPR_CODIGO=" & XN(txtNumero.Text)
+                DBConn.Execute sql
                 
                 'ACTUALIZO EL DETALLE
                 For i = 1 To GrdModulos.Rows - 1
-                    SQL = "UPDATE STOCK"
-                    SQL = SQL & " SET DST_STKFIS = DST_STKFIS "
+                    sql = "UPDATE STOCK"
+                    sql = sql & " SET DST_STKFIS = DST_STKFIS "
                     If Trim(txtSigno.Text) = "+" Then
-                        SQL = SQL & " - "
+                        sql = sql & " - "
                     Else
-                        SQL = SQL & " + "
+                        sql = sql & " + "
                     End If
-                    SQL = SQL & XN(GrdModulos.TextMatrix(i, 2))
-                    SQL = SQL & " WHERE STK_CODIGO = " & XN(cboStock.ItemData(cboStock.ListIndex))
-                    SQL = SQL & " AND PTO_CODIGO = " & XN(GrdModulos.TextMatrix(i, 4))
-                    DBConn.Execute SQL
+                    sql = sql & XN(GrdModulos.TextMatrix(i, 2))
+                    sql = sql & " WHERE STK_CODIGO = " & XN(cboStock.ItemData(cboStock.ListIndex))
+                    sql = sql & " AND PTO_CODIGO = " & XN(GrdModulos.TextMatrix(i, 4))
+                    DBConn.Execute sql
                 Next
                 DBConn.CommitTrans
             End If
             lblEstado.Caption = ""
             Screen.MousePointer = vbNormal
-            cmdNuevo_Click
+            CmdNuevo_Click
         End If
     End If
   Exit Sub
@@ -949,20 +956,20 @@ Private Sub CmdBuscAprox_Click()
     Screen.MousePointer = vbHourglass
     
     Set rec = New ADODB.Recordset
-    SQL = "SELECT E.EPR_CODIGO, E.EPR_FECHA, V.VEN_NOMBRE"
-    SQL = SQL & " FROM ENTRADA_PRODUCTO E, VENDEDOR V"
-    SQL = SQL & " WHERE E.VEN_CODIGO = V.VEN_CODIGO"
+    sql = "SELECT E.EPR_CODIGO, E.EPR_FECHA, V.VEN_NOMBRE"
+    sql = sql & " FROM ENTRADA_PRODUCTO E, VENDEDOR V"
+    sql = sql & " WHERE E.VEN_CODIGO = V.VEN_CODIGO"
     If cboEmpleado1.List(cboEmpleado1.ListIndex) <> "(Todos)" Then
-        SQL = SQL & " AND V.VEN_CODIGO = " & XN(cboEmpleado1.ItemData(cboEmpleado1.ListIndex))
+        sql = sql & " AND V.VEN_CODIGO = " & XN(cboEmpleado1.ItemData(cboEmpleado1.ListIndex))
     End If
     If cboMovimiento1.List(cboMovimiento1.ListIndex) <> "(Todos)" Then
-        SQL = SQL & " AND E.ESP_CODIGO=" & XN(cboMovimiento1.ItemData(cboMovimiento1.ListIndex))
+        sql = sql & " AND E.ESP_CODIGO=" & XN(cboMovimiento1.ItemData(cboMovimiento1.ListIndex))
     End If
-    If FechaDesde.Text <> "" Then SQL = SQL & " AND E.EPR_FECHA>=" & XDQ(FechaDesde)
-    If FechaHasta.Text <> "" Then SQL = SQL & " AND E.EPR_FECHA<=" & XDQ(FechaHasta)
-    SQL = SQL & " ORDER BY E.EPR_CODIGO"
+    If FechaDesde.Text <> "" Then sql = sql & " AND E.EPR_FECHA>=" & XDQ(FechaDesde)
+    If FechaHasta.Text <> "" Then sql = sql & " AND E.EPR_FECHA<=" & XDQ(FechaHasta)
+    sql = sql & " ORDER BY E.EPR_CODIGO"
     
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
       
     If rec.EOF = False Then
         grdGrilla.Rows = 1
@@ -1000,48 +1007,48 @@ Private Sub cmdGrabar_Click()
         lblEstado.Caption = "Guardando ..."
         DBConn.BeginTrans
         
-        SQL = "SELECT EPR_FECHA FROM ENTRADA_PRODUCTO"
-        SQL = SQL & " WHERE EPR_CODIGO = " & XN(txtNumero.Text)
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT EPR_FECHA FROM ENTRADA_PRODUCTO"
+        sql = sql & " WHERE EPR_CODIGO = " & XN(txtNumero.Text)
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         
         If rec.EOF = True Then
            'INSERTO EN LA TABLA ENTRADA_PRODUCTO
-           SQL = "INSERT INTO ENTRADA_PRODUCTO(EPR_CODIGO,EPR_FECHA,VEN_CODIGO,"
-           SQL = SQL & " STK_CODIGO,ESP_CODIGO,"
-           SQL = SQL & " EST_CODIGO,EPR_OBSERVACIONES)"
-           SQL = SQL & " VALUES ("
-           SQL = SQL & XN(txtNumero) & ","
-           SQL = SQL & XDQ(Fecha.Text) & ","
-           SQL = SQL & XN(cboEmpleado.ItemData(cboEmpleado.ListIndex)) & ","
-           SQL = SQL & XN(cboStock.ItemData(cboStock.ListIndex)) & ","
-           SQL = SQL & XN(cboMovimiento.ItemData(cboMovimiento.ListIndex)) & ","
+           sql = "INSERT INTO ENTRADA_PRODUCTO(EPR_CODIGO,EPR_FECHA,VEN_CODIGO,"
+           sql = sql & " STK_CODIGO,ESP_CODIGO,"
+           sql = sql & " EST_CODIGO,EPR_OBSERVACIONES)"
+           sql = sql & " VALUES ("
+           sql = sql & XN(txtNumero) & ","
+           sql = sql & XDQ(Fecha.Text) & ","
+           sql = sql & XN(cboEmpleado.ItemData(cboEmpleado.ListIndex)) & ","
+           sql = sql & XN(cboStock.ItemData(cboStock.ListIndex)) & ","
+           sql = sql & XN(cboMovimiento.ItemData(cboMovimiento.ListIndex)) & ","
            'sql = sql & XN(txtCodCliente.Text) & "," 'SI DEVUELVE PRODUCTOS
-           SQL = SQL & " 3," 'ESTADO DEFINITIVO
-           SQL = SQL & XS(txtObservaciones.Text) & ")"
-           DBConn.Execute SQL
+           sql = sql & " 3," 'ESTADO DEFINITIVO
+           sql = sql & XS(txtObservaciones.Text) & ")"
+           DBConn.Execute sql
            
            'INSERTO EN LA TABLA DETALLE_ENTRADA_PRODUCTO
            For i = 1 To GrdModulos.Rows - 1
-               SQL = "INSERT INTO DETALLE_ENTRADA_PRODUCTO(EPR_CODIGO,PTO_CODIGO,DEP_CANTIDAD)"
-               SQL = SQL & " VALUES ("
-               SQL = SQL & XN(txtNumero.Text) & ","
-               SQL = SQL & XN(GrdModulos.TextMatrix(i, 4)) & ","
-               SQL = SQL & XN(GrdModulos.TextMatrix(i, 2)) & " )"
-               DBConn.Execute SQL
+               sql = "INSERT INTO DETALLE_ENTRADA_PRODUCTO(EPR_CODIGO,PTO_CODIGO,DEP_CANTIDAD)"
+               sql = sql & " VALUES ("
+               sql = sql & XN(txtNumero.Text) & ","
+               sql = sql & XN(GrdModulos.TextMatrix(i, 4)) & ","
+               sql = sql & XN(GrdModulos.TextMatrix(i, 2)) & " )"
+               DBConn.Execute sql
            Next
     
             'ACTUALIZO DETALLE_STOCK
             For i = 1 To GrdModulos.Rows - 1
-                SQL = "UPDATE STOCK"
-                SQL = SQL & " SET DST_STKFIS = DST_STKFIS  " & Trim(txtSigno.Text) & XN(GrdModulos.TextMatrix(i, 2))
-                SQL = SQL & " WHERE STK_CODIGO= " & XN(cboStock.ItemData(cboStock.ListIndex))
-                SQL = SQL & " AND PTO_CODIGO =" & XN(GrdModulos.TextMatrix(i, 4))
-                DBConn.Execute SQL
+                sql = "UPDATE STOCK"
+                sql = sql & " SET DST_STKFIS = DST_STKFIS  " & Trim(txtSigno.Text) & XN(GrdModulos.TextMatrix(i, 2))
+                sql = sql & " WHERE STK_CODIGO= " & XN(cboStock.ItemData(cboStock.ListIndex))
+                sql = sql & " AND PTO_CODIGO =" & XN(GrdModulos.TextMatrix(i, 4))
+                DBConn.Execute sql
             Next
             
             'ACTUALIZO LA TABLA PARAMENTROS
-            SQL = "UPDATE PARAMETROS SET RECEPCION_MERCADERIA=" & XN(txtNumero.Text)
-            DBConn.Execute SQL
+            sql = "UPDATE PARAMETROS SET RECEPCION_MERCADERIA=" & XN(txtNumero.Text)
+            DBConn.Execute sql
         Else
             MsgBox "La Recepción de Mercadería ya fue registrada", vbCritical, TIT_MSGBOX
         End If
@@ -1049,7 +1056,7 @@ Private Sub cmdGrabar_Click()
         Screen.MousePointer = vbNormal
         lblEstado.Caption = ""
         DBConn.CommitTrans
-        cmdNuevo_Click
+        CmdNuevo_Click
     Exit Sub
          
 HayError2:
@@ -1082,7 +1089,7 @@ Function ValidarEntrada()
     ValidarEntrada = True
 End Function
 
-Private Sub cmdNuevo_Click()
+Private Sub CmdNuevo_Click()
     txtNumero.Text = ""
     txtObservaciones.Text = ""
     cboEmpleado.ListIndex = 0
@@ -1121,7 +1128,7 @@ Private Sub cmdQuitar_Click()
     End If
 End Sub
 
-Private Sub cmdSalir_Click()
+Private Sub CmdSalir_Click()
     If MsgBox("Seguro que desea Salir", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
         Set frmEntradaProductos = Nothing
         Unload Me
@@ -1150,7 +1157,7 @@ End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
     If KeyAscii = vbKeyReturn Then MySendKeys Chr(9)
-    If KeyAscii = vbKeyEscape Then cmdSalir_Click
+    If KeyAscii = vbKeyEscape Then CmdSalir_Click
 End Sub
 
 Private Sub Form_Load()
@@ -1180,8 +1187,8 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub BuscoNumeroRecepcion()
-    SQL = "SELECT (RECEPCION_MERCADERIA + 1) AS NUMERO_REP FROM PARAMETROS"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT (RECEPCION_MERCADERIA + 1) AS NUMERO_REP FROM PARAMETROS"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         txtNumero.Text = Format(rec!NUMERO_REP, "00000000")
     End If
@@ -1189,10 +1196,10 @@ Private Sub BuscoNumeroRecepcion()
 End Sub
 
 Private Sub CargoComboEstadoProducto()
-    SQL = "SELECT ESP_DESCRI,ESP_CODIGO "
-    SQL = SQL & " FROM ESTADO_PRODUCTO"
-    SQL = SQL & " ORDER BY ESP_CODIGO"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT ESP_DESCRI,ESP_CODIGO "
+    sql = sql & " FROM ESTADO_PRODUCTO"
+    sql = sql & " ORDER BY ESP_CODIGO"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboMovimiento1.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -1245,9 +1252,9 @@ Private Sub preparogrilla()
 End Sub
 
 Private Sub cargocboEmpl()
-    SQL = "SELECT VEN_CODIGO, VEN_NOMBRE"
-    SQL = SQL & " FROM VENDEDOR ORDER BY VEN_NOMBRE"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    sql = "SELECT VEN_CODIGO, VEN_NOMBRE"
+    sql = sql & " FROM VENDEDOR ORDER BY VEN_NOMBRE"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         cboEmpleado1.AddItem "(Todos)"
         Do While rec.EOF = False
@@ -1280,7 +1287,7 @@ End Sub
 
 Private Sub GRDGrilla_DblClick()
     If grdGrilla.Rows > 1 Then
-        cmdNuevo_Click
+        CmdNuevo_Click
         txtNumero.Text = grdGrilla.TextMatrix(grdGrilla.RowSel, 0)
         Fecha.Text = grdGrilla.TextMatrix(grdGrilla.RowSel, 1)
         txtNumero_LostFocus
@@ -1395,18 +1402,18 @@ Private Sub txtCodCliente_LostFocus()
 End Sub
 
 Private Function BuscoCliente(Codigo As String) As String
-        SQL = "SELECT C.CLI_CODIGO, C.CLI_RAZSOC"
-        SQL = SQL & " FROM CLIENTE C"
-        SQL = SQL & " WHERE"
+        sql = "SELECT C.CLI_CODIGO, C.CLI_RAZSOC"
+        sql = sql & " FROM CLIENTE C"
+        sql = sql & " WHERE"
         If txtCodCliente.Text <> "" Then
-            SQL = SQL & " C.CLI_CODIGO=" & XN(Codigo)
+            sql = sql & " C.CLI_CODIGO=" & XN(Codigo)
         Else
-            SQL = SQL & " C.CLI_RAZSOC LIKE '" & Trim(Codigo) & "%'"
+            sql = sql & " C.CLI_RAZSOC LIKE '" & Trim(Codigo) & "%'"
         End If
-        BuscoCliente = SQL
+        BuscoCliente = sql
 End Function
 
-Private Sub TxtCodigo_Change()
+Private Sub txtcodigo_Change()
     If txtcodigo.Text = "" Then
         txtcodigo.Text = ""
         txtDescri.Text = ""
@@ -1418,7 +1425,7 @@ Private Sub TxtCodigo_Change()
     End If
 End Sub
 
-Private Sub TxtCodigo_GotFocus()
+Private Sub txtcodigo_GotFocus()
     SelecTexto txtcodigo
 End Sub
 
@@ -1429,23 +1436,23 @@ Private Sub txtcodigo_KeyDown(KeyCode As Integer, Shift As Integer)
     End If
 End Sub
 
-Private Sub TxtCodigo_KeyPress(KeyAscii As Integer)
+Private Sub txtcodigo_KeyPress(KeyAscii As Integer)
     KeyAscii = CarTexto(KeyAscii)
 End Sub
 
 Private Sub TxtCodigo_LostFocus()
     If txtcodigo.Text <> "" Then
         Set rec = New ADODB.Recordset
-        SQL = " SELECT P.PTO_DESCRI, P.PTO_CODIGO"
-        SQL = SQL & " FROM PRODUCTO P"
-        SQL = SQL & " WHERE"
+        sql = " SELECT P.PTO_DESCRI, P.PTO_CODIGO"
+        sql = sql & " FROM PRODUCTO P"
+        sql = sql & " WHERE"
         If IsNumeric(txtcodigo.Text) Then
-            SQL = SQL & " P.PTO_CODIGO =" & XN(txtcodigo.Text) & " OR P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
+            sql = sql & " P.PTO_CODIGO =" & XN(txtcodigo.Text) & " OR P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
         Else
-            SQL = SQL & " P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
+            sql = sql & " P.PTO_CODBARRAS=" & XS(txtcodigo.Text)
         End If
-        SQL = SQL & " ORDER BY P.PTO_CODIGO"
-        rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = sql & " ORDER BY P.PTO_CODIGO"
+        rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If rec.EOF = False Then
             txtDescri.Text = Trim(rec!PTO_DESCRI)
             txtCodInt.Text = rec!PTO_CODIGO
@@ -1458,11 +1465,11 @@ Private Sub TxtCodigo_LostFocus()
 End Sub
 
 Private Sub CargocboStock()
-    SQL = "SELECT SUC_CODIGO, SUC_DESCRI "
-    SQL = SQL & " FROM SUCURSAL R "
-    SQL = SQL & " WHERE SUC_CODIGO = " & XN(Sucursal)
+    sql = "SELECT SUC_CODIGO, SUC_DESCRI "
+    sql = sql & " FROM SUCURSAL R "
+    sql = sql & " WHERE SUC_CODIGO = " & XN(Sucursal)
     'sql = sql & " ORDER BY S.STK_CODIGO"
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Do While rec.EOF = False
             cboStock.AddItem rec!SUC_DESCRI
@@ -1499,10 +1506,10 @@ Private Sub txtDescri_LostFocus()
    If txtcodigo.Text = "" And txtDescri.Text <> "" Then
         Set Rec1 = New ADODB.Recordset
         Screen.MousePointer = vbHourglass
-        SQL = "SELECT PTO_CODIGO, PTO_DESCRI, PTO_CODBARRAS"
-        SQL = SQL & " FROM PRODUCTO"
-        SQL = SQL & " WHERE PTO_DESCRI LIKE '" & txtDescri.Text & "%'"
-        Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT PTO_CODIGO, PTO_DESCRI, PTO_CODBARRAS"
+        sql = sql & " FROM PRODUCTO"
+        sql = sql & " WHERE PTO_DESCRI LIKE '" & txtDescri.Text & "%'"
+        Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If Rec1.EOF = False Then
             If Rec1.RecordCount > 1 Then
                 'grdGrilla.SetFocus
@@ -1535,9 +1542,9 @@ End Sub
 Private Sub txtNumero_LostFocus()
     If txtNumero.Text <> "" Then
         Set Rec1 = New ADODB.Recordset
-        SQL = "SELECT * FROM ENTRADA_PRODUCTO"
-        SQL = SQL & " WHERE EPR_CODIGO=" & XN(txtNumero)
-        Rec1.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+        sql = "SELECT * FROM ENTRADA_PRODUCTO"
+        sql = sql & " WHERE EPR_CODIGO=" & XN(txtNumero)
+        Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
         If Rec1.EOF = False Then
             Fecha.Text = Rec1!EPR_FECHA
             Call BuscaCodigoProxItemData(Rec1!VEN_CODIGO, cboEmpleado)
@@ -1562,7 +1569,7 @@ Private Sub txtNumero_LostFocus()
             FrameProducto.Enabled = False
         Else
             MsgBox "El Movimiento no existe", vbExclamation, TIT_MSGBOX
-            cmdNuevo_Click
+            CmdNuevo_Click
             cboStock.SetFocus
         End If
         Rec1.Close
@@ -1572,14 +1579,14 @@ End Sub
 Private Sub CargoGrilla(Campo As Integer)
     
     Screen.MousePointer = vbHourglass
-    SQL = "SELECT DISTINCT  P.PTO_DESCRI, P.PTO_CODBARRAS,"
-    SQL = SQL & " D.DEP_CANTIDAD, E.EPR_CODIGO, E.EPR_FECHA,P.PTO_CODIGO"
-    SQL = SQL & " FROM ENTRADA_PRODUCTO E, PRODUCTO P, DETALLE_ENTRADA_PRODUCTO D"
-    SQL = SQL & " WHERE P.PTO_CODIGO = D.PTO_CODIGO AND D.EPR_CODIGO = E.EPR_CODIGO"
-    SQL = SQL & " AND E.EPR_CODIGO = " & Campo & " ORDER BY E.EPR_CODIGO"
+    sql = "SELECT DISTINCT  P.PTO_DESCRI, P.PTO_CODBARRAS,"
+    sql = sql & " D.DEP_CANTIDAD, E.EPR_CODIGO, E.EPR_FECHA,P.PTO_CODIGO"
+    sql = sql & " FROM ENTRADA_PRODUCTO E, PRODUCTO P, DETALLE_ENTRADA_PRODUCTO D"
+    sql = sql & " WHERE P.PTO_CODIGO = D.PTO_CODIGO AND D.EPR_CODIGO = E.EPR_CODIGO"
+    sql = sql & " AND E.EPR_CODIGO = " & Campo & " ORDER BY E.EPR_CODIGO"
         
     lblEstado.Caption = "Buscando..."
-    rec.Open SQL, DBConn, adOpenStatic, adLockOptimistic
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         GrdModulos.Rows = 1
         GrdModulos.HighLight = flexHighlightAlways
@@ -1623,7 +1630,7 @@ Public Sub BuscarProducto(mQuien As String, Optional mCadena As String)
         End If
         
         hSQL = "Descripción, Código"
-        .SQL = cSQL
+        .sql = cSQL
         .Headers = hSQL
         .Field = "PTO_DESCRI"
         campo1 = .Field

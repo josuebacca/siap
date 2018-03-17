@@ -173,6 +173,17 @@ Private Sub cmdAceptarFiltro_Click()
                     " WHERE VIA_DESCRI LIKE " & XS("%" & txtBusqueda.Text & "%")
             End If
             
+             If .Caption = "Actualización de Comidas" Then
+                .sql = "SELECT COM_DESCRI, COM_CODIGO " & _
+                    " FROM COMIDAS  " & _
+                    " WHERE COM_DESCRI LIKE " & XS("%" & txtBusqueda.Text & "%")
+            End If
+            If .Caption = "Actualización de Tipo de Comidas" Then
+                .sql = "SELECT TCOM_DESCRI, TCOM_CODIGO " & _
+                    " FROM TIPO_COMIDA  " & _
+                    " WHERE COM_DESCRI LIKE " & XS("%" & txtBusqueda.Text & "%")
+            End If
+            
         Else
         
         
@@ -258,6 +269,16 @@ Private Sub cmdAceptarFiltro_Click()
             If .Caption = "Actualización de Viandas" Then
                 .sql = "SELECT VIA_DESCRI, VIA_CODIGO " & _
                     " FROM VIANDAS  "
+            End If
+            
+                        
+            If .Caption = "Actualización de Comidas" Then
+                .sql = "SELECT COM_DESCRI, COM_CODIGO " & _
+                    " FROM COMIDAS  "
+            End If
+            If .Caption = "Actualización de Tipo de Comida" Then
+                .sql = "SELECT TCOM_DESCRI, TCOM_CODIGO " & _
+                    " FROM TIPO_COMIDA  "
             End If
         End If
         CargarListView .FormBase, auxListView, .sql, .FieldID, .HeaderSQL, .FormBase.ImgLstLista

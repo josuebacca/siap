@@ -1,8 +1,8 @@
 VERSION 5.00
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmFacturaCliente 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Factura de Clientes..."
@@ -392,6 +392,7 @@ Begin VB.Form frmFacturaCliente
       _ExtentY        =   10160
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   512
       ForeColor       =   -2147483630
@@ -406,7 +407,7 @@ Begin VB.Form frmFacturaCliente
       EndProperty
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmFacturaCliente.frx":0012
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Frame3"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Frame1"
@@ -418,7 +419,7 @@ Begin VB.Form frmFacturaCliente
       Tab(0).ControlCount=   4
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmFacturaCliente.frx":002E
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "GrdModulos"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "frameBuscar"
@@ -436,7 +437,7 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1395
-         Left            =   3585
+         Left            =   -71415
          TabIndex        =   46
          Top             =   345
          Width           =   6675
@@ -545,10 +546,36 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1470
-         Left            =   -74805
+         Left            =   195
          TabIndex        =   31
          Top             =   420
          Width           =   9990
+         Begin MSComCtl2.DTPicker FechaHasta 
+            Height          =   315
+            Left            =   6120
+            TabIndex        =   19
+            Top             =   720
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
+         Begin MSComCtl2.DTPicker FechaDesde 
+            Height          =   315
+            Left            =   2520
+            TabIndex        =   18
+            Top             =   720
+            Width           =   1695
+            _ExtentX        =   2990
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
          Begin VB.TextBox txtBuscarCliDescri 
             BeginProperty Font 
                Name            =   "Tahoma"
@@ -594,30 +621,6 @@ Begin VB.Form frmFacturaCliente
             Top             =   915
             UseMaskColor    =   -1  'True
             Width           =   1575
-         End
-         Begin FechaCtl.Fecha FechaHasta 
-            Height          =   285
-            Left            =   6210
-            TabIndex        =   19
-            Top             =   675
-            Width           =   1185
-            _ExtentX        =   2090
-            _ExtentY        =   503
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-         End
-         Begin FechaCtl.Fecha FechaDesde 
-            Height          =   330
-            Left            =   2490
-            TabIndex        =   18
-            Top             =   675
-            Width           =   1170
-            _ExtentX        =   2064
-            _ExtentY        =   582
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
          End
          Begin VB.Label lbl 
             Appearance      =   0  'Flat
@@ -673,10 +676,23 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1395
-         Left            =   105
+         Left            =   -74895
          TabIndex        =   29
          Top             =   345
          Width           =   3480
+         Begin MSComCtl2.DTPicker FechaFactura 
+            Height          =   315
+            Left            =   960
+            TabIndex        =   3
+            Top             =   960
+            Width           =   1095
+            _ExtentX        =   1931
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109445121
+            CurrentDate     =   43174
+         End
          Begin VB.TextBox txtNroSucursal 
             BeginProperty Font 
                Name            =   "Tahoma"
@@ -717,18 +733,6 @@ Begin VB.Form frmFacturaCliente
             TabIndex        =   2
             Top             =   645
             Width           =   1155
-         End
-         Begin FechaCtl.Fecha FechaFactura 
-            Height          =   285
-            Left            =   945
-            TabIndex        =   3
-            Top             =   1005
-            Width           =   1155
-            _ExtentX        =   2037
-            _ExtentY        =   503
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
          End
          Begin VB.Label Label8 
             AutoSize        =   -1  'True
@@ -789,7 +793,7 @@ Begin VB.Form frmFacturaCliente
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
          Height          =   3705
-         Left            =   -74835
+         Left            =   165
          TabIndex        =   22
          Top             =   1935
          Width           =   10020
@@ -816,7 +820,7 @@ Begin VB.Form frmFacturaCliente
       End
       Begin VB.Frame Frame1 
          Height          =   615
-         Left            =   105
+         Left            =   -74895
          TabIndex        =   55
          Top             =   1650
          Width           =   10155
@@ -910,7 +914,7 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   3525
-         Left            =   105
+         Left            =   -74895
          TabIndex        =   30
          Top             =   2175
          Width           =   10155
@@ -1486,7 +1490,7 @@ Private Sub cmdGrabar_Click()
     'cmdImprimir_Click
     Screen.MousePointer = vbNormal
     lblEstado.Caption = ""
-    cmdNuevo_Click
+    CmdNuevo_Click
     Exit Sub
     
 HayErrorFactura:
@@ -1651,7 +1655,7 @@ Private Sub LIMPIOGRILLA()
     Next
 End Sub
 
-Private Sub cmdNuevo_Click()
+Private Sub CmdNuevo_Click()
    LIMPIOGRILLA
    mFoco = False
    cmdImprimir.Enabled = False
@@ -1696,7 +1700,7 @@ Private Sub cmdNuevo_Click()
     txtcodCli.SetFocus
 End Sub
 
-Private Sub cmdSalir_Click()
+Private Sub CmdSalir_Click()
     If MsgBox("Seguro que desea Salir", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
         Set frmFacturaCliente = Nothing
         Unload Me
@@ -1741,7 +1745,7 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
         MySendKeys Chr(9)
     End If
     If KeyAscii = vbKeyEscape Then
-        cmdSalir_Click
+        CmdSalir_Click
     End If
 End Sub
 
@@ -2005,7 +2009,7 @@ Private Sub GrdModulos_dblClick()
         Screen.MousePointer = vbHourglass
         'CABEZA FACTURA
         'tengo que limpiar
-        cmdNuevo_Click
+        CmdNuevo_Click
         Call BuscaCodigoProxItemData(CInt(GrdModulos.TextMatrix(GrdModulos.RowSel, 7)), cboFactura)
         txtNroSucursal.Text = Left(GrdModulos.TextMatrix(GrdModulos.RowSel, 1), 4)
         txtNroFactura.Text = Right(GrdModulos.TextMatrix(GrdModulos.RowSel, 1), 8)

@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "COMCTL32.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "FECHA32.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmLibroIvaCompras 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Libro IVA Compras"
@@ -21,7 +21,6 @@ Begin VB.Form frmLibroIvaCompras
    EndProperty
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form2"
-   LockControls    =   -1  'True
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    MinButton       =   0   'False
@@ -40,7 +39,7 @@ Begin VB.Form frmLibroIvaCompras
       EndProperty
       Height          =   735
       Left            =   30
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   1545
       Width           =   5595
       Begin VB.PictureBox picSalida 
@@ -61,7 +60,7 @@ Begin VB.Form frmLibroIvaCompras
          Picture         =   "frmLibroIvaCompras.frx":0000
          ScaleHeight     =   240
          ScaleWidth      =   240
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   315
          Width           =   240
       End
@@ -83,7 +82,7 @@ Begin VB.Form frmLibroIvaCompras
          Picture         =   "frmLibroIvaCompras.frx":0102
          ScaleHeight     =   240
          ScaleWidth      =   240
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   315
          Width           =   240
       End
@@ -105,7 +104,7 @@ Begin VB.Form frmLibroIvaCompras
          Picture         =   "frmLibroIvaCompras.frx":0204
          ScaleHeight     =   240
          ScaleWidth      =   240
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   315
          Width           =   240
       End
@@ -115,7 +114,7 @@ Begin VB.Form frmLibroIvaCompras
          Left            =   450
          List            =   "frmLibroIvaCompras.frx":0313
          Style           =   2  'Dropdown List
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   285
          Width           =   1635
       End
@@ -124,7 +123,7 @@ Begin VB.Form frmLibroIvaCompras
          Height          =   435
          Left            =   3825
          Style           =   1  'Graphical
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   195
          Width           =   1665
       End
@@ -134,7 +133,7 @@ Begin VB.Form frmLibroIvaCompras
       DisabledPicture =   "frmLibroIvaCompras.frx":0335
       Height          =   405
       Left            =   3915
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   2325
       Width           =   840
    End
@@ -150,20 +149,33 @@ Begin VB.Form frmLibroIvaCompras
       EndProperty
       Height          =   1575
       Left            =   30
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   -15
       Width           =   5595
+      Begin MSComCtl2.DTPicker FechaDesde 
+         Height          =   315
+         Left            =   1560
+         TabIndex        =   17
+         Top             =   240
+         Width           =   1575
+         _ExtentX        =   2778
+         _ExtentY        =   556
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   86376449
+         CurrentDate     =   43174
+      End
       Begin VB.TextBox txtUltimo 
          Height          =   315
          Left            =   1575
-         TabIndex        =   1
+         TabIndex        =   0
          Top             =   585
          Width           =   1125
       End
       Begin ComctlLib.ProgressBar ProgressBar1 
          Height          =   315
          Left            =   75
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   1095
          Width           =   4770
          _ExtentX        =   8414
@@ -171,24 +183,12 @@ Begin VB.Form frmLibroIvaCompras
          _Version        =   327682
          Appearance      =   1
       End
-      Begin FechaCtl.Fecha FechaDesde 
-         Height          =   300
-         Left            =   1575
-         TabIndex        =   0
-         Top             =   270
-         Width           =   1155
-         _ExtentX        =   2037
-         _ExtentY        =   529
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-      End
       Begin VB.Label Label4 
          AutoSize        =   -1  'True
          Caption         =   "Último Nro Hoja:"
          Height          =   195
          Left            =   345
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   645
          Width           =   1170
       End
@@ -197,7 +197,7 @@ Begin VB.Form frmLibroIvaCompras
          Caption         =   "100 %"
          Height          =   195
          Left            =   4920
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   1155
          Width           =   480
       End
@@ -214,8 +214,8 @@ Begin VB.Form frmLibroIvaCompras
             Strikethrough   =   0   'False
          EndProperty
          Height          =   285
-         Left            =   2730
-         TabIndex        =   8
+         Left            =   3240
+         TabIndex        =   7
          Top             =   270
          Width           =   1845
       End
@@ -224,7 +224,7 @@ Begin VB.Form frmLibroIvaCompras
          Caption         =   "Periodo:"
          Height          =   195
          Left            =   345
-         TabIndex        =   7
+         TabIndex        =   6
          Top             =   285
          Width           =   600
       End
@@ -233,7 +233,7 @@ Begin VB.Form frmLibroIvaCompras
       Caption         =   "&Salir"
       Height          =   405
       Left            =   4770
-      TabIndex        =   4
+      TabIndex        =   3
       Top             =   2325
       Width           =   840
    End
@@ -241,7 +241,7 @@ Begin VB.Form frmLibroIvaCompras
       Caption         =   "&Aceptar"
       Height          =   405
       Left            =   3060
-      TabIndex        =   2
+      TabIndex        =   1
       Top             =   2325
       Width           =   840
    End
@@ -274,7 +274,7 @@ Begin VB.Form frmLibroIvaCompras
       EndProperty
       Height          =   240
       Left            =   105
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   2385
       Width           =   660
    End
@@ -307,7 +307,7 @@ Private Sub cmdAceptar_Click()
      Tamanio = 0
      TotIva = 0
      
-     If FechaDesde.Text = "" Then
+     If FechaDesde.Value = "" Then
         MsgBox "Debe ingresar el periodo", vbExclamation, TIT_MSGBOX
         FechaDesde.SetFocus
         Exit Sub
@@ -684,7 +684,7 @@ Private Sub ListarLibroIVA()
 End Sub
 
 Private Sub CmdNuevo_Click()
-    FechaDesde.Text = ""
+    FechaDesde.Value = ""
     lblPeriodo1.Caption = ""
     txtUltimo.Text = ""
     ProgressBar1.Value = 0
@@ -713,8 +713,8 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub FechaDesde_LostFocus()
-    If Trim(FechaDesde.Text) <> "" Then
-        lblPeriodo1.Caption = UCase(Format(FechaDesde.Text, "mmmm/yyyy"))
+    If Trim(FechaDesde.Value) <> "" Then
+        lblPeriodo1.Caption = UCase(Format(FechaDesde.Value, "mmmm/yyyy"))
     Else
         lblPeriodo1.Caption = ""
     End If

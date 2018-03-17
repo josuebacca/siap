@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "FECHA32.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmListadoCantVendidasVendedor 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Listado de Cantidades Vendidas por Vendedor"
@@ -39,7 +39,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
       Caption         =   "&Cancelar"
       Height          =   345
       Left            =   3825
-      TabIndex        =   4
+      TabIndex        =   5
       Top             =   1845
       Width           =   1275
    End
@@ -56,40 +56,43 @@ Begin VB.Form frmListadoCantVendidasVendedor
       EndProperty
       Height          =   1335
       Left            =   45
-      TabIndex        =   22
+      TabIndex        =   23
       Top             =   30
       Width           =   5055
+      Begin MSComCtl2.DTPicker FechaHasta 
+         Height          =   315
+         Index           =   3
+         Left            =   3360
+         TabIndex        =   2
+         Top             =   720
+         Width           =   1455
+         _ExtentX        =   2566
+         _ExtentY        =   556
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   89456641
+         CurrentDate     =   43174
+      End
+      Begin MSComCtl2.DTPicker FechaDesde 
+         Height          =   315
+         Left            =   960
+         TabIndex        =   1
+         Top             =   720
+         Width           =   1695
+         _ExtentX        =   2990
+         _ExtentY        =   556
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   89456641
+         CurrentDate     =   43174
+      End
       Begin VB.ComboBox cboVendedor 
          Height          =   315
          Left            =   1230
          Style           =   2  'Dropdown List
-         TabIndex        =   25
+         TabIndex        =   0
          Top             =   405
          Width           =   3195
-      End
-      Begin FechaCtl.Fecha FechaDesde 
-         Height          =   315
-         Left            =   1230
-         TabIndex        =   0
-         Top             =   750
-         Width           =   1185
-         _ExtentX        =   2090
-         _ExtentY        =   556
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-      End
-      Begin FechaCtl.Fecha FechaHasta 
-         Height          =   315
-         Left            =   3285
-         TabIndex        =   1
-         Top             =   750
-         Width           =   1185
-         _ExtentX        =   2090
-         _ExtentY        =   556
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
       End
       Begin VB.Label Label11 
          AutoSize        =   -1  'True
@@ -115,7 +118,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Height          =   195
          Index           =   0
          Left            =   2760
-         TabIndex        =   24
+         TabIndex        =   25
          Top             =   780
          Width           =   480
       End
@@ -124,7 +127,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Caption         =   "Desde:"
          Height          =   195
          Left            =   345
-         TabIndex        =   23
+         TabIndex        =   24
          Top             =   780
          Width           =   510
       End
@@ -141,7 +144,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
       EndProperty
       Height          =   2250
       Left            =   6735
-      TabIndex        =   12
+      TabIndex        =   13
       Top             =   210
       Visible         =   0   'False
       Width           =   6915
@@ -159,7 +162,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   285
          Left            =   900
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   660
          Width           =   2235
       End
@@ -175,7 +178,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   315
          Left            =   4365
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   1065
          Visible         =   0   'False
          Width           =   675
@@ -192,7 +195,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   75
          Left            =   90
-         TabIndex        =   18
+         TabIndex        =   19
          Top             =   1560
          Width           =   6795
       End
@@ -209,7 +212,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   285
          Left            =   4365
-         TabIndex        =   17
+         TabIndex        =   18
          Top             =   720
          Visible         =   0   'False
          Width           =   615
@@ -228,7 +231,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   285
          Left            =   900
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   375
          Width           =   3075
       End
@@ -247,7 +250,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Height          =   285
          Left            =   900
          MaxLength       =   2
-         TabIndex        =   5
+         TabIndex        =   6
          Top             =   945
          Width           =   795
       End
@@ -266,7 +269,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Height          =   285
          Left            =   1725
          MaxLength       =   4
-         TabIndex        =   6
+         TabIndex        =   7
          Top             =   945
          Width           =   1380
       End
@@ -283,7 +286,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   285
          Left            =   4380
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   360
          Visible         =   0   'False
          Width           =   1635
@@ -301,7 +304,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   255
          Left            =   120
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   660
          Width           =   735
       End
@@ -318,7 +321,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          EndProperty
          Height          =   255
          Left            =   120
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   360
          Width           =   735
       End
@@ -337,7 +340,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Height          =   195
          Index           =   2
          Left            =   120
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   1005
          Width           =   540
       End
@@ -355,7 +358,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
       EndProperty
       Height          =   735
       Left            =   45
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   1440
       Width           =   2175
       Begin VB.PictureBox picSalida 
@@ -376,7 +379,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Picture         =   "frmListadoCantVendidasVendedor.frx":0442
          ScaleHeight     =   240
          ScaleWidth      =   240
-         TabIndex        =   11
+         TabIndex        =   12
          Top             =   315
          Width           =   240
       End
@@ -398,7 +401,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Picture         =   "frmListadoCantVendidasVendedor.frx":0544
          ScaleHeight     =   240
          ScaleWidth      =   240
-         TabIndex        =   10
+         TabIndex        =   11
          Top             =   315
          Width           =   240
       End
@@ -420,17 +423,18 @@ Begin VB.Form frmListadoCantVendidasVendedor
          Picture         =   "frmListadoCantVendidasVendedor.frx":0646
          ScaleHeight     =   240
          ScaleWidth      =   240
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   315
          Width           =   240
       End
       Begin VB.ComboBox cboDestino 
          Height          =   315
+         Index           =   4
          ItemData        =   "frmListadoCantVendidasVendedor.frx":0748
          Left            =   450
          List            =   "frmListadoCantVendidasVendedor.frx":0755
          Style           =   2  'Dropdown List
-         TabIndex        =   2
+         TabIndex        =   4
          Top             =   270
          Width           =   1635
       End
@@ -462,7 +466,7 @@ Begin VB.Form frmListadoCantVendidasVendedor
       EndProperty
       Height          =   285
       Left            =   6690
-      TabIndex        =   8
+      TabIndex        =   9
       Top             =   2985
       Visible         =   0   'False
       Width           =   315
@@ -473,12 +477,12 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub cboDestino_Click()
-    picSalida(0).Visible = False
-    picSalida(1).Visible = False
-    picSalida(2).Visible = False
-    picSalida(cboDestino.ListIndex).Visible = True
-End Sub
+'Private Sub cboDestino_Click()
+'    picSalida(0).Visible = False
+'    picSalida(1).Visible = False
+'    picSalida(2).Visible = False
+'    picSalida(cboDestino.ListIndex).Visible = True
+'End Sub
 
 Private Sub cboListar_Click()
     If frmListadoCantVendidasVendedor.Visible = True Then
@@ -492,7 +496,7 @@ Private Sub cboListar_Click()
     End If
 End Sub
 
-Private Sub CmdAceptar_Click()
+Private Sub cmdAceptar_Click()
 '    If FechaDesde.Text = "" Then
 '        MsgBox "Falta Ingresar la Fecha Desde", vbExclamation, TIT_MSGBOX
 '        FechaDesde.SetFocus
@@ -573,8 +577,8 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Load()
-    Dim Rec As ADODB.Recordset
-    Set Rec = New ADODB.Recordset
+    Dim rec As ADODB.Recordset
+    Set rec = New ADODB.Recordset
     Me.Top = 0
     Me.Left = 0
     cboVendedor.AddItem "(Todos)"

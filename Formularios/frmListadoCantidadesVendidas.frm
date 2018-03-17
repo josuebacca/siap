@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "FECHA32.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmListadoCantidadesVendidas 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Listado de Cantidades Vendidas"
@@ -60,29 +60,31 @@ Begin VB.Form frmListadoCantidadesVendidas
       TabIndex        =   22
       Top             =   30
       Width           =   5055
-      Begin FechaCtl.Fecha FechaDesde 
+      Begin MSComCtl2.DTPicker FechaHasta 
          Height          =   315
-         Left            =   2250
-         TabIndex        =   0
-         Top             =   405
-         Width           =   1185
-         _ExtentX        =   2090
-         _ExtentY        =   556
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-      End
-      Begin FechaCtl.Fecha FechaHasta 
-         Height          =   315
-         Left            =   2250
+         Left            =   2280
          TabIndex        =   1
-         Top             =   765
-         Width           =   1185
-         _ExtentX        =   2090
+         Top             =   840
+         Width           =   1935
+         _ExtentX        =   3413
          _ExtentY        =   556
-         Separador       =   "/"
-         Text            =   ""
-         MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   140247041
+         CurrentDate     =   43174
+      End
+      Begin MSComCtl2.DTPicker FechaDesde 
+         Height          =   315
+         Left            =   2280
+         TabIndex        =   0
+         Top             =   480
+         Width           =   1935
+         _ExtentX        =   3413
+         _ExtentY        =   556
+         _Version        =   393216
+         CheckBox        =   -1  'True
+         Format          =   140247041
+         CurrentDate     =   43174
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
@@ -467,7 +469,7 @@ Private Sub cboListar_Click()
     End If
 End Sub
 
-Private Sub CmdAceptar_Click()
+Private Sub cmdAceptar_Click()
     If FechaDesde.Text = "" Then
         MsgBox "Falta Ingresar la Fecha Desde", vbExclamation, TIT_MSGBOX
         FechaDesde.SetFocus
@@ -541,8 +543,8 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Load()
-    Dim Rec As ADODB.Recordset
-    Set Rec = New ADODB.Recordset
+    Dim rec As ADODB.Recordset
+    Set rec = New ADODB.Recordset
     Me.Top = 0
     Me.Left = 0
     'CARGO COMBO LINEA

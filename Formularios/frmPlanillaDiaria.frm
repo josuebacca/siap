@@ -1,7 +1,6 @@
 VERSION 5.00
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{5F09B5DF-6F4D-11D2-8355-4854E82A9183}#15.0#0"; "Fecha32.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmPlanillaDiaria 
    BorderStyle     =   1  'Fixed Single
@@ -62,6 +61,7 @@ Begin VB.Form frmPlanillaDiaria
       _ExtentY        =   13547
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   512
       ForeColor       =   -2147483630
@@ -76,7 +76,7 @@ Begin VB.Form frmPlanillaDiaria
       EndProperty
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmPlanillaDiaria.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "FrameFactura"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Frame3"
@@ -84,9 +84,11 @@ Begin VB.Form frmPlanillaDiaria
       Tab(0).ControlCount=   2
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameBuscar"
-      Tab(1).Control(1)=   "GrdModulos"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "GrdModulos"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -99,7 +101,7 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   6165
-         Left            =   105
+         Left            =   -74895
          TabIndex        =   21
          Top             =   1335
          Width           =   15795
@@ -203,7 +205,6 @@ Begin VB.Form frmPlanillaDiaria
          End
       End
       Begin VB.Frame frameBuscar 
-         Caption         =   "Buscar por..."
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   9.75
@@ -214,10 +215,23 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1470
-         Left            =   -74805
+         Left            =   195
          TabIndex        =   14
          Top             =   420
          Width           =   9990
+         Begin MSComCtl2.DTPicker FechaDesde 
+            Height          =   315
+            Left            =   2520
+            TabIndex        =   6
+            Top             =   720
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109510657
+            CurrentDate     =   43174
+         End
          Begin VB.TextBox txtBuscarCliDescri 
             BeginProperty Font 
                Name            =   "Tahoma"
@@ -264,29 +278,18 @@ Begin VB.Form frmPlanillaDiaria
             UseMaskColor    =   -1  'True
             Width           =   1575
          End
-         Begin FechaCtl.Fecha FechaHasta 
-            Height          =   285
-            Left            =   6210
+         Begin MSComCtl2.DTPicker FechaHasta 
+            Height          =   315
+            Left            =   6240
             TabIndex        =   7
-            Top             =   675
-            Width           =   1185
-            _ExtentX        =   2090
-            _ExtentY        =   503
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
-         End
-         Begin FechaCtl.Fecha FechaDesde 
-            Height          =   330
-            Left            =   2490
-            TabIndex        =   6
-            Top             =   675
-            Width           =   1170
-            _ExtentX        =   2064
-            _ExtentY        =   582
-            Separador       =   "/"
-            Text            =   ""
-            MensajeErrMin   =   "La fecha ingresada no alcanza el mínimo permitido"
+            Top             =   720
+            Width           =   1575
+            _ExtentX        =   2778
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   109510657
+            CurrentDate     =   43174
          End
          Begin VB.Label lbl 
             Appearance      =   0  'Flat
@@ -341,7 +344,7 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   105
+         Left            =   -74895
          TabIndex        =   13
          Top             =   345
          Width           =   15720
@@ -354,7 +357,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   52559873
+            Format          =   109510657
             CurrentDate     =   43169
          End
          Begin VB.CommandButton cmdBuscar 
@@ -434,13 +437,13 @@ Begin VB.Form frmPlanillaDiaria
          End
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
-         Height          =   3705
-         Left            =   -74835
+         Height          =   5505
+         Left            =   165
          TabIndex        =   10
          Top             =   1935
-         Width           =   10020
-         _ExtentX        =   17674
-         _ExtentY        =   6535
+         Width           =   13860
+         _ExtentX        =   24448
+         _ExtentY        =   9710
          _Version        =   393216
          Cols            =   12
          FixedCols       =   0
@@ -517,7 +520,7 @@ Private Sub Label14_Click()
 
 End Sub
 
-Private Sub cmdBuscar_Click()
+Private Sub CmdBuscar_Click()
     crearplanilla
 End Sub
 
@@ -540,13 +543,13 @@ Private Function crearplanilla()
     'obtener que dia es hoy, segun fecha actual y programa
     'verificar si es feriado
     'buscar clientes por programa_cliente
-    Dim dia As Integer
+    Dim DIA As Integer
     Dim Cli As Integer
     Dim i As Integer
-    dia = dia_programa(Fecha)
+    DIA = dia_programa(Fecha)
     sql = "SELECT  * FROM CLIENTE C, PROGRAMA_CLIENTE PC"
     sql = sql & " WHERE C.CLI_CODIGO=PC.CLI_CODIGO "
-    sql = sql & " AND (PC.PRG_CODIGO = " & dia & " OR PC.PRG_CODIGO= " & dia + 8 & ")" 'ALMUERZO MAS CENA DE ESE
+    sql = sql & " AND (PC.PRG_CODIGO = " & DIA & " OR PC.PRG_CODIGO= " & DIA + 8 & ")" 'ALMUERZO MAS CENA DE ESE
     rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Cli = 0
@@ -677,7 +680,7 @@ Private Sub grdGrilla_LeaveCell()
     txtEdit.Visible = False
 End Sub
 
-Private Sub txtEdit_KeyDown(KeyCode As Integer, Shift As Integer)
+Private Sub TxtEdit_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyReturn Then
         mFoco = True
         grdGrilla.Col = 0
