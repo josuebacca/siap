@@ -83,8 +83,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameBuscar"
-      Tab(1).Control(1)=   "GrdModulos"
+      Tab(1).Control(0)=   "GrdModulos"
+      Tab(1).Control(1)=   "frameBuscar"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -214,7 +214,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   21037057
+            Format          =   54657025
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -273,7 +273,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   21037057
+            Format          =   54657025
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -342,7 +342,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   21037057
+            Format          =   54657025
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -614,10 +614,6 @@ Private Sub cmdGrabar_Click()
     rec.Close
 End Sub
 
-Private Sub cmdImprimir_Click()
-
-End Sub
-
 Private Sub CmdNuevo_Click()
     lblEstado.Caption = ""
     grdGrilla.Rows = 1
@@ -839,10 +835,6 @@ Private Function dia_programa(Fecha As Date) As Integer
     day = Weekday(Fecha)
     dia_programa = day
 End Function
-
-Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-
-End Sub
 
 Private Sub Form_Load()
 Set rec = New ADODB.Recordset

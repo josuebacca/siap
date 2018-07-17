@@ -246,7 +246,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1587
             MinWidth        =   1587
-            TextSave        =   "10:06"
+            TextSave        =   "9:43"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -256,7 +256,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1940
             MinWidth        =   1940
-            TextSave        =   "17/03/2018"
+            TextSave        =   "17/07/2018"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -530,7 +530,7 @@ Private Sub cmdActLetrero_Click()
 End Sub
 
 Private Sub cmdCommunicator_Click()
-    frmCommunicator.Show
+    'frmCommunicator.Show
 End Sub
 
 Private Sub MDIForm_Load()
