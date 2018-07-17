@@ -39,43 +39,30 @@ Begin VB.Form ABMClientes
       _ExtentY        =   13256
       _Version        =   393216
       Tabs            =   4
+      Tab             =   3
       TabsPerRow      =   5
       TabHeight       =   520
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "ABMClientes.frx":0BC2
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Label1(12)"
-      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label1(11)"
-      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "Label1(10)"
-      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "Label1(7)"
-      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "Label1(9)"
-      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "txtCuit"
-      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "txtIngresosBrutos"
-      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "txtMail"
-      Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "txtObserva"
-      Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "Frame3"
-      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "cboPais"
-      Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "cboIva"
-      Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "Frame8"
-      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "&Programas"
       TabPicture(1)   =   "ABMClientes.frx":0BDE
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Frame5"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "&Comidas"
       TabPicture(2)   =   "ABMClientes.frx":0BFA
@@ -85,10 +72,13 @@ Begin VB.Form ABMClientes
       Tab(2).ControlCount=   2
       TabCaption(3)   =   "Vianda"
       TabPicture(3)   =   "ABMClientes.frx":0C16
-      Tab(3).ControlEnabled=   0   'False
+      Tab(3).ControlEnabled=   -1  'True
       Tab(3).Control(0)=   "txtMedica"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "Frame4"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       Begin VB.Frame Frame8 
          Caption         =   "Altas/Bajas"
@@ -103,7 +93,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H8000000D&
          Height          =   2655
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   133
          Top             =   4680
          Width           =   7095
@@ -151,7 +141,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   102825985
+               Format          =   54394881
                CurrentDate     =   40071
             End
          End
@@ -232,7 +222,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   4815
-         Left            =   -70800
+         Left            =   4200
          TabIndex        =   67
          Top             =   480
          Width           =   2775
@@ -282,7 +272,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   4815
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   61
          Top             =   480
          Width           =   3975
@@ -375,7 +365,7 @@ Begin VB.Form ABMClientes
             End
             Begin VB.CheckBox chkVianda 
                Alignment       =   1  'Right Justify
-               Caption         =   "Pan"
+               Caption         =   "Descartable"
                Height          =   255
                Index           =   4
                Left            =   480
@@ -385,7 +375,7 @@ Begin VB.Form ABMClientes
             End
             Begin VB.CheckBox chkVianda 
                Alignment       =   1  'Right Justify
-               Caption         =   "Postre"
+               Caption         =   "Pan"
                Height          =   255
                Index           =   3
                Left            =   480
@@ -395,7 +385,7 @@ Begin VB.Form ABMClientes
             End
             Begin VB.CheckBox chkVianda 
                Alignment       =   1  'Right Justify
-               Caption         =   "Sopa"
+               Caption         =   "Postre"
                Height          =   255
                Index           =   2
                Left            =   480
@@ -405,7 +395,7 @@ Begin VB.Form ABMClientes
             End
             Begin VB.CheckBox chkVianda 
                Alignment       =   1  'Right Justify
-               Caption         =   "Descartable"
+               Caption         =   "Sopa"
                Height          =   255
                Index           =   1
                Left            =   480
@@ -438,6 +428,7 @@ Begin VB.Form ABMClientes
                Left            =   480
                TabIndex        =   65
                Top             =   720
+               Value           =   1  'Checked
                Width           =   1185
             End
             Begin VB.CheckBox chktodas 
@@ -918,7 +909,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   102825985
+               Format          =   54394881
                CurrentDate     =   40070
             End
          End
@@ -1111,7 +1102,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtMedica 
          Height          =   285
-         Left            =   -64440
+         Left            =   10560
          MultiLine       =   -1  'True
          TabIndex        =   41
          Top             =   6380
@@ -1121,7 +1112,7 @@ Begin VB.Form ABMClientes
       Begin VB.ComboBox cboIva 
          Height          =   315
          ItemData        =   "ABMClientes.frx":0C36
-         Left            =   7200
+         Left            =   -67800
          List            =   "ABMClientes.frx":0C38
          Style           =   2  'Dropdown List
          TabIndex        =   39
@@ -1133,7 +1124,7 @@ Begin VB.Form ABMClientes
          Enabled         =   0   'False
          Height          =   315
          ItemData        =   "ABMClientes.frx":0C3A
-         Left            =   7200
+         Left            =   -67800
          List            =   "ABMClientes.frx":0C3C
          Style           =   2  'Dropdown List
          TabIndex        =   38
@@ -1154,7 +1145,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00C00000&
          Height          =   4215
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   20
          Top             =   390
          Width           =   7095
@@ -1334,7 +1325,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   102825985
+            Format          =   54394881
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1347,7 +1338,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   102825985
+            Format          =   54394881
             CurrentDate     =   40071
          End
          Begin VB.Image Image1 
@@ -1529,7 +1520,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtObserva 
          Height          =   810
-         Left            =   9945
+         Left            =   -65055
          MaxLength       =   250
          MultiLine       =   -1  'True
          TabIndex        =   19
@@ -1539,7 +1530,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtMail 
          Height          =   315
-         Left            =   9930
+         Left            =   -65070
          MaxLength       =   50
          TabIndex        =   13
          Top             =   5350
@@ -1548,7 +1539,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtIngresosBrutos 
          Height          =   315
-         Left            =   9840
+         Left            =   -65160
          MaxLength       =   10
          TabIndex        =   12
          Top             =   4120
@@ -1557,7 +1548,7 @@ Begin VB.Form ABMClientes
       End
       Begin MSMask.MaskEdBox txtCuit 
          Height          =   315
-         Left            =   9480
+         Left            =   -65520
          TabIndex        =   14
          Top             =   4735
          Visible         =   0   'False
@@ -1575,7 +1566,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Cond. I.V.A.:"
          Height          =   195
          Index           =   9
-         Left            =   5640
+         Left            =   -69360
          TabIndex        =   40
          Top             =   6040
          Visible         =   0   'False
@@ -1586,7 +1577,7 @@ Begin VB.Form ABMClientes
          Caption         =   "e-mail:"
          Height          =   195
          Index           =   7
-         Left            =   9240
+         Left            =   -65760
          TabIndex        =   18
          Top             =   5395
          Visible         =   0   'False
@@ -1597,7 +1588,7 @@ Begin VB.Form ABMClientes
          Caption         =   "C.U.I.T.:"
          Height          =   195
          Index           =   10
-         Left            =   9480
+         Left            =   -65520
          TabIndex        =   17
          Top             =   5080
          Visible         =   0   'False
@@ -1608,7 +1599,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Ing. Brutos:"
          Height          =   195
          Index           =   11
-         Left            =   9960
+         Left            =   -65040
          TabIndex        =   16
          Top             =   4480
          Visible         =   0   'False
@@ -1619,7 +1610,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Observación:"
          Height          =   195
          Index           =   12
-         Left            =   8880
+         Left            =   -66120
          TabIndex        =   15
          Top             =   5815
          Visible         =   0   'False
@@ -2145,15 +2136,28 @@ Private Sub chkVianda_Click(Index As Integer)
     cmdAceptar.Enabled = True
     If chkVianda(Index).Value = Checked Then
         txtImpVianda(Index).BackColor = &HFFFFFF
-        txtImpVianda(Index) = "1,00" ' aca buscar el precio
+        'txtImpVianda(Index) = "1,00" ' aca buscar el precio
         txtImpVianda(Index).Enabled = True
+        obtenerprecio_vianda (Index + 1)
     Else
         txtImpVianda(Index).BackColor = &H8000000B
         txtImpVianda(Index) = "0,00"
         txtImpVianda(Index).Enabled = False
     End If
+    
     sumarVianda
 End Sub
+Private Function obtenerprecio_vianda(Numero)
+    sql = "SELECT * FROM VIANDAS"
+    sql = sql & " WHERE VIA_CODIGO = " & Numero
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    If rec.EOF = False Then
+        txtImpVianda(Numero - 1).Text = rec!VIA_PRECIO
+        txtImpVianda(Numero - 1).Text = Valido_Importe(txtImpVianda(Numero - 1).Text)
+    End If
+    rec.Close
+    
+End Function
 Private Sub sumarVianda()
     Dim totVianda As Double
     totVianda = 0
@@ -2161,6 +2165,7 @@ Private Sub sumarVianda()
         totVianda = totVianda + txtImpVianda(i).Text
     Next i
     txtTotalVianda.Text = Format(totVianda, "#,##")
+    txtTotalVianda.Text = Valido_Importe(txtTotalVianda.Text)
     
 End Sub
 
@@ -2199,7 +2204,7 @@ Private Sub cmdAceptar_Click()
                     cSQL = cSQL & "CLI_FECPC,"
                 End If
                 
-                cSQL = cSQL & "OS_NUMERO,CLI_NROAFIL,CLI_FACTURA,CLI_DIAGNO) "
+                cSQL = cSQL & "OS_NUMERO,CLI_NROAFIL,CLI_FACTURA,CLI_DIAGNO, CLI_TOTAL) "
                 
 '                cSQL = cSQL & " CLI_MC, CLI_RELAC, CLI_AFA,CLI_APP,CLI_EFISICO, "
 '                cSQL = cSQL & " CLI_DIAG, CLI_ESTCOM, CLI_PTEST,CLI_HC,CLI_MEDICA,CLI_FOTO,CLI_ASPCLI,CLI_FACTURA) "
@@ -2272,7 +2277,8 @@ Private Sub cmdAceptar_Click()
                                 sql = sql & i + 10 & ","
                             End If
                         End If
-                        sql = sql & XN(txtCena(i)) & ")"
+                        sql = sql & XN(txtCena(i)) & ","
+                        sql = sql & XN(Chk0(txtTotalVianda)) & ")"
                         DBConn.Execute sql
                     End If
                 Next i
@@ -2351,6 +2357,7 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & " ,CLI_NROAFIL=" & XS(txtNAfiliado.Text)
                 cSQL = cSQL & " ,CLI_FACTURA=" & cli_fac
                 cSQL = cSQL & " ,CLI_DIAGNO=" & XS(txtDiagnostico.Text)
+                cSQL = cSQL & " ,CLI_TOTAL=" & XN(txtTotalVianda.Text)
                 cSQL = cSQL & " WHERE CLI_CODIGO  = " & XN(txtID.Text)
                 DBConn.Execute cSQL
                 
@@ -3407,7 +3414,9 @@ Private Function CargarViandas()
         Do While Rec1.EOF = False
             'grillaCan.AddItem Rec1!CAC_FECHA & Chr(9) & IIf(IsNull(Rec1!CAC_COMEN), "", Rec1!CAC_COMEN)
             chkVianda(Rec1!VIA_CODIGO - 1).Value = Checked
+            
             'VER QUE HAGO CON EL PRECIO
+            chkVianda_Click (Rec1!VIA_CODIGO - 1)
             Rec1.MoveNext
         Loop
     End If

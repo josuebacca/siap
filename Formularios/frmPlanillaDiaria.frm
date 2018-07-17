@@ -29,10 +29,9 @@ Begin VB.Form frmPlanillaDiaria
    Begin VB.CommandButton cmdImprimir 
       Caption         =   "&Imprimir"
       Height          =   450
-      Left            =   11280
+      Left            =   7920
       TabIndex        =   1
-      Top             =   7770
-      Visible         =   0   'False
+      Top             =   7800
       Width           =   870
    End
    Begin VB.CommandButton CmdSalir 
@@ -61,7 +60,6 @@ Begin VB.Form frmPlanillaDiaria
       _ExtentY        =   13547
       _Version        =   393216
       Tabs            =   2
-      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   512
       ForeColor       =   -2147483630
@@ -76,7 +74,7 @@ Begin VB.Form frmPlanillaDiaria
       EndProperty
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmPlanillaDiaria.frx":0000
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "FrameFactura"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Frame3"
@@ -84,11 +82,9 @@ Begin VB.Form frmPlanillaDiaria
       Tab(0).ControlCount=   2
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
-      Tab(1).ControlEnabled=   -1  'True
-      Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "frameBuscar"
-      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "frameBuscar"
+      Tab(1).Control(1)=   "GrdModulos"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -101,29 +97,18 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   6165
-         Left            =   -74895
-         TabIndex        =   21
+         Left            =   105
+         TabIndex        =   20
          Top             =   1335
          Width           =   15795
-         Begin VB.TextBox txtEdit 
-            BackColor       =   &H00C0FFFF&
-            BorderStyle     =   0  'None
-            Height          =   330
-            Left            =   300
-            TabIndex        =   24
-            Top             =   525
-            Visible         =   0   'False
-            Width           =   1185
-         End
          Begin VB.TextBox txtObservaciones 
             BackColor       =   &H00C0FFFF&
-            Height          =   300
-            Left            =   2775
+            Height          =   405
+            Left            =   3495
             MaxLength       =   60
-            TabIndex        =   23
-            Top             =   5790
-            Visible         =   0   'False
-            Width           =   10290
+            TabIndex        =   22
+            Top             =   5700
+            Width           =   12210
          End
          Begin VB.TextBox txtTotal 
             Alignment       =   1  'Right Justify
@@ -139,16 +124,26 @@ Begin VB.Form frmPlanillaDiaria
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   405
-            Left            =   13995
+            Left            =   120
             Locked          =   -1  'True
-            TabIndex        =   22
+            TabIndex        =   21
             Top             =   5700
-            Width           =   1710
+            Width           =   1215
+         End
+         Begin VB.TextBox txtEdit 
+            BackColor       =   &H00C0FFFF&
+            BorderStyle     =   0  'None
+            Height          =   330
+            Left            =   300
+            TabIndex        =   23
+            Top             =   525
+            Visible         =   0   'False
+            Width           =   1185
          End
          Begin MSFlexGridLib.MSFlexGrid grdGrilla 
             Height          =   5490
             Left            =   75
-            TabIndex        =   25
+            TabIndex        =   24
             Top             =   165
             Width           =   15630
             _ExtentX        =   27570
@@ -178,30 +173,20 @@ Begin VB.Form frmPlanillaDiaria
          Begin VB.Label Label12 
             AutoSize        =   -1  'True
             Caption         =   "Observaciones:"
-            Height          =   195
-            Left            =   1530
-            TabIndex        =   27
-            Top             =   5835
-            Visible         =   0   'False
-            Width           =   1125
-         End
-         Begin VB.Label Label10 
-            AutoSize        =   -1  'True
-            Caption         =   "Total"
             BeginProperty Font 
                Name            =   "Tahoma"
-               Size            =   12
+               Size            =   8.25
                Charset         =   0
                Weight          =   700
                Underline       =   0   'False
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   285
-            Left            =   13155
-            TabIndex        =   26
-            Top             =   5760
-            Width           =   645
+            Height          =   195
+            Left            =   2130
+            TabIndex        =   25
+            Top             =   5835
+            Width           =   1290
          End
       End
       Begin VB.Frame frameBuscar 
@@ -215,7 +200,7 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1470
-         Left            =   195
+         Left            =   -74805
          TabIndex        =   14
          Top             =   420
          Width           =   9990
@@ -229,7 +214,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   109510657
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -288,7 +273,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   109510657
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -301,7 +286,7 @@ Begin VB.Form frmPlanillaDiaria
             Height          =   195
             Index           =   4
             Left            =   1395
-            TabIndex        =   20
+            TabIndex        =   19
             Top             =   375
             Width           =   555
          End
@@ -310,7 +295,7 @@ Begin VB.Form frmPlanillaDiaria
             Caption         =   "Tipo Factura:"
             Height          =   195
             Left            =   1395
-            TabIndex        =   19
+            TabIndex        =   18
             Top             =   1020
             Width           =   960
          End
@@ -344,29 +329,21 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   -74895
+         Left            =   105
          TabIndex        =   13
          Top             =   345
          Width           =   15720
          Begin MSComCtl2.DTPicker Fecha 
             Height          =   315
-            Left            =   12600
-            TabIndex        =   34
-            Top             =   240
+            Left            =   12480
+            TabIndex        =   32
+            Top             =   480
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   109510657
+            Format          =   21037057
             CurrentDate     =   43169
-         End
-         Begin VB.CommandButton cmdBuscar 
-            Caption         =   "Buscar"
-            Height          =   735
-            Left            =   14160
-            TabIndex        =   33
-            Top             =   240
-            Width           =   1215
          End
          Begin VB.ComboBox cboVariantes 
             Height          =   315
@@ -374,7 +351,7 @@ Begin VB.Form frmPlanillaDiaria
             Left            =   1650
             List            =   "frmPlanillaDiaria.frx":003A
             Style           =   2  'Dropdown List
-            TabIndex        =   30
+            TabIndex        =   28
             Top             =   600
             Width           =   4000
          End
@@ -384,9 +361,17 @@ Begin VB.Form frmPlanillaDiaria
             Left            =   1650
             List            =   "frmPlanillaDiaria.frx":003E
             Style           =   2  'Dropdown List
-            TabIndex        =   28
+            TabIndex        =   26
             Top             =   240
             Width           =   4000
+         End
+         Begin VB.CommandButton cmdBuscar 
+            Caption         =   "Buscar"
+            Height          =   735
+            Left            =   14160
+            TabIndex        =   31
+            Top             =   240
+            Width           =   1215
          End
          Begin VB.Label lblfecha 
             Caption         =   "Label3"
@@ -401,9 +386,9 @@ Begin VB.Form frmPlanillaDiaria
             EndProperty
             ForeColor       =   &H8000000D&
             Height          =   255
-            Left            =   7200
-            TabIndex        =   32
-            Top             =   240
+            Left            =   6360
+            TabIndex        =   30
+            Top             =   480
             Width           =   4455
          End
          Begin VB.Label Label1 
@@ -412,7 +397,7 @@ Begin VB.Form frmPlanillaDiaria
             Height          =   195
             Index           =   0
             Left            =   480
-            TabIndex        =   31
+            TabIndex        =   29
             Top             =   660
             Width           =   735
          End
@@ -422,7 +407,7 @@ Begin VB.Form frmPlanillaDiaria
             Height          =   195
             Index           =   13
             Left            =   480
-            TabIndex        =   29
+            TabIndex        =   27
             Top             =   300
             Width           =   450
          End
@@ -430,15 +415,15 @@ Begin VB.Form frmPlanillaDiaria
             AutoSize        =   -1  'True
             Caption         =   "Fecha:"
             Height          =   195
-            Left            =   12000
-            TabIndex        =   18
-            Top             =   300
+            Left            =   11880
+            TabIndex        =   17
+            Top             =   540
             Width           =   495
          End
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
          Height          =   5505
-         Left            =   165
+         Left            =   -74835
          TabIndex        =   10
          Top             =   1935
          Width           =   13860
@@ -504,11 +489,12 @@ Begin VB.Form frmPlanillaDiaria
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      ForeColor       =   &H8000000D&
       Height          =   240
-      Left            =   195
-      TabIndex        =   17
-      Top             =   7335
-      Width           =   660
+      Left            =   360
+      TabIndex        =   33
+      Top             =   7920
+      Width           =   2460
    End
 End
 Attribute VB_Name = "frmPlanillaDiaria"
@@ -516,12 +502,128 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub Label14_Click()
+Dim precio_comida, precio_sopa, precio_postre, precio_pan, precio_descartable, precio_remise, monto_total As Double
+Dim monto_sopa, monto_postre, monto_pan, monto_descartable, monto_remise, vianda As Double
+
+Private Sub CmdBuscar_Click()
+    grdGrilla.Rows = 1
+    
+    'Verifico si ya fue creada la planilla
+    sql = "SELECT PDI_FECHA FROM PLANILLA_DIARIA "
+    sql = sql & " WHERE PDI_FECHA=" & XDQ(Fecha)
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    If Rec1.EOF = True Then
+        'NUEVA PLANILLA
+        crearplanilla
+        lblEstado.Caption = "Planilla Nueva"
+    Else
+        'PLANILLA EXISTENTE
+        cargarplanilla
+        lblEstado.Caption = "Planilla Existente"
+    End If
+    Rec1.Close
+    
+    
+    
+End Sub
+'Private Function preciovianda() As Double
+'    preciovianda = 0
+'    Rec1.Open "SELECT VIA_PRECIO FROM VIANDAS WHERE VIA_CODIGO=1", DBConn, adOpenStatic, adLockOptimistic
+'    If Rec1.EOF = False Then
+'        preciovianda = Format(Rec1!VIA_PRECIO, "#,##0.00")
+'    End If
+'    Rec1.Close
+'
+'End Function
+Private Sub cmdGrabar_Click()
+   'Verifico si ya fue creada la planilla
+   sql = "SELECT PDI_FECHA FROM PLANILLA_DIARIA "
+   sql = sql & " WHERE PDI_FECHA=" & XDQ(Fecha)
+    
+   rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+   If rec.EOF = True Then
+       If MsgBox("Confirma la planilla diaria del: " & lblfecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+            'PLANILLA_DIARIA
+            sql = " INSERT INTO PLANILLA_DIARIA"
+            sql = sql & "(PDI_FECHA,COM_CODIGO1, COM_CODIGO2, PDI_TOTAL, PDI_OBSERVA)"
+            sql = sql & " VALUES ("
+            sql = sql & XDQ(Fecha.Value) & ","
+            sql = sql & cboMenu.ItemData(cboMenu.ListIndex) & ","
+            sql = sql & cboVariantes.ItemData(cboVariantes.ListIndex) & ","
+            sql = sql & XN(txtTotal.Text) & ","
+            sql = sql & XS(txtObservaciones.Text) & ")"
+            DBConn.Execute sql
+            
+            'PLANILLA_DIARIA_DETALLE
+            For i = 1 To grdGrilla.Rows - 1
+                'INSERTAR NUEVOS
+                sql = " INSERT INTO PLANILLA_DIARIA_DETALLE "
+                sql = sql & "(PDI_FECHA,CLI_CODIGO, PDI_PRECIO, PDI_ALMUER, PDI_CENA,"
+                sql = sql & "PDI_SOPA,PDI_POSTRE,PDI_PAN,PDI_DESCAR,PDI_REMISE)"
+                sql = sql & " VALUES ("
+                sql = sql & XDQ(Fecha.Value) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 14)) & "," 'CODIGO_CLIENTE
+                sql = sql & XN(grdGrilla.TextMatrix(i, 0)) & "," 'PDI_PRECIO
+                sql = sql & XN(grdGrilla.TextMatrix(i, 3)) & "," 'PDI_ALMUER
+                sql = sql & XN(grdGrilla.TextMatrix(i, 4)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 5)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 6)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & ")"
+                DBConn.Execute sql
+            Next
+       End If
+   Else
+        If MsgBox("La planilla diaria del dia: " & lblfecha.Caption & " ya ha sido grabada. " & Chr(13) & "Desea modificarla?", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+            'ACTUALIZO PLANILLA_DIARIA
+            
+            'PLANILLA_DIARIA
+            sql = " UPDATE PLANILLA_DIARIA SET "
+            sql = sql & "COM_CODIGO1=" & cboMenu.ItemData(cboMenu.ListIndex)
+            sql = sql & ",COM_CODIGO2=" & cboVariantes.ItemData(cboVariantes.ListIndex)
+            sql = sql & ",PDI_TOTAL=" & XN(txtTotal.Text)
+            sql = sql & ",PDI_OBSERVA=" & XS(txtObservaciones.Text)
+            sql = sql & " WHERE PDI_FECHA = " & XDQ(Fecha)
+            DBConn.Execute sql
+            
+            
+            sql = "DELETE FROM PLANILLA_DIARIA_DETALLE WHERE PDI_FECHA=" & XDQ(Fecha)
+            DBConn.Execute sql
+            
+            For i = 1 To grdGrilla.Rows - 1
+                'INSERTAR NUEVOS
+                sql = " INSERT INTO PLANILLA_DIARIA_DETALLE "
+                sql = sql & "(PDI_FECHA,CLI_CODIGO, PDI_PRECIO, PDI_ALMUER, PDI_CENA,"
+                sql = sql & "PDI_SOPA,PDI_POSTRE,PDI_PAN,PDI_DESCAR,PDI_REMISE)"
+                sql = sql & " VALUES ("
+                sql = sql & XDQ(Fecha.Value) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 14)) & "," 'CODIGO_CLIENTE
+                sql = sql & XN(grdGrilla.TextMatrix(i, 0)) & "," 'PDI_PRECIO
+                sql = sql & XN(grdGrilla.TextMatrix(i, 3)) & "," 'PDI_ALMUER
+                sql = sql & XN(grdGrilla.TextMatrix(i, 4)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 5)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 6)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","
+                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & ")"
+                DBConn.Execute sql
+              Next
+        End If
+    End If
+    rec.Close
+End Sub
+
+Private Sub cmdImprimir_Click()
 
 End Sub
 
-Private Sub CmdBuscar_Click()
-    crearplanilla
+Private Sub CmdNuevo_Click()
+    lblEstado.Caption = ""
+    grdGrilla.Rows = 1
+    cboMenu.ListIndex = 0
+    cboVariantes.ListIndex = 0
+    Fecha = Date
 End Sub
 
 Private Sub CmdSalir_Click()
@@ -547,8 +649,9 @@ Private Function crearplanilla()
     Dim Cli As Integer
     Dim i As Integer
     DIA = dia_programa(Fecha)
-    sql = "SELECT  * FROM CLIENTE C, PROGRAMA_CLIENTE PC"
+    sql = "SELECT  * FROM CLIENTE C, PROGRAMA_CLIENTE PC, LOCALIDAD L"
     sql = sql & " WHERE C.CLI_CODIGO=PC.CLI_CODIGO "
+    sql = sql & " AND C.LOC_CODIGO = L.LOC_CODIGO "
     sql = sql & " AND (PC.PRG_CODIGO = " & DIA & " OR PC.PRG_CODIGO= " & DIA + 8 & ")" 'ALMUERZO MAS CENA DE ESE
     rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
@@ -557,10 +660,27 @@ Private Function crearplanilla()
         Do While Not rec.EOF
             If rec!CLI_CODIGO = Cli Then
                 'ACTUALIZAR COLUMMNA CENA
-                grdGrilla.TextMatrix(i, 5) = rec!PRC_CANT
+                grdGrilla.TextMatrix(i, 4) = rec!PRC_CANT
             Else
                 Cli = rec!CLI_CODIGO
-                grdGrilla.AddItem "$70,00" & Chr(9) & "M" & Chr(9) & rec!CLI_RAZSOC & Chr(9) & "" & Chr(9) & rec!PRC_CANT
+                grdGrilla.AddItem Chk0(rec!CLI_TOTAL) & Chr(9) & _
+                                  TIPO_FAC(rec!CLI_FACTURA) & Chr(9) & _
+                                  rec!CLI_RAZSOC & Chr(9) & _
+                                  rec!PRC_CANT & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   rec!CLI_DIAGNO & Chr(9) & _
+                                   rec!LOC_DESCRI & Chr(9) & _
+                                   "" & Chr(9) & _
+                                   rec!CLI_CODIGO
+                                   
+
+                
                 i = i + 1
             End If
             rec.MoveNext
@@ -568,25 +688,161 @@ Private Function crearplanilla()
     End If
     rec.Close
     
-'    sql = "SELECT  * FROM CLIENTE C, CLIENTE_VIANDAS CV,PROGRAMA_CLIENTE PG"
-'    sql = sql & " WHERE C.CLI_CODIGO=CV.CLI_CODIGO "
-'    sql = sql & " AND PG.CLI_CODIGO=C.CLI_CODIGO "
-'    sql = sql & " AND (PC.PRG_CODIGO = " & DIA & " OR PC.PRG_CODIGO= " & DIA + 8 & ")" 'ALMUERZO MAS CENA DE ESE
-'    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
-'
-    
+    'SACAR DE CLIENTE VIANDAS SI TIENE POSTRE, PAN, DESCARTABLES O REMISE
+    ' SI EL CLIENTE TIENE 2 ALMUERZOS Y TIENE SELECCIONADO POSTRE
+    ' PAN Y/O DESCARTABLES, PONER UN DOS. O PONER UN SI/NO
     'Recorro la grilla y cargo lo q se incluye de la vianda
     If grdGrilla.Rows > 1 Then
         For i = 1 To grdGrilla.Rows - 1
             
+            sql = "SELECT  * FROM CLIENTE C, CLIENTE_VIANDAS CV"
+            sql = sql & " WHERE C.CLI_CODIGO=CV.CLI_CODIGO "
+            sql = sql & " AND C.CLI_CODIGO=" & grdGrilla.TextMatrix(i, 14)
+            rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+            If rec.EOF = False Then
+                Do While rec.EOF = False
+                    Select Case rec!VIA_CODIGO
+                        Case 2 ' Sopa
+                            grdGrilla.TextMatrix(i, 5) = 1
+                        Case 3 ' Postre
+                            grdGrilla.TextMatrix(i, 6) = 1
+                        Case 4 ' Pan
+                            grdGrilla.TextMatrix(i, 7) = 1
+                        Case 5 ' Descartable
+                            grdGrilla.TextMatrix(i, 8) = 1
+                        Case 6 ' Remise
+                            grdGrilla.TextMatrix(i, 9) = 1
+                    End Select
+                    rec.MoveNext
+                Loop
+            End If
+            'actualizo el montos
+            grdGrilla.TextMatrix(i, 15) = grdGrilla.TextMatrix(i, 0) 'precio unitario de comida por defecto
+            grdGrilla.TextMatrix(i, 0) = monto(i) ' monto por cantidad de almuerzo/cena
+            
+            rec.Close
         Next
+        txtTotal = SumaTotal
+        txtTotal = Valido_Importe(txtTotal)
     End If
+    
+    
+End Function
+
+Private Function cargarplanilla()
+    'obtener que dia es hoy, segun fecha actual y programa
+    'verificar si es feriado
+    'buscar clientes por programa_cliente
+    Dim DIA As Integer
+    Dim Cli As Integer
+    Dim i As Integer
+    DIA = dia_programa(Fecha)
+    sql = "SELECT  *"
+    sql = sql & " FROM PLANILLA_DIARIA P"
+    sql = sql & " WHERE "
+    sql = sql & " PDI_FECHA= " & Fecha.Value
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    If rec.EOF = False Then
+        BuscaCodigoProxItemData rec!COM_CODIGO1, cboMenu
+        BuscaCodigoProxItemData rec!COM_CODIGO2, cboVariantes
+        txtTotal.Text = Chk0(rec!PDI_TOTAL)
+        txtObservaciones.Text = ChkNull(rec!PDI_OBSERVA)
+    End If
+    rec.Close
+    
+    sql = "SELECT  P.* ,CL.CLI_RAZSOC,CL.CLI_FACTURA,CL.CLI_DIAGNO, L.LOC_DESCRI "
+    sql = sql & " FROM PLANILLA_DIARIA_DETALLE P, CLIENTE CL, LOCALIDAD L"
+    sql = sql & " WHERE CL.CLI_CODIGO=P.CLI_CODIGO"
+    sql = sql & " AND CL.LOC_CODIGO=L.LOC_CODIGO"
+    sql = sql & " AND P.PDI_FECHA= " & XDQ(Fecha.Value)
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    If rec.EOF = False Then
+        Do While Not rec.EOF
+            grdGrilla.AddItem Chk0(rec!PDI_PRECIO) & Chr(9) & _
+                              TIPO_FAC(rec!CLI_FACTURA) & Chr(9) & _
+                              rec!CLI_RAZSOC & Chr(9) & _
+                              ChkNull(rec!PDI_ALMUER) & Chr(9) & _
+                              ChkNull(rec!PDI_CENA) & Chr(9) & _
+                              ChkNull(rec!PDI_SOPA) & Chr(9) & _
+                              ChkNull(rec!PDI_POSTRE) & Chr(9) & _
+                              ChkNull(rec!PDI_PAN) & Chr(9) & _
+                              ChkNull(rec!PDI_DESCAR) & Chr(9) & _
+                              ChkNull(rec!PDI_REMISE) & Chr(9) & _
+                              ChkNull(rec!PDI_VIANDA) & Chr(9) & _
+                              ChkNull(rec!CLI_DIAGNO) & Chr(9) & _
+                              ChkNull(rec!LOC_DESCRI) & Chr(9) & _
+                              ChkNull(rec!CLI_CODIGO) & Chr(9) & _
+                              Chk0(rec!PDI_PRECIO)
+            i = i + 1
+            rec.MoveNext
+        Loop
+    End If
+    rec.Close
+    
+    txtTotal = SumaTotal
+    txtTotal = Valido_Importe(txtTotal)
+    
+End Function
+
+Private Function TIPO_FAC(Codigo As Integer) As String
+    Dim letra As String
+    letra = ""
+    Select Case Codigo
+        Case 1 ' DIARIA
+            letra = "D"
+        Case 2 ' SEMANAL
+            letra = "S"
+        Case 3 'QUINCENAL
+            letra = "Q"
+        Case 4 'MENSUAL
+            letra = "M"
+    End Select
+    
+    TIPO_FAC = letra
+End Function
+Private Function monto(Fila As Integer) As Double
+'    grdGrilla.ColWidth(3) = 700 'Almuerzo
+'    grdGrilla.ColWidth(4) = 700  'Cena
+'    grdGrilla.ColWidth(5) = 700  'Sopa
+'    grdGrilla.ColWidth(6) = 700  'Postre
+'    grdGrilla.ColWidth(7) = 700  'Pan
+'    grdGrilla.ColWidth(8) = 700 'Descart.
+'    grdGrilla.ColWidth(9) = 700  'Remise
+    
+    Dim montoaux As Double
+    
+    montoaux = 0
+    'Calcular monto de comida mas, lo que sume en la grilla, por ej, comid 50, sin son 2
+    'precio_sopa, precio_postre, precio_pan, precio_descartable, precio_remise
+    
+    ' precio comida por almuerzo o cenas
+    montoaux = precio_comida * (CInt(Chk0(grdGrilla.TextMatrix(Fila, 3))) + CInt(Chk0(grdGrilla.TextMatrix(Fila, 4))))
+    
+    'sumo precio sopa
+    montoaux = montoaux + precio_sopa * (CInt(Chk0(grdGrilla.TextMatrix(Fila, 5))))
+    
+    'sumo precio postre
+    montoaux = montoaux + precio_postre * (CInt(Chk0(grdGrilla.TextMatrix(Fila, 6))))
+    
+    'sumo precio pan
+    montoaux = montoaux + precio_pan * (CInt(Chk0(grdGrilla.TextMatrix(Fila, 7))))
+    
+    'sumo precio descartable
+    montoaux = montoaux + precio_descartable * (CInt(Chk0(grdGrilla.TextMatrix(Fila, 8))))
+    
+    'sumo precio remise
+    montoaux = montoaux + precio_remise * (CInt(Chk0(grdGrilla.TextMatrix(Fila, 9))))
+    monto = montoaux
 End Function
 Private Function dia_programa(Fecha As Date) As Integer
     Dim day As String
     day = Weekday(Fecha)
     dia_programa = day
 End Function
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+
+End Sub
 
 Private Sub Form_Load()
 Set rec = New ADODB.Recordset
@@ -599,9 +855,36 @@ Set rec = New ADODB.Recordset
     Fecha.Value = Date
     lblfecha.Caption = FechaLetras(Fecha.day, Fecha.dayofweek, Fecha.month, Fecha.year)
     cargar_comidas
-    
+    cargo_precios
+    lblEstado.Caption = ""
     
 End Sub
+Private Function cargo_precios()
+    sql = "SELECT * FROM VIANDAS"
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    If Rec1.EOF = False Then
+        Do While Rec1.EOF = False
+            Select Case Rec1!VIA_CODIGO
+                Case 1 ' comida
+                    precio_comida = Chk0(Rec1!VIA_PRECIO)
+                Case 2 ' Sopa
+                    precio_sopa = Chk0(Rec1!VIA_PRECIO)
+                Case 3 ' Postre
+                    precio_postre = Chk0(Rec1!VIA_PRECIO)
+                Case 4 ' Pan
+                    precio_pan = Chk0(Rec1!VIA_PRECIO)
+                Case 5 ' Descartable
+                    precio_descartable = Chk0(Rec1!VIA_PRECIO)
+                Case 6 ' Remise
+                    precio_remise = Chk0(Rec1!VIA_PRECIO)
+            End Select
+            Rec1.MoveNext
+        Loop
+     End If
+     Rec1.Close
+End Function
+
+
 Private Function cargar_comidas()
     sql = "SELECT COM_CODIGO,COM_DESCRI, TCOM_CODIGO "
     sql = sql & " FROM COMIDAS"
@@ -623,22 +906,25 @@ Private Function cargar_comidas()
     rec.Close
 End Function
 Private Function preparargrillas()
-    grdGrilla.FormatString = "^Precio|<Fact|^Nombre.|>Sopa|Almuerza|Cena|>Vianda completa/Variantes|Postre|Pan|Diagnosticos|Entrega|Observaciones|Codigo Cliente"
+    grdGrilla.FormatString = "Precio|<Fact|Nombre.|Almuer|Cena|>Sopa|Postre|Pan|Descartable|Remise|Vianda/Variantes|Diagnosticos|Entrega|Observaciones|Codigo Cliente|Monto"
     grdGrilla.ColWidth(0) = 700 'Precio
     grdGrilla.ColWidth(1) = 500 'Fact
     grdGrilla.ColWidth(2) = 2500 'Nombre
-    grdGrilla.ColWidth(3) = 700 'Sopa
-    grdGrilla.ColWidth(4) = 700  'Almuerzo
-    grdGrilla.ColWidth(5) = 700  'Cena
-    grdGrilla.ColWidth(6) = 3000 'Vianda
-    grdGrilla.ColWidth(7) = 500  'Postre
-    grdGrilla.ColWidth(8) = 500  'Pan
-    grdGrilla.ColWidth(9) = 2000  'Diagnostico
-    grdGrilla.ColWidth(10) = 700  'Entrega
-    grdGrilla.ColWidth(11) = 3000  'Observaciones
-    grdGrilla.ColWidth(12) = 0  'Codigo cliente
+    grdGrilla.ColWidth(3) = 700 'Almuerzo
+    grdGrilla.ColWidth(4) = 700  'Cena
+    grdGrilla.ColWidth(5) = 700  'Sopa
+    grdGrilla.ColWidth(6) = 700  'Postre
+    grdGrilla.ColWidth(7) = 700  'Pan
+    grdGrilla.ColWidth(8) = 700 'Descart.
+    grdGrilla.ColWidth(9) = 700  'Remise
+    grdGrilla.ColWidth(10) = 2000  'Vianda
+    grdGrilla.ColWidth(11) = 1500  'Diagnostico
+    grdGrilla.ColWidth(12) = 850  'Entrega
+    grdGrilla.ColWidth(13) = 1000  'Observaciones
+    grdGrilla.ColWidth(14) = 0  'Codigo cliente
+    grdGrilla.ColWidth(15) = 1000  'Monto inicial
     grdGrilla.Rows = 1
-    grdGrilla.Cols = 13
+    grdGrilla.Cols = 16
     'grdGrilla.HighLight = flexHighlightNever
     grdGrilla.BorderStyle = flexBorderNone
     grdGrilla.row = 0
@@ -653,6 +939,25 @@ Private Function buscoplanilladiaria()
 
 End Function
 
+Private Sub grdGrilla_Click()
+    Select Case grdGrilla.Col
+    Case 3
+        grdGrilla.ToolTipText = "Precio del almuerzo: $" & precio_comida
+    Case 4
+        grdGrilla.ToolTipText = "Precio de la cena: $" & precio_comida
+    Case 5
+        grdGrilla.ToolTipText = "Precio de la sopa: $" & precio_sopa
+    Case 6
+        grdGrilla.ToolTipText = "Precio de la postre: $" & precio_postre
+    Case 7
+        grdGrilla.ToolTipText = "Precio de la pan: $" & precio_pan
+    Case 8
+        grdGrilla.ToolTipText = "Precio de la descartable: $" & precio_descartable
+    Case 9
+        grdGrilla.ToolTipText = "Precio del remise: $" & precio_remise
+    End Select
+End Sub
+
 Private Sub grdGrilla_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyDelete Then
         Select Case grdGrilla.Col
@@ -662,7 +967,10 @@ Private Sub grdGrilla_KeyDown(KeyCode As Integer, Shift As Integer)
             'txtSubtotal.Text = Valido_Importe(CStr(SumaTotal))
             'txtTotal.Text = Valido_Importe(CStr(SumaTotal))
             'txtPorcentajeIva_LostFocus
+        Case 3, 4, 5, 6, 7, 8, 9
+            grdGrilla.TextMatrix(grdGrilla.RowSel, grdGrilla.Col) = ""
         End Select
+        
     End If
     If KeyCode = vbKeyReturn Then
         Select Case grdGrilla.Col
@@ -681,15 +989,31 @@ Private Sub grdGrilla_LeaveCell()
 End Sub
 
 Private Sub TxtEdit_KeyDown(KeyCode As Integer, Shift As Integer)
-    If KeyCode = vbKeyReturn Then
-        mFoco = True
-        grdGrilla.Col = 0
-        grdGrilla.row = grdGrilla.RowSel
-    End If
+
     If KeyCode = vbKeyEscape Then
        txtEdit.Visible = False
        grdGrilla.SetFocus
     End If
+    If KeyCode = vbKeyDelete Then
+        txtEdit.Visible = True
+        txtEdit.Text = ""
+        grdGrilla.SetFocus
+    
+    End If
+    If KeyCode = vbKeyReturn Then
+        'If grdGrilla.Col > 2 And grdGrilla.Col < 10 Then
+        '    grdGrilla.TextMatrix(grdGrilla.RowSel, 0) = monto(grdGrilla.RowSel)
+
+        'End If
+        mFoco = True
+        grdGrilla.Col = 2
+        grdGrilla.row = grdGrilla.RowSel
+        grdGrilla.SetFocus
+        
+        
+    End If
+    grdGrilla.TextMatrix(grdGrilla.RowSel, 0) = monto(grdGrilla.RowSel)
+    'txtEdit.Visible = True
 End Sub
 
 Private Sub TxtEdit_KeyPress(KeyAscii As Integer)
@@ -698,16 +1022,19 @@ Private Sub TxtEdit_KeyPress(KeyAscii As Integer)
     If grdGrilla.Col = 3 Then KeyAscii = CarNumeroEntero(KeyAscii)
     If grdGrilla.Col = 4 Then KeyAscii = CarNumeroEntero(KeyAscii)
     If grdGrilla.Col = 5 Then KeyAscii = CarNumeroEntero(KeyAscii)
+    If grdGrilla.Col = 6 Then KeyAscii = CarNumeroEntero(KeyAscii)
     If grdGrilla.Col = 7 Then KeyAscii = CarNumeroEntero(KeyAscii)
     If grdGrilla.Col = 8 Then KeyAscii = CarNumeroEntero(KeyAscii)
+    If grdGrilla.Col = 9 Then KeyAscii = CarNumeroEntero(KeyAscii)
+    If grdGrilla.Col = 10 Then KeyAscii = CarTexto(KeyAscii)
     
     
     CarTexto KeyAscii
 End Sub
 Private Sub grdGrilla_KeyPress(KeyAscii As Integer)
-    If (grdGrilla.Col = 0) Or (grdGrilla.Col = 1) Or (grdGrilla.Col = 2) Or (grdGrilla.Col = 3) Or (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 7) Or (grdGrilla.Col = 8) Then
+    If (grdGrilla.Col = 0) Or (grdGrilla.Col = 1) Or (grdGrilla.Col = 2) Or (grdGrilla.Col = 3) Or (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 6) Or (grdGrilla.Col = 7) Or (grdGrilla.Col = 8) Or (grdGrilla.Col = 9) Or (grdGrilla.Col = 10) Then
         If KeyAscii = vbKeyReturn Then
-            If (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 6) Or (grdGrilla.Col = 8) Or (grdGrilla.Col = 9) Then '2
+            If (grdGrilla.Col = 0) Or (grdGrilla.Col = 3) Or (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 6) Or (grdGrilla.Col = 8) Or (grdGrilla.Col = 9) Then  '2
                 If grdGrilla.row < grdGrilla.Rows - 1 Then
                     grdGrilla.row = grdGrilla.row + 1
                     grdGrilla.Col = 0
@@ -718,7 +1045,7 @@ Private Sub grdGrilla_KeyPress(KeyAscii As Integer)
                 grdGrilla.Col = grdGrilla.Col + 1
             End If
         Else
-            If (grdGrilla.Col = 3) Or (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 7) Or (grdGrilla.Col = 8) Then 'grdGrilla.Col = 0 Or
+            If (grdGrilla.Col = 3) Or (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 6) Or (grdGrilla.Col = 7) Or (grdGrilla.Col = 8) Or (grdGrilla.Col = 9) Then  'grdGrilla.Col = 0 Or
                 If KeyAscii > 47 And KeyAscii < 58 Then
                     EDITAR grdGrilla, txtEdit, KeyAscii
                 End If
@@ -728,3 +1055,10 @@ Private Sub grdGrilla_KeyPress(KeyAscii As Integer)
         End If
     End If
 End Sub
+Private Function SumaTotal() As Double
+    Dim i As Integer
+    SumaTotal = 0
+    For i = 1 To grdGrilla.Rows - 1
+        SumaTotal = SumaTotal + CDbl(grdGrilla.TextMatrix(i, 0))
+    Next
+End Function

@@ -21,36 +21,36 @@ Begin VB.Form ABMComida
    ScaleHeight     =   2385
    ScaleWidth      =   4590
    ShowInTaskbar   =   0   'False
-   Begin VB.ComboBox cboLinea 
+   Begin VB.ComboBox cboTipoComida 
       Height          =   315
       ItemData        =   "ABMComida.frx":0000
-      Left            =   1080
+      Left            =   240
       List            =   "ABMComida.frx":0002
       Style           =   2  'Dropdown List
-      TabIndex        =   7
-      Top             =   120
-      Width           =   3375
+      TabIndex        =   0
+      Top             =   360
+      Width           =   4215
    End
    Begin VB.TextBox txtDescri 
       Height          =   300
       Left            =   210
       MaxLength       =   50
-      TabIndex        =   1
-      Top             =   975
+      TabIndex        =   2
+      Top             =   1575
       Width           =   4275
    End
    Begin VB.TextBox txtID 
       Height          =   300
       Left            =   210
-      TabIndex        =   0
-      Top             =   375
+      TabIndex        =   1
+      Top             =   975
       Width           =   720
    End
    Begin VB.CommandButton cmdCerrar 
       Caption         =   "&Cerrar"
       Height          =   345
       Left            =   3120
-      TabIndex        =   3
+      TabIndex        =   4
       Top             =   1980
       Width           =   1300
    End
@@ -58,7 +58,7 @@ Begin VB.Form ABMComida
       Caption         =   "&Aceptar"
       Height          =   345
       Left            =   1740
-      TabIndex        =   2
+      TabIndex        =   3
       Top             =   1980
       Width           =   1300
    End
@@ -67,9 +67,9 @@ Begin VB.Form ABMComida
       Caption         =   "Tipo comida:"
       Height          =   195
       Index           =   2
-      Left            =   1440
-      TabIndex        =   6
-      Top             =   480
+      Left            =   240
+      TabIndex        =   7
+      Top             =   120
       Width           =   900
    End
    Begin VB.Label Label1 
@@ -78,8 +78,8 @@ Begin VB.Form ABMComida
       Height          =   195
       Index           =   1
       Left            =   240
-      TabIndex        =   5
-      Top             =   780
+      TabIndex        =   6
+      Top             =   1380
       Width           =   870
    End
    Begin VB.Label Label1 
@@ -88,8 +88,8 @@ Begin VB.Form ABMComida
       Height          =   195
       Index           =   0
       Left            =   240
-      TabIndex        =   4
-      Top             =   150
+      TabIndex        =   5
+      Top             =   750
       Width           =   270
    End
 End
@@ -192,10 +192,10 @@ Function SetMode(pMode As Integer)
     Select Case pMode
         Case 1, 2
             AcCtrl txtDescri
-            AcCtrl txtTelefono
+            AcCtrl cboTipoComida
         Case 3, 4
             DesacCtrl txtDescri
-            DesacCtrl txtTelefono
+            DesacCtrl cboTipoComida
     End Select
     
     
@@ -259,18 +259,23 @@ Function Validar(pMode As Integer) As Boolean
             txtDescri.SetFocus
             Exit Function
             
-'        ElseIf txtTelefono.Text = "" Then
-'            Beep
-'            MsgBox "Falta información." & Chr(13) & _
-'                             "Ingrese el teléfono que identifica a la " & cDesRegistro & " antes de aceptar.", vbCritical + vbOKOnly, App.Title
-'            txtDescri.SetFocus
-'            Exit Function
+
         End If
     End If
     
     Validar = True
     
 End Function
+
+Private Sub cboTipoComida_Change()
+    AcCtrl txtID
+    txtID_LostFocus
+    DesacCtrl txtID
+End Sub
+
+Private Sub cboTipoComida_LostFocus()
+    cmdAceptar.Enabled = True
+End Sub
 
 Private Sub cmdAceptar_Click()
 
@@ -289,13 +294,13 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & "VALUES "
                 cSQL = cSQL & "     (" & XN(txtID.Text) & ", "
                 cSQL = cSQL & XS(txtDescri.Text) & ", "
-                cSQL = cSQL & XS(txtTelefono.Text) & ") "
+                cSQL = cSQL & cboTipoComida.ItemData(cboTipoComida.ListIndex) & ") "
             
             Case 2 'editar
                 
                 cSQL = "UPDATE " & cTabla & " SET "
                 cSQL = cSQL & "  COM_DESCRI = " & XS(txtDescri.Text)
-                cSQL = cSQL & " ,TCOM_CODIGO = " & XS(txtTelefono.Text)
+                cSQL = cSQL & " ,TCOM_CODIGO = " & cboTipoComida.ItemData(cboTipoComida.ListIndex)
                 cSQL = cSQL & " WHERE COM_CODIGO  = " & XN(txtID.Text)
             
             Case 4 'eliminar
@@ -372,6 +377,12 @@ Private Sub Form_Load()
     'txtID.MaxLength = 4
     'txtDescri.MaxLength = 30
     
+    'CARGO COMBO Tipo de Comida
+    Call CargoComboBox(cboTipoComida, "TIPO_COMIDA", "TCOM_CODIGO", "TCOM_DESCRI")
+    If cboTipoComida.ListCount > 0 Then
+        cboTipoComida.ListIndex = 0
+    End If
+    
     If vMode <> 1 Then
         If vFieldID <> "0" Then
             cSQL = "SELECT * FROM " & cTabla & "  WHERE COM_CODIGO = " & Mid(vFieldID, 2, Len(vFieldID) - 2)
@@ -381,7 +392,7 @@ Private Sub Form_Load()
                 'si encontró el registro muestro los datos
                 txtID.Text = rec!COM_CODIGO
                 txtDescri.Text = Trim(rec!COM_DESCRI)
-                txtTelefono.Text = ChkNull(rec!TCOM_CODIGO)
+                Call BuscaCodigoProxItemData(rec!TCOM_CODIGO, cboTipoComida)
             Else
                 Beep
                 MsgBox "Imposible encontrar el registro seleccionado.", vbCritical + vbOKOnly, App.Title
@@ -449,14 +460,4 @@ Private Sub txtID_LostFocus()
     End If
 End Sub
 
-Private Sub txtTelefono_Change()
-    cmdAceptar.Enabled = True
-End Sub
 
-Private Sub txtTelefono_GotFocus()
-    seltxt
-End Sub
-
-Private Sub txtTelefono_KeyPress(KeyAscii As Integer)
-    KeyAscii = CarTexto(KeyAscii)
-End Sub

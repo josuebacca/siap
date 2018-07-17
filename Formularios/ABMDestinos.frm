@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form ABMDestinos 
+Begin VB.Form frmpl 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Datos de Destinos..."
    ClientHeight    =   2025
@@ -84,7 +84,7 @@ Begin VB.Form ABMDestinos
       Width           =   270
    End
 End
-Attribute VB_Name = "ABMDestinos"
+Attribute VB_Name = "frmpl"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

@@ -392,7 +392,6 @@ Begin VB.Form frmFacturaCliente
       _ExtentY        =   10160
       _Version        =   393216
       Tabs            =   2
-      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   512
       ForeColor       =   -2147483630
@@ -407,7 +406,7 @@ Begin VB.Form frmFacturaCliente
       EndProperty
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmFacturaCliente.frx":0012
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Frame3"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Frame1"
@@ -419,7 +418,7 @@ Begin VB.Form frmFacturaCliente
       Tab(0).ControlCount=   4
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmFacturaCliente.frx":002E
-      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "GrdModulos"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "frameBuscar"
@@ -437,7 +436,7 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1395
-         Left            =   -71415
+         Left            =   3585
          TabIndex        =   46
          Top             =   345
          Width           =   6675
@@ -546,7 +545,7 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1470
-         Left            =   195
+         Left            =   -74805
          TabIndex        =   31
          Top             =   420
          Width           =   9990
@@ -560,7 +559,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   109445121
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -573,7 +572,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   109445121
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -676,7 +675,7 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1395
-         Left            =   -74895
+         Left            =   105
          TabIndex        =   29
          Top             =   345
          Width           =   3480
@@ -690,7 +689,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   109445121
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtNroSucursal 
@@ -793,7 +792,7 @@ Begin VB.Form frmFacturaCliente
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
          Height          =   3705
-         Left            =   165
+         Left            =   -74835
          TabIndex        =   22
          Top             =   1935
          Width           =   10020
@@ -820,7 +819,7 @@ Begin VB.Form frmFacturaCliente
       End
       Begin VB.Frame Frame1 
          Height          =   615
-         Left            =   -74895
+         Left            =   105
          TabIndex        =   55
          Top             =   1650
          Width           =   10155
@@ -914,7 +913,7 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   3525
-         Left            =   -74895
+         Left            =   105
          TabIndex        =   30
          Top             =   2175
          Width           =   10155
@@ -2383,10 +2382,10 @@ Private Sub TxtEdit_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 
-Private Function BuscoRepetetidos(Codigo As String, linea As Integer) As Boolean
+Private Function BuscoRepetetidos(codigo As String, linea As Integer) As Boolean
     For i = 1 To grdGrilla.Rows - 1
         If grdGrilla.TextMatrix(i, 5) <> "" Then
-            If Codigo = CStr(grdGrilla.TextMatrix(i, 5)) And (i <> linea) Then
+            If codigo = CStr(grdGrilla.TextMatrix(i, 5)) And (i <> linea) Then
                 MsgBox "El Producto ya fue elegido anteriormente", vbExclamation, TIT_MSGBOX
                 BuscoRepetetidos = False
                 Exit Function
