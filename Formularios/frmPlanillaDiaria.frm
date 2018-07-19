@@ -5,10 +5,10 @@ Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmPlanillaDiaria 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Planilla Diaria"
-   ClientHeight    =   8325
+   ClientHeight    =   7875
    ClientLeft      =   300
    ClientTop       =   1365
-   ClientWidth     =   16035
+   ClientWidth     =   14475
    ControlBox      =   0   'False
    BeginProperty Font 
       Name            =   "Tahoma"
@@ -24,40 +24,40 @@ Begin VB.Form frmPlanillaDiaria
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    MinButton       =   0   'False
-   ScaleHeight     =   8325
-   ScaleWidth      =   16035
+   ScaleHeight     =   7875
+   ScaleWidth      =   14475
    Begin VB.CommandButton cmdImprimir 
       Caption         =   "&Imprimir"
       Height          =   450
       Left            =   7920
       TabIndex        =   1
-      Top             =   7800
+      Top             =   7440
       Width           =   870
    End
    Begin VB.CommandButton CmdSalir 
       Caption         =   "&Salir"
       Height          =   450
-      Left            =   14895
+      Left            =   13335
       TabIndex        =   3
-      Top             =   7770
+      Top             =   7410
       Width           =   870
    End
    Begin VB.CommandButton cmdNuevo 
       Caption         =   "&Cancelar"
       Height          =   450
-      Left            =   13995
+      Left            =   12435
       TabIndex        =   2
-      Top             =   7770
+      Top             =   7410
       Width           =   870
    End
    Begin TabDlg.SSTab tabDatos 
-      Height          =   7680
+      Height          =   7320
       Left            =   15
       TabIndex        =   11
       Top             =   30
-      Width           =   15990
-      _ExtentX        =   28205
-      _ExtentY        =   13547
+      Width           =   14430
+      _ExtentX        =   25453
+      _ExtentY        =   12912
       _Version        =   393216
       Tabs            =   2
       TabsPerRow      =   5
@@ -83,8 +83,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(0)=   "frameBuscar"
+      Tab(1).Control(1)=   "GrdModulos"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -96,19 +96,32 @@ Begin VB.Form frmPlanillaDiaria
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   6165
+         Height          =   5805
          Left            =   105
          TabIndex        =   20
-         Top             =   1335
-         Width           =   15795
+         Top             =   1455
+         Width           =   14235
+         Begin VB.CommandButton cmdAgregarProducto 
+            Height          =   330
+            Left            =   13800
+            MaskColor       =   &H8000000F&
+            Picture         =   "frmPlanillaDiaria.frx":0038
+            Style           =   1  'Graphical
+            TabIndex        =   35
+            TabStop         =   0   'False
+            ToolTipText     =   "Agregar Cliente"
+            Top             =   360
+            UseMaskColor    =   -1  'True
+            Width           =   390
+         End
          Begin VB.TextBox txtObservaciones 
             BackColor       =   &H00C0FFFF&
             Height          =   405
             Left            =   3495
             MaxLength       =   60
             TabIndex        =   22
-            Top             =   5700
-            Width           =   12210
+            Top             =   5340
+            Width           =   10650
          End
          Begin VB.TextBox txtTotal 
             Alignment       =   1  'Right Justify
@@ -127,7 +140,7 @@ Begin VB.Form frmPlanillaDiaria
             Left            =   120
             Locked          =   -1  'True
             TabIndex        =   21
-            Top             =   5700
+            Top             =   5340
             Width           =   1215
          End
          Begin VB.TextBox txtEdit 
@@ -141,13 +154,13 @@ Begin VB.Form frmPlanillaDiaria
             Width           =   1185
          End
          Begin MSFlexGridLib.MSFlexGrid grdGrilla 
-            Height          =   5490
+            Height          =   5130
             Left            =   75
             TabIndex        =   24
             Top             =   165
-            Width           =   15630
-            _ExtentX        =   27570
-            _ExtentY        =   9684
+            Width           =   13710
+            _ExtentX        =   24183
+            _ExtentY        =   9049
             _Version        =   393216
             Rows            =   3
             Cols            =   6
@@ -170,6 +183,19 @@ Begin VB.Form frmPlanillaDiaria
                Strikethrough   =   0   'False
             EndProperty
          End
+         Begin VB.CommandButton cmdQuitarProducto 
+            Height          =   330
+            Left            =   13800
+            MaskColor       =   &H8000000F&
+            Picture         =   "frmPlanillaDiaria.frx":0342
+            Style           =   1  'Graphical
+            TabIndex        =   34
+            TabStop         =   0   'False
+            ToolTipText     =   "Quitar Cliente"
+            Top             =   720
+            UseMaskColor    =   -1  'True
+            Width           =   390
+         End
          Begin VB.Label Label12 
             AutoSize        =   -1  'True
             Caption         =   "Observaciones:"
@@ -185,7 +211,7 @@ Begin VB.Form frmPlanillaDiaria
             Height          =   195
             Left            =   2130
             TabIndex        =   25
-            Top             =   5835
+            Top             =   5475
             Width           =   1290
          End
       End
@@ -203,7 +229,7 @@ Begin VB.Form frmPlanillaDiaria
          Left            =   -74805
          TabIndex        =   14
          Top             =   420
-         Width           =   9990
+         Width           =   14070
          Begin MSComCtl2.DTPicker FechaDesde 
             Height          =   315
             Left            =   2520
@@ -214,7 +240,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54657025
+            Format          =   20971521
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -255,11 +281,11 @@ Begin VB.Form frmPlanillaDiaria
          Begin VB.CommandButton CmdBuscAprox 
             Caption         =   "Buscar"
             Height          =   390
-            Left            =   7935
+            Left            =   10200
             MaskColor       =   &H000000FF&
             TabIndex        =   9
             ToolTipText     =   "Buscar "
-            Top             =   915
+            Top             =   600
             UseMaskColor    =   -1  'True
             Width           =   1575
          End
@@ -273,7 +299,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54657025
+            Format          =   20971521
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -332,24 +358,24 @@ Begin VB.Form frmPlanillaDiaria
          Left            =   105
          TabIndex        =   13
          Top             =   345
-         Width           =   15720
+         Width           =   14040
          Begin MSComCtl2.DTPicker Fecha 
             Height          =   315
-            Left            =   12480
+            Left            =   11520
             TabIndex        =   32
             Top             =   480
             Width           =   1215
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   54657025
+            Format          =   20971521
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
             Height          =   315
-            ItemData        =   "frmPlanillaDiaria.frx":0038
-            Left            =   1650
-            List            =   "frmPlanillaDiaria.frx":003A
+            ItemData        =   "frmPlanillaDiaria.frx":10C4
+            Left            =   1050
+            List            =   "frmPlanillaDiaria.frx":10C6
             Style           =   2  'Dropdown List
             TabIndex        =   28
             Top             =   600
@@ -357,9 +383,9 @@ Begin VB.Form frmPlanillaDiaria
          End
          Begin VB.ComboBox cboMenu 
             Height          =   315
-            ItemData        =   "frmPlanillaDiaria.frx":003C
-            Left            =   1650
-            List            =   "frmPlanillaDiaria.frx":003E
+            ItemData        =   "frmPlanillaDiaria.frx":10C8
+            Left            =   1050
+            List            =   "frmPlanillaDiaria.frx":10CA
             Style           =   2  'Dropdown List
             TabIndex        =   26
             Top             =   240
@@ -367,11 +393,11 @@ Begin VB.Form frmPlanillaDiaria
          End
          Begin VB.CommandButton cmdBuscar 
             Caption         =   "Buscar"
-            Height          =   735
-            Left            =   14160
+            Height          =   615
+            Left            =   12840
             TabIndex        =   31
             Top             =   240
-            Width           =   1215
+            Width           =   1095
          End
          Begin VB.Label lblfecha 
             Caption         =   "Label3"
@@ -386,7 +412,7 @@ Begin VB.Form frmPlanillaDiaria
             EndProperty
             ForeColor       =   &H8000000D&
             Height          =   255
-            Left            =   6360
+            Left            =   5640
             TabIndex        =   30
             Top             =   480
             Width           =   4455
@@ -396,7 +422,7 @@ Begin VB.Form frmPlanillaDiaria
             Caption         =   "Variantes:"
             Height          =   195
             Index           =   0
-            Left            =   480
+            Left            =   240
             TabIndex        =   29
             Top             =   660
             Width           =   735
@@ -406,7 +432,7 @@ Begin VB.Form frmPlanillaDiaria
             Caption         =   "Menu:"
             Height          =   195
             Index           =   13
-            Left            =   480
+            Left            =   240
             TabIndex        =   27
             Top             =   300
             Width           =   450
@@ -415,20 +441,20 @@ Begin VB.Form frmPlanillaDiaria
             AutoSize        =   -1  'True
             Caption         =   "Fecha:"
             Height          =   195
-            Left            =   11880
+            Left            =   10920
             TabIndex        =   17
             Top             =   540
             Width           =   495
          End
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
-         Height          =   5505
+         Height          =   5145
          Left            =   -74835
          TabIndex        =   10
          Top             =   1935
-         Width           =   13860
-         _ExtentX        =   24448
-         _ExtentY        =   9710
+         Width           =   14100
+         _ExtentX        =   24871
+         _ExtentY        =   9075
          _Version        =   393216
          Cols            =   12
          FixedCols       =   0
@@ -471,9 +497,9 @@ Begin VB.Form frmPlanillaDiaria
    Begin VB.CommandButton cmdGrabar 
       Caption         =   "&Aceptar"
       Height          =   450
-      Left            =   13095
+      Left            =   11535
       TabIndex        =   0
-      Top             =   7770
+      Top             =   7410
       Width           =   870
    End
    Begin VB.Label lblEstado 
@@ -493,7 +519,7 @@ Begin VB.Form frmPlanillaDiaria
       Height          =   240
       Left            =   360
       TabIndex        =   33
-      Top             =   7920
+      Top             =   7560
       Width           =   2460
    End
 End
@@ -620,6 +646,18 @@ Private Sub CmdNuevo_Click()
     cboMenu.ListIndex = 0
     cboVariantes.ListIndex = 0
     Fecha = Date
+End Sub
+
+Private Sub cmdQuitarProducto_Click()
+    If MsgBox("Seguro que desea quitar el Cliente: " & grdGrilla.TextMatrix(grdGrilla.RowSel, 2), vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+        If grdGrilla.Rows > 2 Then
+            grdGrilla.RemoveItem (grdGrilla.RowSel)
+        Else
+            grdGrilla.Rows = 1
+        End If
+        txtTotal = SumaTotal
+        txtTotal = Valido_Importe(txtTotal)
+    End If
 End Sub
 
 Private Sub CmdSalir_Click()
@@ -885,7 +923,7 @@ Private Function cargar_comidas()
        Do While rec.EOF = False
           cboMenu.AddItem Trim(rec!COM_DESCRI)
           cboMenu.ItemData(cboMenu.NewIndex) = rec!COM_CODIGO
-          rec.MoveNext
+          
           
           cboVariantes.AddItem Trim(rec!COM_DESCRI)
           cboVariantes.ItemData(cboVariantes.NewIndex) = rec!COM_CODIGO
@@ -901,15 +939,15 @@ Private Function preparargrillas()
     grdGrilla.FormatString = "Precio|<Fact|Nombre.|Almuer|Cena|>Sopa|Postre|Pan|Descartable|Remise|Vianda/Variantes|Diagnosticos|Entrega|Observaciones|Codigo Cliente|Monto"
     grdGrilla.ColWidth(0) = 700 'Precio
     grdGrilla.ColWidth(1) = 500 'Fact
-    grdGrilla.ColWidth(2) = 2500 'Nombre
-    grdGrilla.ColWidth(3) = 700 'Almuerzo
-    grdGrilla.ColWidth(4) = 700  'Cena
-    grdGrilla.ColWidth(5) = 700  'Sopa
-    grdGrilla.ColWidth(6) = 700  'Postre
-    grdGrilla.ColWidth(7) = 700  'Pan
-    grdGrilla.ColWidth(8) = 700 'Descart.
-    grdGrilla.ColWidth(9) = 700  'Remise
-    grdGrilla.ColWidth(10) = 2000  'Vianda
+    grdGrilla.ColWidth(2) = 2300 'Nombre
+    grdGrilla.ColWidth(3) = 600 'Almuerzo
+    grdGrilla.ColWidth(4) = 600  'Cena
+    grdGrilla.ColWidth(5) = 600  'Sopa
+    grdGrilla.ColWidth(6) = 600  'Postre
+    grdGrilla.ColWidth(7) = 600  'Pan
+    grdGrilla.ColWidth(8) = 600 'Descart.
+    grdGrilla.ColWidth(9) = 600  'Remise
+    grdGrilla.ColWidth(10) = 1500  'Vianda
     grdGrilla.ColWidth(11) = 1500  'Diagnostico
     grdGrilla.ColWidth(12) = 850  'Entrega
     grdGrilla.ColWidth(13) = 1000  'Observaciones

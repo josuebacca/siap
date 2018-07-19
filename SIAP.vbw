@@ -1,4 +1,4 @@
-GENERAL = 75, 75, 1249, 738, Z
+GENERAL = 75, 75, 1249, 738, 
 modConstantesDB = 0, 0, 0, 0, C
 modDllBusqueda = 0, 0, 0, 0, C
 modDllListaBaseABM = 225, 225, 1399, 888, C
@@ -59,7 +59,7 @@ frmDatosClientes = 0, 0, 0, 0, C, 200, 200, 1374, 863, C
 frmCumpleaños = 0, 0, 0, 0, C, 175, 175, 1349, 838, C
 frmControlVisitas = 0, 0, 0, 0, C, 125, 125, 1299, 788, C
 ABMProfesion = 0, 0, 0, 0, C, 100, 100, 1274, 763, C
-frmPlanillaDiaria = 50, 50, 1253, 713, , 25, 25, 1228, 688, C
+frmPlanillaDiaria = 50, 50, 1253, 713, Z, 25, 25, 1228, 688, C
 ABMVianda = 50, 50, 1224, 713, , 75, 75, 1249, 738, C
 ABMComida = 88, 116, 1425, 637, C, 110, 145, 1246, 783, C
 ABMTipoComida = 0, 0, 0, 0, C, 44, 58, 821, 472, C
