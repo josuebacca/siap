@@ -39,42 +39,29 @@ Begin VB.Form ABMClientes
       _ExtentY        =   13256
       _Version        =   393216
       Tabs            =   4
-      Tab             =   3
+      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   520
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "ABMClientes.frx":0BC2
       Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Label1(12)"
-      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label1(11)"
-      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "Label1(10)"
-      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "Label1(7)"
-      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "Label1(9)"
-      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "txtCuit"
-      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "txtIngresosBrutos"
-      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "txtMail"
-      Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "txtObserva"
-      Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "Frame3"
-      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "cboPais"
-      Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "cboIva"
-      Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "Frame8"
-      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "&Programas"
       TabPicture(1)   =   "ABMClientes.frx":0BDE
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "Frame5"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
@@ -86,13 +73,10 @@ Begin VB.Form ABMClientes
       Tab(2).ControlCount=   2
       TabCaption(3)   =   "Vianda"
       TabPicture(3)   =   "ABMClientes.frx":0C16
-      Tab(3).ControlEnabled=   -1  'True
-      Tab(3).Control(0)=   "txtMedica"
-      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).ControlEnabled=   0   'False
+      Tab(3).Control(0)=   "Frame4"
       Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "Frame4"
-      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(2)=   "txtMedica"
       Tab(3).ControlCount=   3
       Begin VB.Frame Frame8 
          Caption         =   "Altas/Bajas"
@@ -155,7 +139,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   20971521
+               Format          =   111149057
                CurrentDate     =   40071
             End
          End
@@ -236,7 +220,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   5775
-         Left            =   4200
+         Left            =   -70800
          TabIndex        =   67
          Top             =   1080
          Width           =   2775
@@ -286,7 +270,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   5775
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   61
          Top             =   1080
          Width           =   3975
@@ -505,7 +489,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00C00000&
          Height          =   6855
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   48
          Top             =   480
          Width           =   7095
@@ -923,7 +907,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   20971521
+               Format          =   111149057
                CurrentDate     =   40070
             End
          End
@@ -1116,7 +1100,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtMedica 
          Height          =   285
-         Left            =   10560
+         Left            =   -64440
          MultiLine       =   -1  'True
          TabIndex        =   41
          Top             =   6380
@@ -1339,7 +1323,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   20971521
+            Format          =   111149057
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1352,7 +1336,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   20971521
+            Format          =   111149057
             CurrentDate     =   40071
          End
          Begin VB.Image Image1 

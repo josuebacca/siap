@@ -508,7 +508,7 @@ Public Function FechaSQL(ByRef pFecha As String) As String
     Else
         'si es una fecha valida
         If IsDate(CDate(pFecha)) Then
-            FechaSQL = "'" & Format(Month(pFecha), "00") & "/" & Format(day(pFecha), "00") & "/" & Format(Year(pFecha), "0000") & "'"
+            FechaSQL = "'" & Format(month(pFecha), "00") & "/" & Format(day(pFecha), "00") & "/" & Format(year(pFecha), "0000") & "'"
         End If
     End If
 End Function
@@ -516,7 +516,7 @@ End Function
 Public Function VerificarFecha(Fecha As String) As Boolean
 
 Dim DIA As Integer
-Dim MES As Integer
+Dim mes As Integer
 Dim año As Integer
 Dim nombredelmes As String
     
@@ -532,44 +532,44 @@ Dim nombredelmes As String
     End If
     
     DIA = Val(Mid(Trim(Fecha), 1, 2))
-    MES = Val(Mid(Trim(Fecha), 3, 2))
+    mes = Val(Mid(Trim(Fecha), 3, 2))
     año = Val(Mid(Trim(Fecha), 5, 4))
     
-    If MES = 1 Then nombredelmes = "Enero"
-    If MES = 3 Then nombredelmes = "Marzo"
-    If MES = 4 Then nombredelmes = "Abril"
-    If MES = 5 Then nombredelmes = "Mayo"
-    If MES = 6 Then nombredelmes = "Junio"
-    If MES = 7 Then nombredelmes = "Julio"
-    If MES = 8 Then nombredelmes = "Agosto"
-    If MES = 9 Then nombredelmes = "Septiembre"
-    If MES = 10 Then nombredelmes = "Octubre"
-    If MES = 11 Then nombredelmes = "Noviembre"
-    If MES = 12 Then nombredelmes = "Diciembre"
+    If mes = 1 Then nombredelmes = "Enero"
+    If mes = 3 Then nombredelmes = "Marzo"
+    If mes = 4 Then nombredelmes = "Abril"
+    If mes = 5 Then nombredelmes = "Mayo"
+    If mes = 6 Then nombredelmes = "Junio"
+    If mes = 7 Then nombredelmes = "Julio"
+    If mes = 8 Then nombredelmes = "Agosto"
+    If mes = 9 Then nombredelmes = "Septiembre"
+    If mes = 10 Then nombredelmes = "Octubre"
+    If mes = 11 Then nombredelmes = "Noviembre"
+    If mes = 12 Then nombredelmes = "Diciembre"
     
-    If MES < 1 Then
+    If mes < 1 Then
         Beep
         MsgBox "El mes no puede ser menor de 1  !", vbExclamation, TIT_MSGBOX
         GoTo Error
     End If
     
-    If MES > 12 Then
+    If mes > 12 Then
         Beep
         MsgBox "El mes no puede ser mayor de 12  !", vbExclamation, TIT_MSGBOX
         GoTo Error
     End If
     
-    If ((MES = 1) Or (MES = 1) Or (MES = 3) Or (MES = 5) Or (MES = 6) Or (MES = 8) Or (MES = 10) Or (MES = 12)) And DIA > 31 Then
+    If ((mes = 1) Or (mes = 1) Or (mes = 3) Or (mes = 5) Or (mes = 6) Or (mes = 8) Or (mes = 10) Or (mes = 12)) And DIA > 31 Then
         Beep
         MsgBox Trim(nombredelmes) & " tiene sólo 31 días !", vbExclamation, TIT_MSGBOX
         GoTo Error
     End If
-    If MES = 2 And DIA > 28 Then
+    If mes = 2 And DIA > 28 Then
         Beep
         MsgBox "Febrero tiene sólo 28 días !", vbExclamation, TIT_MSGBOX
         GoTo Error
     End If
-    If ((MES = 4) Or (MES = 7) Or (MES = 9) Or (MES = 11)) And DIA > 30 Then
+    If ((mes = 4) Or (mes = 7) Or (mes = 9) Or (mes = 11)) And DIA > 30 Then
         Beep
         MsgBox Trim(nombredelmes) & " tiene sólo 30 días !", vbExclamation, TIT_MSGBOX
         GoTo Error
@@ -754,13 +754,13 @@ Function GetFechaConBarras(Fecha As String)
      GetFechaConBarras = ""
      Exit Function
   End If
-  MES = Mid(Fecha, POS1 + 1, POS2 - POS1 - 1)
-  Select Case Len(MES)
+  mes = Mid(Fecha, POS1 + 1, POS2 - POS1 - 1)
+  Select Case Len(mes)
   Case Is < 1
     GetFechaConBarras = ""
     Exit Function
   Case 1
-    MES = "0" & MES
+    mes = "0" & mes
   Case Is > 2
     GetFechaConBarras = ""
     Exit Function
@@ -779,12 +779,12 @@ Function GetFechaConBarras(Fecha As String)
     GetFechaConBarras = ""
     Exit Function
   Case 1
-    Anio = Left(Trim(Str(Year(Now))), 2) & "0" & Anio
+    Anio = Left(Trim(Str(year(Now))), 2) & "0" & Anio
   Case 2
-    Anio = Left(Trim(Str(Year(Now))), 2) & Anio
+    Anio = Left(Trim(Str(year(Now))), 2) & Anio
   End Select
  
-  GetFechaConBarras = DIA & MES & Anio
+  GetFechaConBarras = DIA & mes & Anio
   
 End Function
 
@@ -793,7 +793,7 @@ Function GetFechaSinBarras(Fecha As String)
   Case Is < 6
     GetFechaSinBarras = ""
   Case 6
-    GetFechaSinBarras = Left(Fecha, 4) & Left(Year(Now), 2) & Right(Fecha, 2)
+    GetFechaSinBarras = Left(Fecha, 4) & Left(year(Now), 2) & Right(Fecha, 2)
   Case 7
     GetFechaSinBarras = ""
   Case 8
@@ -830,26 +830,26 @@ Function ValidarIngresoFecha(Fecha As String) As String
   End If
   
 'Controla el mes ----------------
-  MES = Mid(Fecha, 3, 2)
-  If Not IsNumeric(MES) Then
+  mes = Mid(Fecha, 3, 2)
+  If Not IsNumeric(mes) Then
     ValidarIngresoFecha = ""
     Exit Function
   End If
-  If MES < "0" Or MES > "12" Then
+  If mes < "0" Or mes > "12" Then
     ValidarIngresoFecha = ""
     Exit Function
   End If
-  If MES = "2" And DIA > "28" Then 'Febrero (falta control para bisiesto)
+  If mes = "2" And DIA > "28" Then 'Febrero (falta control para bisiesto)
     ValidarIngresoFecha = ""
     Exit Function
   End If
-  If (MES = "4" Or MES = "6" Or MES = "9" Or MES = "11") And DIA > "30" Then
+  If (mes = "4" Or mes = "6" Or mes = "9" Or mes = "11") And DIA > "30" Then
     ValidarIngresoFecha = ""
     Exit Function
   End If
   
   Anio = Right(Fecha, 4)
-  FechaAValid = DIA & "/" & MES & "/" & Anio
+  FechaAValid = DIA & "/" & mes & "/" & Anio
   
   ValidarIngresoFecha = IIf(IsDate(FechaAValid), FechaAValid, "")
 
@@ -882,15 +882,15 @@ Public Function Carga_Fecha(Ctrl As MaskEdBox)
     If Num = 6 Then
 
         If Right(Valor, 2) > 50 Then
-            año = Left(Year(Date), 2) + Right(Valor, 2)
+            año = Left(year(Date), 2) + Right(Valor, 2)
         Else
-            año = Left(Year(Date) + 1, 2) + Right(Valor, 2)
+            año = Left(year(Date) + 1, 2) + Right(Valor, 2)
         End If
 
         Carga_Fecha = Left(Valor, 2) + "/" + Mid(Valor, 3, 2) + "/" + año
 
     ElseIf Num = 4 Then
-        Carga_Fecha = Left(Valor, 2) + "/" + Mid(Valor, 3, 2) + "/" + CStr(Year(Date))
+        Carga_Fecha = Left(Valor, 2) + "/" + Mid(Valor, 3, 2) + "/" + CStr(year(Date))
     Else
         Carga_Fecha = Fec
     End If
@@ -1977,7 +1977,7 @@ Calculo_Edad = Int(DateDiff("m", CVDate(Fec_Nac), FecAct) / 12)
 'PD: Esto no lo hago contando los dias y luego dividiendo por 365
 'porque no se como tratar los años bisiestos asi que por las dudas lo hago a mano
 
-If Month(FecAct) = Month(Fec_Nac) And day(FecAct) < day(Fec_Nac) Then Calculo_Edad = Calculo_Edad - 1
+If month(FecAct) = month(Fec_Nac) And day(FecAct) < day(Fec_Nac) Then Calculo_Edad = Calculo_Edad - 1
 
 'Si tiene menos de un año devuelvo un decimal que indica la edad en meses
 If Calculo_Edad = 0 Then
@@ -2042,7 +2042,7 @@ End Function
 Public Function UltimoDiadelMes(Fecha As Date) As Date
     Dim Fec As Date
     Fec = DateAdd("m", 1, Fecha)
-    Fec = "01/" & Month(Fec) & "/" & Year(Fec)
+    Fec = "01/" & month(Fec) & "/" & year(Fec)
     UltimoDiadelMes = DateAdd("d", -1, Fec)
 End Function
 

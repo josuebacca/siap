@@ -26,6 +26,14 @@ Begin VB.Form frmPlanillaDiaria
    MinButton       =   0   'False
    ScaleHeight     =   7875
    ScaleWidth      =   14475
+   Begin VB.CommandButton cmdReporte 
+      Caption         =   "&Reporte"
+      Height          =   450
+      Left            =   11535
+      TabIndex        =   39
+      Top             =   7440
+      Width           =   870
+   End
    Begin VB.TextBox txtVariantes 
       Height          =   315
       Left            =   1200
@@ -267,7 +275,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110559233
+            Format          =   111149057
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -326,7 +334,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110559233
+            Format          =   111149057
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -402,7 +410,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   110559233
+            Format          =   111149057
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -565,6 +573,55 @@ Attribute VB_Exposed = False
 Dim precio_comida, precio_sopa, precio_postre, precio_pan, precio_descartable, precio_remise, monto_total As Double
 Dim monto_sopa, monto_postre, monto_pan, monto_descartable, monto_remise, vianda As Double
 
+Private Sub cmdAgregarProducto_Click()
+      BuscarClientes
+End Sub
+Public Sub BuscarClientes()
+    Dim cSQL As String
+    Dim hSQL As String
+    Dim B As CBusqueda
+    Dim i, posicion As Integer
+    Set B = New CBusqueda
+    With B
+        cSQL = "SELECT CLI_RAZSOC, CLI_CODIGO,CLI_NRODOC"
+        cSQL = cSQL & " FROM CLIENTE C"
+        
+        hSQL = "Nombre, Código, DNI"
+        .sql = cSQL
+        .Headers = hSQL
+        .Field = "CLI_RAZSOC"
+        campo1 = .Field
+        .Field = "CLI_CODIGO"
+        campo2 = .Field
+        .Field = "CLI_NRODOC"
+        campo3 = .Field
+        
+        .OrderBy = "CLI_RAZSOC"
+        camponumerico = False
+        .Titulo = "Busqueda de Clientes :"
+        .MaxRecords = 1
+        .Show
+
+        ' utilizar la coleccion de datos devueltos
+'        If .ResultFields.Count > 0 Then
+'            If Txt = "txtcodCli" Then
+'                txtcodigo.Text = .ResultFields(2)
+'                'txtCodCli_LostFocus
+'            Else
+'                If .ResultFields(3) = "" Then
+'                    txtBuscaCliente.Text = .ResultFields(2)
+'                    txtcodigo.Text = .ResultFields(2)
+'                Else
+'                    txtBuscaCliente.Text = .ResultFields(3)
+'                End If
+'                txtBuscaCliente_LostFocus
+'            End If
+'        End If
+    End With
+
+    Set B = Nothing
+End Sub
+
 Private Sub CmdBuscar_Click()
     grdGrilla.Rows = 1
     
@@ -605,7 +662,7 @@ Private Sub cmdGrabar_Click()
        If MsgBox("Confirma la planilla diaria del: " & lblfecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
             'PLANILLA_DIARIA
             sql = " INSERT INTO PLANILLA_DIARIA"
-            sql = sql & "(PDI_FECHA,COM_CODIGO1, COM_CODIGO2, PDI_TOTAL,PDI_TOTREM, PDI_OBSERVA)"
+            sql = sql & "(PDI_FECHA,MEN_PRINCIP, MEN_VARIAN, PDI_TOTAL,PDI_TOTREM, PDI_OBSERVA)"
             sql = sql & " VALUES ("
             sql = sql & XDQ(Fecha.Value) & ","
             'sql = sql & cboMenu.ItemData(cboMenu.ListIndex) & ","
@@ -700,6 +757,58 @@ Private Sub cmdQuitarProducto_Click()
         txtTotalRemis = SumaTotalRemis
         txtTotal = Valido_Importe(txtTotal)
     End If
+End Sub
+
+Private Sub cmdReporte_Click()
+    Dim ultimoimporte As Double
+    Dim ultimoid As Integer
+    'If txtCodCliente.Text = "" Or GrillaAplicar.Rows = 1 Then Exit Sub
+    Screen.MousePointer = vbHourglass
+    'lblEstado.Caption = "Buscando Recibo..."
+
+    sql = "DELETE FROM TMP_PLANILLA" 'CREAR TMP PALNILLA
+    DBConn.Execute sql
+    i = 1
+    
+    For i = 1 To grdGrilla.Rows - 1
+        If grdGrilla.TextMatrix(i, 1) <> "" Then
+            sql = "INSERT INTO TMP_PLANILLA "
+            sql = sql & " (TMP_ID,TMP_HORA,TMP_FECHA,TMP_DOCTOR,TMP_PACIENTE,TMP_EDAD,TMP_TELEFONO,TMP_CELULAR,TMP_OSOCIAL,TMP_MOTIVO,TMP_DRSOLICITA,TMP_IMPORTE)"
+            sql = sql & " VALUES ( "
+            sql = sql & i & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 0)) & ","
+            sql = sql & XDQ(MViewFecha.Value) & ","
+            sql = sql & XS(cboDoctor.Text) & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 1)) & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 2)) & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 3)) & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 4)) & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 5)) & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 6)) & ","
+            sql = sql & XS(grdGrilla.TextMatrix(i, 7)) & ","
+            sql = sql & XN(grdGrilla.TextMatrix(i, 14)) & ")"
+            DBConn.Execute sql
+        End If
+    Next
+    ultimoimporte = XN(grdGrilla.TextMatrix(grdGrilla.Rows - 1, 14))
+    ultimoid = grdGrilla.Rows - 1
+    
+    'actualizo tabla para solucionar lo del ultimo registro
+    sql = "UPDATE TMP_TURNOS"
+    sql = sql & " SET TMP_IMPORTE=" & ultimoimporte
+    sql = sql & " WHERE TMP_ID=" & ultimoid
+    DBConn.Execute sql
+
+    Rep.WindowState = crptMaximized
+    Rep.WindowBorderStyle = crptNoBorder
+    Rep.Connect = "Provider=MSDASQL.1;Persist Security Info=False;Data Source=" & SERVIDOR
+
+    Rep.WindowTitle = "Listado de Turnos del dia"
+    Rep.ReportFileName = DirReport & "rptTurnosDiario.rpt"
+    Rep.Action = 1
+'    lblEstado.Caption = ""
+    Screen.MousePointer = vbNormal
+    Rep.SelectionFormula = ""
 End Sub
 
 Private Sub CmdSalir_Click()
