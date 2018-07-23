@@ -1,5 +1,6 @@
 VERSION 5.00
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmPlanillaDiaria 
@@ -26,14 +27,6 @@ Begin VB.Form frmPlanillaDiaria
    MinButton       =   0   'False
    ScaleHeight     =   7875
    ScaleWidth      =   14475
-   Begin VB.CommandButton cmdReporte 
-      Caption         =   "&Reporte"
-      Height          =   450
-      Left            =   11535
-      TabIndex        =   39
-      Top             =   7440
-      Width           =   870
-   End
    Begin VB.TextBox txtVariantes 
       Height          =   315
       Left            =   1200
@@ -63,10 +56,11 @@ Begin VB.Form frmPlanillaDiaria
    End
    Begin VB.CommandButton cmdImprimir 
       Caption         =   "&Imprimir"
+      Enabled         =   0   'False
       Height          =   450
-      Left            =   7920
+      Left            =   10680
       TabIndex        =   1
-      Top             =   7440
+      Top             =   7410
       Width           =   870
    End
    Begin VB.CommandButton CmdSalir 
@@ -80,7 +74,7 @@ Begin VB.Form frmPlanillaDiaria
    Begin VB.CommandButton cmdNuevo 
       Caption         =   "&Cancelar"
       Height          =   450
-      Left            =   12435
+      Left            =   12450
       TabIndex        =   2
       Top             =   7410
       Width           =   870
@@ -118,8 +112,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameBuscar"
-      Tab(1).Control(1)=   "GrdModulos"
+      Tab(1).Control(0)=   "GrdModulos"
+      Tab(1).Control(1)=   "frameBuscar"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -275,7 +269,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111149057
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -334,7 +328,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111149057
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -410,7 +404,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   111149057
+            Format          =   21037057
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -421,6 +415,7 @@ Begin VB.Form frmPlanillaDiaria
             Style           =   2  'Dropdown List
             TabIndex        =   28
             Top             =   600
+            Visible         =   0   'False
             Width           =   4000
          End
          Begin VB.ComboBox cboMenu 
@@ -431,6 +426,7 @@ Begin VB.Form frmPlanillaDiaria
             Style           =   2  'Dropdown List
             TabIndex        =   26
             Top             =   240
+            Visible         =   0   'False
             Width           =   4000
          End
          Begin VB.CommandButton cmdBuscar 
@@ -539,10 +535,18 @@ Begin VB.Form frmPlanillaDiaria
    Begin VB.CommandButton cmdGrabar 
       Caption         =   "&Aceptar"
       Height          =   450
-      Left            =   11535
+      Left            =   11565
       TabIndex        =   0
       Top             =   7410
       Width           =   870
+   End
+   Begin Crystal.CrystalReport Rep 
+      Left            =   7080
+      Top             =   7440
+      _ExtentX        =   741
+      _ExtentY        =   741
+      _Version        =   348160
+      PrintFileLinesPerPage=   60
    End
    Begin VB.Label lblEstado 
       AutoSize        =   -1  'True
@@ -633,10 +637,12 @@ Private Sub CmdBuscar_Click()
         'NUEVA PLANILLA
         crearplanilla
         lblEstado.Caption = "Planilla Nueva"
+        cmdImprimir.Enabled = False
     Else
         'PLANILLA EXISTENTE
         cargarplanilla
         lblEstado.Caption = "Planilla Existente"
+        cmdImprimir.Enabled = True
     End If
     Rec1.Close
     
@@ -662,7 +668,7 @@ Private Sub cmdGrabar_Click()
        If MsgBox("Confirma la planilla diaria del: " & lblfecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
             'PLANILLA_DIARIA
             sql = " INSERT INTO PLANILLA_DIARIA"
-            sql = sql & "(PDI_FECHA,MEN_PRINCIP, MEN_VARIAN, PDI_TOTAL,PDI_TOTREM, PDI_OBSERVA)"
+            sql = sql & "(PDI_FECHA,MEN_PRINCI, MEN_VARIAN, PDI_TOTAL,PDI_TOTREM, PDI_OBSERVA)"
             sql = sql & " VALUES ("
             sql = sql & XDQ(Fecha.Value) & ","
             'sql = sql & cboMenu.ItemData(cboMenu.ListIndex) & ","
@@ -734,6 +740,32 @@ Private Sub cmdGrabar_Click()
         End If
     End If
     rec.Close
+    
+    If MsgBox("Desea imprimir la PLANILLA DE INDICACIONES Y DISTRIBUCION del dia: " & lblfecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+        cmdImprimir_Click
+    End If
+End Sub
+
+Private Sub cmdImprimir_Click()
+    Screen.MousePointer = vbHourglass
+  
+    
+    Rep.SelectionFormula = ""
+    Rep.Formulas(0) = ""
+    Rep.SortFields(0) = ""
+    
+    Rep.SelectionFormula = " {PLANILLA_DIARIA.PDI_FECHA} >= DATE (" & Mid(Fecha.Value, 7, 4) & "," & Mid(Fecha.Value, 4, 2) & "," & Mid(Fecha.Value, 1, 2) & ")"
+    
+    Rep.WindowState = crptMaximized
+    Rep.WindowBorderStyle = crptNoBorder
+    Rep.Connect = "Provider=MSDASQL.1;Persist Security Info=False;Data Source=" & SERVIDOR
+    
+    Rep.WindowTitle = "Planilla de Indicacion y Distribucion"
+    Rep.ReportFileName = DirReport & "planilla_diaria.rpt"
+    Rep.Action = 1
+'    lblEstado.Caption = ""
+    Screen.MousePointer = vbNormal
+    Rep.SelectionFormula = ""
 End Sub
 
 Private Sub CmdNuevo_Click()
@@ -744,6 +776,7 @@ Private Sub CmdNuevo_Click()
     'cboMenu.ListIndex = 0
     'cboVariantes.ListIndex = 0
     Fecha = Date
+    cmdImprimir.Enabled = False
 End Sub
 
 Private Sub cmdQuitarProducto_Click()
@@ -760,55 +793,7 @@ Private Sub cmdQuitarProducto_Click()
 End Sub
 
 Private Sub cmdReporte_Click()
-    Dim ultimoimporte As Double
-    Dim ultimoid As Integer
-    'If txtCodCliente.Text = "" Or GrillaAplicar.Rows = 1 Then Exit Sub
-    Screen.MousePointer = vbHourglass
-    'lblEstado.Caption = "Buscando Recibo..."
-
-    sql = "DELETE FROM TMP_PLANILLA" 'CREAR TMP PALNILLA
-    DBConn.Execute sql
-    i = 1
     
-    For i = 1 To grdGrilla.Rows - 1
-        If grdGrilla.TextMatrix(i, 1) <> "" Then
-            sql = "INSERT INTO TMP_PLANILLA "
-            sql = sql & " (TMP_ID,TMP_HORA,TMP_FECHA,TMP_DOCTOR,TMP_PACIENTE,TMP_EDAD,TMP_TELEFONO,TMP_CELULAR,TMP_OSOCIAL,TMP_MOTIVO,TMP_DRSOLICITA,TMP_IMPORTE)"
-            sql = sql & " VALUES ( "
-            sql = sql & i & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 0)) & ","
-            sql = sql & XDQ(MViewFecha.Value) & ","
-            sql = sql & XS(cboDoctor.Text) & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 1)) & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 2)) & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 3)) & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 4)) & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 5)) & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 6)) & ","
-            sql = sql & XS(grdGrilla.TextMatrix(i, 7)) & ","
-            sql = sql & XN(grdGrilla.TextMatrix(i, 14)) & ")"
-            DBConn.Execute sql
-        End If
-    Next
-    ultimoimporte = XN(grdGrilla.TextMatrix(grdGrilla.Rows - 1, 14))
-    ultimoid = grdGrilla.Rows - 1
-    
-    'actualizo tabla para solucionar lo del ultimo registro
-    sql = "UPDATE TMP_TURNOS"
-    sql = sql & " SET TMP_IMPORTE=" & ultimoimporte
-    sql = sql & " WHERE TMP_ID=" & ultimoid
-    DBConn.Execute sql
-
-    Rep.WindowState = crptMaximized
-    Rep.WindowBorderStyle = crptNoBorder
-    Rep.Connect = "Provider=MSDASQL.1;Persist Security Info=False;Data Source=" & SERVIDOR
-
-    Rep.WindowTitle = "Listado de Turnos del dia"
-    Rep.ReportFileName = DirReport & "rptTurnosDiario.rpt"
-    Rep.Action = 1
-'    lblEstado.Caption = ""
-    Screen.MousePointer = vbNormal
-    Rep.SelectionFormula = ""
 End Sub
 
 Private Sub CmdSalir_Click()
@@ -940,8 +925,8 @@ Private Function cargarplanilla()
     End If
     rec.Close
     
-    sql = "SELECT  P.* ,CL.CLI_RAZSOC,CL.CLI_FACTURA,CL.CLI_DIAGNO, L.LOC_DESCRI "
-    sql = sql & " FROM PLANILLA_DIARIA_DETALLE P, CLIENTE CL, LOCALIDAD L,CLIENTE_VIANDAS CV,VIANDAS V"
+    sql = "SELECT  P.* ,CL.CLI_RAZSOC,CL.CLI_FACTURA,CL.CLI_DIAGNO, L.LOC_DESCRI" ',V.VIA_PRECIO "
+    sql = sql & " FROM PLANILLA_DIARIA_DETALLE P, CLIENTE CL, LOCALIDAD L" ',CLIENTE_VIANDAS CV,VIANDAS V"
     sql = sql & " WHERE CL.CLI_CODIGO=P.CLI_CODIGO"
     sql = sql & " AND CL.LOC_CODIGO=L.LOC_CODIGO"
     'sql = sql & " AND CV.CLI_CODIGO=CL.CLI_CODIGO"
@@ -964,8 +949,8 @@ Private Function cargarplanilla()
                               ChkNull(rec!CLI_DIAGNO) & Chr(9) & _
                               ChkNull(rec!LOC_DESCRI) & Chr(9) & _
                               ChkNull(rec!CLI_CODIGO) & Chr(9) & _
-                              Chk0(rec!PDI_PRECIO) & Chr(9) & _
-                              Chk0(rec!Rec1!VIA_PRECIO)
+                              Chk0(rec!PDI_PRECIO) ' & Chr(9) & _
+                              'Chk0(rec!VIA_PRECIO)
             i = i + 1
             rec.MoveNext
         Loop
@@ -1100,8 +1085,8 @@ Private Function preparargrillas()
     grdGrilla.ColWidth(0) = 700 'Precio
     grdGrilla.ColWidth(1) = 500 'Fact
     grdGrilla.ColWidth(2) = 2300 'Nombre
-    grdGrilla.ColWidth(3) = 0 'Almuerzo
-    grdGrilla.ColWidth(4) = 0  'Cena
+    grdGrilla.ColWidth(3) = 600 'Almuerzo
+    grdGrilla.ColWidth(4) = 600  'Cena
     grdGrilla.ColWidth(5) = 600  'Sopa
     grdGrilla.ColWidth(6) = 600  'Postre
     grdGrilla.ColWidth(7) = 600  'Pan
@@ -1259,7 +1244,7 @@ Private Function SumaTotalRemis() As Double
     total = 0
     For i = 1 To grdGrilla.Rows - 1
         If grdGrilla.TextMatrix(i, 9) = 1 Then  'tiene remis
-            total = total + CDbl(grdGrilla.TextMatrix(i, 16))
+            total = total + CDbl(Chk0(grdGrilla.TextMatrix(i, 16)))
         End If
     Next
     SumaTotalRemis = total
