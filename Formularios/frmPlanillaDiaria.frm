@@ -112,8 +112,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameBuscar"
-      Tab(1).Control(1)=   "GrdModulos"
+      Tab(1).Control(0)=   "GrdModulos"
+      Tab(1).Control(1)=   "frameBuscar"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -270,7 +270,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   20971521
+            Format          =   40763393
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +329,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   20971521
+            Format          =   40763393
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -405,7 +405,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   20971521
+            Format          =   40763393
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -701,6 +701,7 @@ Private Sub cmdGrabar_Click()
                 DBConn.Execute sql
             Next
        End If
+       lblEstado.Caption = "Planilla Existente"
    Else
         If MsgBox("La planilla diaria del dia: " & lblfecha.Caption & " ya ha sido grabada. " & Chr(13) & "Desea modificarla?", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
             'ACTUALIZO PLANILLA_DIARIA
@@ -733,10 +734,11 @@ Private Sub cmdGrabar_Click()
                 sql = sql & XN(grdGrilla.TextMatrix(i, 6)) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","
-                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & ")"
+                sql = sql & XN(grdGrilla.TextMatrix(i, 16)) & ")"
                 DBConn.Execute sql
               Next
         End If
+        lblEstado.Caption = "Planilla Existente"
     End If
     rec.Close
     
@@ -928,16 +930,15 @@ Private Function cargarplanilla()
         txtMenu.Text = ChkNull(rec!PDI_PRINCI)
         txtVariantes.Text = ChkNull(rec!PDI_VARIAN)
         txtTotal.Text = Chk0(rec!PDI_TOTAL)
+        txtTotalRemis.Text = Chk0(rec!PDI_TOTREM)
         txtObservaciones.Text = ChkNull(rec!PDI_OBSERVA)
     End If
     rec.Close
     
-    sql = "SELECT  P.* ,CL.CLI_RAZSOC,CL.CLI_FACTURA,CL.CLI_DIAGNO, L.LOC_DESCRI" ',V.VIA_PRECIO "
-    sql = sql & " FROM PLANILLA_DIARIA_DETALLE P, CLIENTE CL, LOCALIDAD L" ',CLIENTE_VIANDAS CV,VIANDAS V"
+    sql = "SELECT  P.* ,CL.CLI_RAZSOC,CL.CLI_FACTURA,CL.CLI_DIAGNO, L.LOC_DESCRI"
+    sql = sql & " FROM PLANILLA_DIARIA_DETALLE P, CLIENTE CL, LOCALIDAD L"
     sql = sql & " WHERE CL.CLI_CODIGO=P.CLI_CODIGO"
     sql = sql & " AND CL.LOC_CODIGO=L.LOC_CODIGO"
-    'sql = sql & " AND CV.CLI_CODIGO=CL.CLI_CODIGO"
-    'sql = sql & " AND CV.VIA_CODIGO=V.VIA_CODIGO"
     sql = sql & " AND P.PDI_FECHA= " & XDQ(Fecha.Value)
     rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
@@ -951,23 +952,24 @@ Private Function cargarplanilla()
                               ChkNull(rec!PDI_POSTRE) & Chr(9) & _
                               ChkNull(rec!PDI_PAN) & Chr(9) & _
                               ChkNull(rec!PDI_DESCAR) & Chr(9) & _
-                              ChkNull(rec!PDI_REMISE) & Chr(9) & _
+                              "$ " & ChkNull(rec!PDI_REMISE) & Chr(9) & _
                               ChkNull(rec!PDI_VIANDA) & Chr(9) & _
                               ChkNull(rec!CLI_DIAGNO) & Chr(9) & _
                               ChkNull(rec!LOC_DESCRI) & Chr(9) & _
                               ChkNull(rec!PDI_OBSERV) & Chr(9) & _
                               ChkNull(rec!CLI_CODIGO) & Chr(9) & _
-                              Chk0(rec!PDI_PRECIO) ' & Chr(9) & _
-                              'Chk0(rec!VIA_PRECIO)
+                              Chk0(rec!PDI_PRECIO) & Chr(9) & _
+                              ChkNull(rec!PDI_REMISE)
+
             i = i + 1
             rec.MoveNext
         Loop
     End If
     rec.Close
     
-    txtTotal = SumaTotal
-    txtTotalRemis = SumaTotalRemis
-    txtTotal = Valido_Importe(txtTotal)
+'    txtTotal = SumaTotal
+'    txtTotalRemis = SumaTotalRemis
+'    txtTotal = Valido_Importe(txtTotal)
     
 End Function
 
@@ -1172,6 +1174,12 @@ Private Sub grdGrilla_LeaveCell()
     If txtEdit.Visible = False Then Exit Sub
     grdGrilla = txtEdit.Text
     txtEdit.Visible = False
+End Sub
+
+Private Sub grdGrilla_LostFocus()
+    If grdGrilla.Col = 9 Then
+        grdGrilla.TextMatrix(grdGrilla.RowSel, 9) = "$ " & grdGrilla.TextMatrix(grdGrilla.RowSel, 9)
+    End If
 End Sub
 
 Private Sub TxtEdit_KeyDown(KeyCode As Integer, Shift As Integer)
