@@ -112,8 +112,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(0)=   "frameBuscar"
+      Tab(1).Control(1)=   "GrdModulos"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -202,6 +202,7 @@ Begin VB.Form frmPlanillaDiaria
             FocusRect       =   0
             HighLight       =   2
             ScrollBars      =   2
+            AllowUserResizing=   1
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Tahoma"
                Size            =   9.75
@@ -696,7 +697,7 @@ Private Sub cmdGrabar_Click()
                 sql = sql & XN(grdGrilla.TextMatrix(i, 6)) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","
-                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & ")"
+                sql = sql & XN(grdGrilla.TextMatrix(i, 16)) & ")"
                 DBConn.Execute sql
             Next
        End If
@@ -872,7 +873,7 @@ Private Function crearplanilla()
             
             sql = "SELECT  * FROM CLIENTE C, CLIENTE_VIANDAS CV, VIANDAS V"
             sql = sql & " WHERE C.CLI_CODIGO=CV.CLI_CODIGO "
-            'sql = sql & " AND CV.VIA_CODIGO=V.VIA_CODIGO"
+            sql = sql & " AND CV.VIA_CODIGO=V.VIA_CODIGO"
             sql = sql & " AND C.CLI_CODIGO=" & grdGrilla.TextMatrix(i, 14)
             rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
             If rec.EOF = False Then
@@ -886,8 +887,11 @@ Private Function crearplanilla()
                             grdGrilla.TextMatrix(i, 7) = 1
                         Case 5 ' Descartable
                             grdGrilla.TextMatrix(i, 8) = 1
-                        Case 6 ' Remise
-                            grdGrilla.TextMatrix(i, 9) = 1
+                        Case 6 ' Remise Pilar
+                            grdGrilla.TextMatrix(i, 9) = "$ " & Chk0(rec!VIA_PRECIO)
+                            grdGrilla.TextMatrix(i, 16) = Chk0(rec!VIA_PRECIO)
+                        Case 7 ' Remise Rio 2
+                            grdGrilla.TextMatrix(i, 9) = "$ " & Chk0(rec!VIA_PRECIO)
                             grdGrilla.TextMatrix(i, 16) = Chk0(rec!VIA_PRECIO)
                     End Select
                     rec.MoveNext
@@ -1054,7 +1058,9 @@ Private Function cargo_precios()
                     precio_pan = Chk0(Rec1!VIA_PRECIO)
                 Case 5 ' Descartable
                     precio_descartable = Chk0(Rec1!VIA_PRECIO)
-                Case 6 ' Remise
+                Case 6 ' Remise pilar
+                    precio_remise = Chk0(Rec1!VIA_PRECIO)
+                Case 7 ' Remise rio 2
                     precio_remise = Chk0(Rec1!VIA_PRECIO)
             End Select
             Rec1.MoveNext
@@ -1096,7 +1102,7 @@ Private Function preparargrillas()
     grdGrilla.ColWidth(7) = 600  'Pan
     grdGrilla.ColWidth(8) = 600 'Descart.
     grdGrilla.ColWidth(9) = 600  'Remise
-    grdGrilla.ColWidth(10) = 1500  'Vianda
+    grdGrilla.ColWidth(10) = 1800  'Vianda
     grdGrilla.ColWidth(11) = 1500  'Diagnostico
     grdGrilla.ColWidth(12) = 850  'Entrega
     grdGrilla.ColWidth(13) = 1000  'Observaciones
@@ -1225,11 +1231,11 @@ Private Sub grdGrilla_KeyPress(KeyAscii As Integer)
                 grdGrilla.Col = grdGrilla.Col + 1
             End If
         Else
-            If (grdGrilla.Col = 3) Or (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 6) Or (grdGrilla.Col = 7) Or (grdGrilla.Col = 8) Or (grdGrilla.Col = 9) Or (grdGrilla.Col = 10) Then  'grdGrilla.Col = 0 Or
+            If (grdGrilla.Col = 3) Or (grdGrilla.Col = 4) Or (grdGrilla.Col = 5) Or (grdGrilla.Col = 6) Or (grdGrilla.Col = 7) Or (grdGrilla.Col = 8) Or (grdGrilla.Col = 9) Then  'grdGrilla.Col = 0 Or
                 If KeyAscii > 47 And KeyAscii < 58 Then
                     EDITAR grdGrilla, txtEdit, KeyAscii
                 End If
-            ElseIf grdGrilla.Col = 1 Or grdGrilla.Col = 0 Then
+            ElseIf grdGrilla.Col = 1 Or grdGrilla.Col = 0 Or (grdGrilla.Col = 10) Then
                 EDITAR grdGrilla, txtEdit, KeyAscii
             End If
         End If
@@ -1247,9 +1253,9 @@ Private Function SumaTotalRemis() As Double
     Dim total As Double
     total = 0
     For i = 1 To grdGrilla.Rows - 1
-        If grdGrilla.TextMatrix(i, 9) = 1 Then  'tiene remis
+        'If Chk0(grdGrilla.TextMatrix(i, 9)) = 1 Then  'tiene remis
             total = total + CDbl(Chk0(grdGrilla.TextMatrix(i, 16)))
-        End If
+        'End If
     Next
     SumaTotalRemis = total
 End Function

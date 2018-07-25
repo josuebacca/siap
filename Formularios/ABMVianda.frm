@@ -421,8 +421,8 @@ Private Sub Form_Load()
             If (rec.BOF And rec.EOF) = 0 Then
                 'si encontró el registro muestro los datos
                 txtID.Text = rec!VIA_CODIGO
-                txtDescri.Text = rec!VIA_DESCRI
-                txtprecio.Text = rec!VIA_PRECIO
+                txtDescri.Text = ChkNull(rec!VIA_DESCRI)
+                txtprecio.Text = Chk0(rec!VIA_PRECIO)
             Else
                 Beep
                 MsgBox "Imposible encontrar el registro seleccionado.", vbCritical + vbOKOnly, App.Title
