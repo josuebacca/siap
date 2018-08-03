@@ -79,16 +79,39 @@ Begin VB.Form ABMClientes
       TabCaption(2)   =   "&Comidas"
       TabPicture(2)   =   "ABMClientes.frx":0BFA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Frame10"
-      Tab(2).Control(1)=   "Frame6"
+      Tab(2).Control(0)=   "Frame6"
+      Tab(2).Control(1)=   "Frame10"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   "Vianda"
       TabPicture(3)   =   "ABMClientes.frx":0C16
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame4"
+      Tab(3).Control(0)=   "txtMedica"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(2)=   "txtMedica"
-      Tab(3).ControlCount=   3
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "Frame4"
+      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(3)=   "Frame12"
+      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).ControlCount=   4
+      Begin VB.Frame Frame12 
+         Caption         =   "Facturacion"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H8000000D&
+         Height          =   855
+         Left            =   -74880
+         TabIndex        =   141
+         Top             =   480
+         Width           =   6855
+      End
       Begin VB.Frame Frame8 
          Caption         =   "Altas/Bajas"
          BeginProperty Font 
@@ -150,7 +173,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   54525953
+               Format          =   20971521
                CurrentDate     =   40071
             End
          End
@@ -230,10 +253,10 @@ Begin VB.Form ABMClientes
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FF0000&
-         Height          =   5775
+         Height          =   5655
          Left            =   -70800
          TabIndex        =   67
-         Top             =   1080
+         Top             =   1440
          Width           =   2775
          Begin VB.OptionButton optSemanal 
             Caption         =   "Semanal"
@@ -280,10 +303,10 @@ Begin VB.Form ABMClientes
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00FF0000&
-         Height          =   5775
+         Height          =   5655
          Left            =   -74880
          TabIndex        =   61
-         Top             =   1080
+         Top             =   1440
          Width           =   3975
          Begin VB.Frame Frame1 
             Caption         =   "Frame7"
@@ -918,7 +941,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   54525953
+               Format          =   20971521
                CurrentDate     =   40070
             End
          End
@@ -1156,8 +1179,17 @@ Begin VB.Form ABMClientes
          Height          =   4215
          Left            =   120
          TabIndex        =   20
-         Top             =   390
+         Top             =   480
          Width           =   7095
+         Begin VB.TextBox txtorden 
+            Height          =   315
+            Left            =   6000
+            Locked          =   -1  'True
+            MaxLength       =   3
+            TabIndex        =   143
+            Top             =   2640
+            Width           =   555
+         End
          Begin VB.TextBox txtNombre 
             Height          =   315
             Left            =   1290
@@ -1256,7 +1288,7 @@ Begin VB.Form ABMClientes
             TabIndex        =   42
             Top             =   3360
             Visible         =   0   'False
-            Width           =   3495
+            Width           =   1935
          End
          Begin VB.CommandButton cmdFotos 
             Caption         =   "Cargar Foto"
@@ -1334,7 +1366,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54525953
+            Format          =   20971521
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1347,8 +1379,28 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54525953
+            Format          =   20971521
             CurrentDate     =   40071
+         End
+         Begin VB.Label Label1 
+            AutoSize        =   -1  'True
+            Caption         =   "Nro de Orden"
+            BeginProperty Font 
+               Name            =   "Tahoma"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   17
+            Left            =   5760
+            OLEDropMode     =   1  'Manual
+            TabIndex        =   142
+            Top             =   2400
+            Width           =   1095
          End
          Begin VB.Image Image1 
             BorderStyle     =   1  'Fixed Single
@@ -1463,7 +1515,7 @@ Begin VB.Form ABMClientes
             Caption         =   "Edad:"
             Height          =   195
             Index           =   14
-            Left            =   3000
+            Left            =   3480
             OLEDropMode     =   1  'Manual
             TabIndex        =   27
             Top             =   2670
