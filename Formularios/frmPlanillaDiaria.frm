@@ -270,7 +270,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   40763393
+            Format          =   54591489
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +329,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   40763393
+            Format          =   54591489
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -405,7 +405,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   40763393
+            Format          =   54591489
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -827,10 +827,11 @@ Private Function crearplanilla()
     Dim Cli As Integer
     Dim i As Integer
     DIA = dia_programa(Fecha)
-    sql = "SELECT  * FROM CLIENTE C, PROGRAMA_CLIENTE PC, LOCALIDAD L"
+    sql = "SELECT  C.*,PC.*,L.LOC_DESCRI FROM CLIENTE C, PROGRAMA_CLIENTE PC, LOCALIDAD L"
     sql = sql & " WHERE C.CLI_CODIGO=PC.CLI_CODIGO "
     sql = sql & " AND C.LOC_CODIGO = L.LOC_CODIGO "
     sql = sql & " AND (PC.PRG_CODIGO = " & DIA & " OR PC.PRG_CODIGO= " & DIA + 8 & ")" 'ALMUERZO MAS CENA DE ESE
+    sql = sql & " ORDER BY C.CLI_ORDEN, C.CLI_RAZSOC"
     rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Cli = 0
@@ -940,6 +941,7 @@ Private Function cargarplanilla()
     sql = sql & " WHERE CL.CLI_CODIGO=P.CLI_CODIGO"
     sql = sql & " AND CL.LOC_CODIGO=L.LOC_CODIGO"
     sql = sql & " AND P.PDI_FECHA= " & XDQ(Fecha.Value)
+    sql = sql & " ORDER BY CL.CLI_ORDEN, CL.CLI_RAZSOC"
     rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     If rec.EOF = False Then
         Do While Not rec.EOF
