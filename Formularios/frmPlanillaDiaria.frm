@@ -29,9 +29,9 @@ Begin VB.Form frmPlanillaDiaria
    ScaleWidth      =   14475
    Begin VB.TextBox txtVariantes 
       Height          =   315
-      Left            =   1200
+      Left            =   8400
       TabIndex        =   38
-      Top             =   960
+      Top             =   840
       Width           =   4335
    End
    Begin VB.TextBox txtTotalRemis 
@@ -112,8 +112,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(0)=   "frameBuscar"
+      Tab(1).Control(1)=   "GrdModulos"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -270,7 +270,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54591489
+            Format          =   111607809
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +329,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54591489
+            Format          =   111607809
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -405,7 +405,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   54591489
+            Format          =   111607809
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -785,15 +785,17 @@ Private Sub CmdNuevo_Click()
 End Sub
 
 Private Sub cmdQuitarProducto_Click()
-    If MsgBox("Seguro que desea quitar el Cliente: " & grdGrilla.TextMatrix(grdGrilla.RowSel, 2), vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
-        If grdGrilla.Rows > 2 Then
-            grdGrilla.RemoveItem (grdGrilla.RowSel)
-        Else
-            grdGrilla.Rows = 1
+    If grdGrilla.Rows > 1 Then
+        If MsgBox("Seguro que desea quitar el Cliente: " & grdGrilla.TextMatrix(grdGrilla.RowSel, 2), vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+            If grdGrilla.Rows > 2 Then
+                grdGrilla.RemoveItem (grdGrilla.RowSel)
+            Else
+                grdGrilla.Rows = 1
+            End If
+            txtTotal = SumaTotal
+            txtTotalRemis = SumaTotalRemis
+            txtTotal = Valido_Importe(txtTotal)
         End If
-        txtTotal = SumaTotal
-        txtTotalRemis = SumaTotalRemis
-        txtTotal = Valido_Importe(txtTotal)
     End If
 End Sub
 

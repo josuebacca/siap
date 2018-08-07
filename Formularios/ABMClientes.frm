@@ -39,25 +39,37 @@ Begin VB.Form ABMClientes
       _ExtentY        =   13256
       _Version        =   393216
       Tabs            =   4
-      Tab             =   3
       TabsPerRow      =   5
       TabHeight       =   520
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "ABMClientes.frx":0BC2
-      Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Frame8"
-      Tab(0).Control(1)=   "cboIva"
-      Tab(0).Control(2)=   "cboPais"
-      Tab(0).Control(3)=   "Frame3"
-      Tab(0).Control(4)=   "txtObserva"
-      Tab(0).Control(5)=   "txtMail"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "Label1(12)"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "Label1(11)"
+      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).Control(2)=   "Label1(10)"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "Label1(7)"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).Control(4)=   "Label1(9)"
+      Tab(0).Control(4).Enabled=   0   'False
+      Tab(0).Control(5)=   "txtCuit"
+      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "txtIngresosBrutos"
-      Tab(0).Control(7)=   "txtCuit"
-      Tab(0).Control(8)=   "Label1(9)"
-      Tab(0).Control(9)=   "Label1(7)"
-      Tab(0).Control(10)=   "Label1(10)"
-      Tab(0).Control(11)=   "Label1(11)"
-      Tab(0).Control(12)=   "Label1(12)"
+      Tab(0).Control(6).Enabled=   0   'False
+      Tab(0).Control(7)=   "txtMail"
+      Tab(0).Control(7).Enabled=   0   'False
+      Tab(0).Control(8)=   "txtObserva"
+      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(9)=   "Frame3"
+      Tab(0).Control(9).Enabled=   0   'False
+      Tab(0).Control(10)=   "cboPais"
+      Tab(0).Control(10).Enabled=   0   'False
+      Tab(0).Control(11)=   "cboIva"
+      Tab(0).Control(11).Enabled=   0   'False
+      Tab(0).Control(12)=   "Frame8"
+      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "&Programas"
       TabPicture(1)   =   "ABMClientes.frx":0BDE
@@ -67,20 +79,16 @@ Begin VB.Form ABMClientes
       TabCaption(2)   =   "&Comidas"
       TabPicture(2)   =   "ABMClientes.frx":0BFA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Frame10"
-      Tab(2).Control(1)=   "Frame6"
+      Tab(2).Control(0)=   "Frame6"
+      Tab(2).Control(1)=   "Frame10"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   "Vianda"
       TabPicture(3)   =   "ABMClientes.frx":0C16
-      Tab(3).ControlEnabled=   -1  'True
-      Tab(3).Control(0)=   "txtMedica"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "Frame4"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "Frame12"
-      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).ControlEnabled=   0   'False
+      Tab(3).Control(0)=   "Frame12"
+      Tab(3).Control(1)=   "Frame4"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "txtMedica"
       Tab(3).ControlCount=   4
       Begin VB.Frame Frame12 
          Caption         =   "Facturacion"
@@ -95,7 +103,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H8000000D&
          Height          =   855
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   144
          Top             =   480
          Width           =   6855
@@ -153,7 +161,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H8000000D&
          Height          =   2655
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   140
          Top             =   4680
          Width           =   7095
@@ -201,7 +209,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   54525953
+               Format          =   111607809
                CurrentDate     =   40071
             End
          End
@@ -282,7 +290,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   5655
-         Left            =   4200
+         Left            =   -70800
          TabIndex        =   60
          Top             =   1440
          Width           =   2775
@@ -332,7 +340,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   5655
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   109
          Top             =   1440
          Width           =   3975
@@ -969,7 +977,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   54525953
+               Format          =   111607809
                CurrentDate     =   40070
             End
          End
@@ -1162,7 +1170,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtMedica 
          Height          =   285
-         Left            =   10560
+         Left            =   -64440
          MultiLine       =   -1  'True
          TabIndex        =   99
          Top             =   6380
@@ -1172,7 +1180,7 @@ Begin VB.Form ABMClientes
       Begin VB.ComboBox cboIva 
          Height          =   315
          ItemData        =   "ABMClientes.frx":0C36
-         Left            =   -67800
+         Left            =   7200
          List            =   "ABMClientes.frx":0C38
          Style           =   2  'Dropdown List
          TabIndex        =   97
@@ -1184,7 +1192,7 @@ Begin VB.Form ABMClientes
          Enabled         =   0   'False
          Height          =   315
          ItemData        =   "ABMClientes.frx":0C3A
-         Left            =   -67800
+         Left            =   7200
          List            =   "ABMClientes.frx":0C3C
          Style           =   2  'Dropdown List
          TabIndex        =   96
@@ -1205,7 +1213,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00C00000&
          Height          =   4215
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   78
          Top             =   480
          Width           =   7095
@@ -1394,7 +1402,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54525953
+            Format          =   111607809
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1407,7 +1415,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54525953
+            Format          =   111607809
             CurrentDate     =   40071
          End
          Begin VB.Label Label1 
@@ -1609,7 +1617,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtObserva 
          Height          =   810
-         Left            =   -65055
+         Left            =   9945
          MaxLength       =   250
          MultiLine       =   -1  'True
          TabIndex        =   77
@@ -1619,7 +1627,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtMail 
          Height          =   315
-         Left            =   -65070
+         Left            =   9930
          MaxLength       =   50
          TabIndex        =   71
          Top             =   5350
@@ -1628,7 +1636,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtIngresosBrutos 
          Height          =   315
-         Left            =   -65160
+         Left            =   9840
          MaxLength       =   10
          TabIndex        =   70
          Top             =   4120
@@ -1637,7 +1645,7 @@ Begin VB.Form ABMClientes
       End
       Begin MSMask.MaskEdBox txtCuit 
          Height          =   315
-         Left            =   -65520
+         Left            =   9480
          TabIndex        =   72
          Top             =   4735
          Visible         =   0   'False
@@ -1655,7 +1663,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Cond. I.V.A.:"
          Height          =   195
          Index           =   9
-         Left            =   -69360
+         Left            =   5640
          TabIndex        =   98
          Top             =   6040
          Visible         =   0   'False
@@ -1666,7 +1674,7 @@ Begin VB.Form ABMClientes
          Caption         =   "e-mail:"
          Height          =   195
          Index           =   7
-         Left            =   -65760
+         Left            =   9240
          TabIndex        =   76
          Top             =   5395
          Visible         =   0   'False
@@ -1677,7 +1685,7 @@ Begin VB.Form ABMClientes
          Caption         =   "C.U.I.T.:"
          Height          =   195
          Index           =   10
-         Left            =   -65520
+         Left            =   9480
          TabIndex        =   75
          Top             =   5080
          Visible         =   0   'False
@@ -1688,7 +1696,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Ing. Brutos:"
          Height          =   195
          Index           =   11
-         Left            =   -65040
+         Left            =   9960
          TabIndex        =   74
          Top             =   4480
          Visible         =   0   'False
@@ -1699,7 +1707,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Observación:"
          Height          =   195
          Index           =   12
-         Left            =   -66120
+         Left            =   8880
          TabIndex        =   73
          Top             =   5815
          Visible         =   0   'False
@@ -2221,6 +2229,10 @@ Private Sub chkCena_Click(Index As Integer)
     End If
 End Sub
 
+Private Sub chktodas_Click()
+    cmdAceptar.Enabled = True
+End Sub
+
 Private Sub chkVianda_Click(Index As Integer)
     cmdAceptar.Enabled = True
     If chkVianda(Index).Value = Checked Then
@@ -2407,16 +2419,16 @@ Private Sub cmdAceptar_Click()
                 Next i
                 
                 'registrar altas/bajas
-'                For i = 1 To grillaComCli.Rows - 1
-'                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO)"
-'                    sql = sql & " VALUES("
-'                    sql = sql & XN(i) & ","
-'                    sql = sql & XN(txtID) & ","
-'                    sql = sql & XDQ(grillaBaja.TextMatrix(i, 0)) & ","
-'                    sql = sql & XS(grillaBaja.TextMatrix(i, 1)) & ","
-'                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
-'                    DBConn.Execute sql
-'                Next i
+                For i = 1 To grillaBaja.Rows - 1
+                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO)"
+                    sql = sql & " VALUES("
+                    sql = sql & XS(i)
+                    sql = sql & XN(txtID) & ","
+                    sql = sql & XDQ(grillaBaja.TextMatrix(i, 0)) & ","
+                    sql = sql & XS(grillaBaja.TextMatrix(i, 1)) & ","
+                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
+                    DBConn.Execute sql
+                Next i
                 
             Case 2 'editar
                 
@@ -2533,18 +2545,18 @@ Private Sub cmdAceptar_Click()
                 
                 
                 'Modificar altas/bajas
-                'DBConn.Execute "DELETE FROM CLIENTE_ALTABAJA WHERE CLI_CODIGO = " & XN(txtID)
+                DBConn.Execute "DELETE FROM CLIENTE_ALTABAJA WHERE CLI_CODIGO = " & XN(txtID)
                                 
-'                For i = 1 To grillaComCli.Rows - 1
-'                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO)"
-'                    sql = sql & " VALUES("
-'                    sql = sql & XN(i) & ","
-'                    sql = sql & XN(txtID) & ","
-'                    sql = sql & XDQ(grillaBaja.TextMatrix(i, 0)) & ","
-'                    sql = sql & XS(grillaBaja.TextMatrix(i, 1)) & ","
-'                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
-'                    DBConn.Execute sql
-'                Next i
+                For i = 1 To grillaBaja.Rows - 1
+                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO)"
+                    sql = sql & " VALUES("
+                    sql = sql & XS(i) & ","
+                    sql = sql & XN(txtID) & ","
+                    sql = sql & XDQ(grillaBaja.TextMatrix(i, 0)) & ","
+                    sql = sql & XS(grillaBaja.TextMatrix(i, 1)) & ","
+                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
+                    DBConn.Execute sql
+                Next i
                 
             Case 4 'eliminar
                 cSQL = "DELETE FROM " & cTabla & " WHERE CLI_CODIGO  = " & XN(txtID.Text)
@@ -2912,6 +2924,7 @@ Private Sub cmdAgregaEvento_Click()
         Exit Sub
     End If
     grillaBaja.AddItem Format(fechaevento.Value, "DD/MM/YYYY") & Chr(9) & evento & Chr(9) & txtmotivo.Text
+    cmdAceptar.Enabled = True
         
     'End If
 End Sub
@@ -2923,6 +2936,7 @@ Private Sub cmdAgTodos_Click()
             Exit Sub
         End If
     Next i
+    cmdAceptar.Enabled = True
 End Sub
 
 Private Sub cmdAgUno_Click()
@@ -3168,6 +3182,10 @@ Private Function buscaloc(mlocdescri As String) As Integer
     End Select
 End Function
 
+Private Sub cmdQuTodos_Click()
+    cmdAceptar.Enabled = True
+End Sub
+
 Private Sub cmdQuUno_Click()
     cmdAceptar.Enabled = True
     'If KeyCode = vbKeyDelete Then
@@ -3338,6 +3356,7 @@ Private Sub Form_Load()
     DTFechaPCons.Value = Null
     
     'DTFecha.Value = Date
+    fechaevento.Value = Date
     'DTMedFec.Value = Date
     'DTFecPC.Value = Null
     'LlenarComboMedic
@@ -3461,6 +3480,24 @@ Private Sub Form_Load()
         'CargarCClinico txtID.Text
         'CargarCMedica txtID.Text
 '    End If
+' SI ES CLIENTE EXISTENTE
+    cargarAltaBaja txtID.Text
+End Sub
+Private Sub cargarAltaBaja(clicod As Integer)
+    grillaComidas.Rows = 1
+    cSQL = "SELECT CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO "
+    cSQL = cSQL & "FROM CLIENTE_ALTABAJA "
+    cSQL = cSQL & " WHERE CLI_CODIGO = " & clicod
+    cSQL = cSQL & " ORDER BY CAB_FECHA"
+    Rec1.Open cSQL, DBConn, adOpenStatic, adLockOptimistic
+    If (Rec1.BOF And Rec1.EOF) = 0 Then
+        Do While Rec1.EOF = False
+            grillaBaja.AddItem Rec1!CAB_FECHA & Chr(9) & Rec1!CAB_EVENTO & Chr(9) & _
+                                 Rec1!CAB_MOTIVO '& Chr(9) & Rec1!CAB_CODIGO & Chr(9) & Rec1!CLI_CODIGO
+            Rec1.MoveNext
+        Loop
+    End If
+    Rec1.Close
 End Sub
 Private Function CargarComidas()
     If gPaciente <> 0 Then
@@ -3843,6 +3880,22 @@ Private Sub grillaComCli_KeyDown(KeyCode As Integer, Shift As Integer)
             grillaComCli.RemoveItem (grillaComCli.RowSel)
         End If
     End If
+End Sub
+
+Private Sub optDiaria_Click()
+    cmdAceptar.Enabled = True
+End Sub
+
+Private Sub optMensual_Click()
+    cmdAceptar.Enabled = True
+End Sub
+
+Private Sub optQuincenal_Click()
+    cmdAceptar.Enabled = True
+End Sub
+
+Private Sub optSemanal_Click()
+    cmdAceptar.Enabled = True
 End Sub
 
 Private Sub txtAlm_Change(Index As Integer)
@@ -4229,6 +4282,7 @@ End Sub
 
 Private Sub txtImpVianda_LostFocus(Index As Integer)
     sumarVianda
+    cmdAceptar.Enabled = True
 End Sub
 
 'Private Sub txtHC_Change()
@@ -4609,6 +4663,7 @@ Private Sub txtDesCli_LostFocus()
         End If
         If rec.State = 1 Then rec.Close
     End If
+    cmdAceptar.Enabled = True
 End Sub
 
 
