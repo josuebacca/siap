@@ -79,16 +79,16 @@ Begin VB.Form ABMClientes
       TabCaption(2)   =   "&Comidas"
       TabPicture(2)   =   "ABMClientes.frx":0BFA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Frame6"
-      Tab(2).Control(1)=   "Frame10"
+      Tab(2).Control(0)=   "Frame10"
+      Tab(2).Control(1)=   "Frame6"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   "Vianda"
       TabPicture(3)   =   "ABMClientes.frx":0C16
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame12"
-      Tab(3).Control(1)=   "Frame4"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "txtMedica"
+      Tab(3).Control(0)=   "txtMedica"
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(2)=   "Frame4"
+      Tab(3).Control(3)=   "Frame12"
       Tab(3).ControlCount=   4
       Begin VB.Frame Frame12 
          Caption         =   "Facturacion"
@@ -209,7 +209,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   111607809
+               Format          =   110428161
                CurrentDate     =   40071
             End
          End
@@ -977,7 +977,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   111607809
+               Format          =   110428161
                CurrentDate     =   40070
             End
          End
@@ -1402,7 +1402,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111607809
+            Format          =   110428161
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1415,7 +1415,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111607809
+            Format          =   110428161
             CurrentDate     =   40071
          End
          Begin VB.Label Label1 
@@ -2429,6 +2429,7 @@ Private Sub cmdAceptar_Click()
                     sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
                     DBConn.Execute sql
                 Next i
+                actualizarEstado
                 
             Case 2 'editar
                 
@@ -2557,7 +2558,7 @@ Private Sub cmdAceptar_Click()
                     sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
                     DBConn.Execute sql
                 Next i
-                
+                actualizarEstado
             Case 4 'eliminar
                 cSQL = "DELETE FROM " & cTabla & " WHERE CLI_CODIGO  = " & XN(txtID.Text)
                 
@@ -2589,6 +2590,22 @@ ErrorTran:
     'ManejoDeErrores DBConn.ErrorNative
     MsgBox Err.Description, vbCritical
     
+End Sub
+Private Sub actualizarEstado()
+    Dim ultfila As Integer
+    Dim estado As Integer
+    If grillaBaja.Rows > 1 Then
+        ultfila = grillaBaja.Rows - 1
+        If grillaBaja.TextMatrix(ultfila, 1) = "Alta" Then
+            estado = 1
+        Else
+            estado = 2
+        End If
+        cSQL = "UPDATE CLIENTE  SET "
+                cSQL = cSQL & "  CLI_ESTADO=" & XS(estado)
+                 cSQL = cSQL & " WHERE CLI_CODIGO = " & txtID.Text
+        DBConn.Execute cSQL
+    End If
 End Sub
 'Private Function InsertAnamnesis() As String
 '    sql = "INSERT INTO CLIENTE_ANAM"
@@ -2925,10 +2942,14 @@ Private Sub cmdAgregaEvento_Click()
     End If
     grillaBaja.AddItem Format(fechaevento.Value, "DD/MM/YYYY") & Chr(9) & evento & Chr(9) & txtmotivo.Text
     cmdAceptar.Enabled = True
-        
+    limpiarAltaBaja
     'End If
 End Sub
-
+Private Sub limpiarAltaBaja()
+    optAlta.Value = True
+    txtmotivo.Text = ""
+    fechaevento.Value = Date
+End Sub
 Private Sub cmdAgTodos_Click()
     For i = 1 To grillaCan.Rows - 1
         If grillaComCli.TextMatrix(i, 2) = grillaComidas.TextMatrix(i, 2) Then

@@ -29,9 +29,9 @@ Begin VB.Form frmPlanillaDiaria
    ScaleWidth      =   14475
    Begin VB.TextBox txtVariantes 
       Height          =   315
-      Left            =   8400
+      Left            =   1200
       TabIndex        =   38
-      Top             =   840
+      Top             =   960
       Width           =   4335
    End
    Begin VB.TextBox txtTotalRemis 
@@ -112,8 +112,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameBuscar"
-      Tab(1).Control(1)=   "GrdModulos"
+      Tab(1).Control(0)=   "GrdModulos"
+      Tab(1).Control(1)=   "frameBuscar"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -270,7 +270,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111607809
+            Format          =   41943041
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +329,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111607809
+            Format          =   41943041
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -405,7 +405,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   111607809
+            Format          =   41943041
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -832,6 +832,8 @@ Private Function crearplanilla()
     sql = "SELECT  C.*,PC.*,L.LOC_DESCRI FROM CLIENTE C, PROGRAMA_CLIENTE PC, LOCALIDAD L"
     sql = sql & " WHERE C.CLI_CODIGO=PC.CLI_CODIGO "
     sql = sql & " AND C.LOC_CODIGO = L.LOC_CODIGO "
+    ' y que el estado sea 1 (alta)
+    sql = sql & " AND C.CLI_ESTADO =" & 1
     sql = sql & " AND (PC.PRG_CODIGO = " & DIA & " OR PC.PRG_CODIGO= " & DIA + 8 & ")" 'ALMUERZO MAS CENA DE ESE
     sql = sql & " ORDER BY C.CLI_ORDEN, C.CLI_RAZSOC"
     rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
