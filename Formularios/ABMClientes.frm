@@ -209,7 +209,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   110428161
+               Format          =   110493697
                CurrentDate     =   40071
             End
          End
@@ -977,7 +977,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   110428161
+               Format          =   110493697
                CurrentDate     =   40070
             End
          End
@@ -1402,7 +1402,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110428161
+            Format          =   110493697
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1415,7 +1415,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110428161
+            Format          =   110493697
             CurrentDate     =   40071
          End
          Begin VB.Label Label1 
@@ -2345,7 +2345,7 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & cli_fac & ", "
                 cSQL = cSQL & XS(txtDiagnostico) & ", "
                 cSQL = cSQL & XN(txtTotalVianda) & ", "
-                cSQL = cSQL & XN(txtorden) & ", "
+                cSQL = cSQL & XN(txtOrden) & ", "
                 cSQL = cSQL & XN(txtCliente) & ") "
                 
 
@@ -2422,7 +2422,7 @@ Private Sub cmdAceptar_Click()
                 For i = 1 To grillaBaja.Rows - 1
                     sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO)"
                     sql = sql & " VALUES("
-                    sql = sql & XS(i)
+                    sql = sql & XS(i) & ","
                     sql = sql & XN(txtID) & ","
                     sql = sql & XDQ(grillaBaja.TextMatrix(i, 0)) & ","
                     sql = sql & XS(grillaBaja.TextMatrix(i, 1)) & ","
@@ -2463,7 +2463,7 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & " ,CLI_FACTURA=" & cli_fac
                 cSQL = cSQL & " ,CLI_DIAGNO=" & XS(txtDiagnostico.Text)
                 cSQL = cSQL & " ,CLI_TOTAL=" & XN(txtTotalVianda.Text)
-                cSQL = cSQL & " ,CLI_ORDEN=" & XS(txtorden.Text)
+                cSQL = cSQL & " ,CLI_ORDEN=" & XS(txtOrden.Text)
                 cSQL = cSQL & " ,CLI_CLIFAC=" & XN(txtCliente.Text)
                 cSQL = cSQL & " WHERE CLI_CODIGO  = " & XN(txtID.Text)
                 DBConn.Execute cSQL
@@ -2560,10 +2560,15 @@ Private Sub cmdAceptar_Click()
                 Next i
                 actualizarEstado
             Case 4 'eliminar
+                grillaBaja.Rows = 1
+                'elimino altas y bajas
+                cSQL = "DELETE FROM CLIENTE_ALTABAJA  WHERE CLI_CODIGO  = " & XN(txtID.Text)
+                DBConn.Execute cSQL
                 cSQL = "DELETE FROM " & cTabla & " WHERE CLI_CODIGO  = " & XN(txtID.Text)
-                
+                                
                 'cSQLAnam = "DELETE FROM CLIENTE_ANAM WHERE CLI_CODIGO  = " & XN(txtID.Text)
-                
+               
+
         End Select
         
         DBConn.Execute cSQL
@@ -2593,16 +2598,16 @@ ErrorTran:
 End Sub
 Private Sub actualizarEstado()
     Dim ultfila As Integer
-    Dim estado As Integer
+    Dim Estado As Integer
     If grillaBaja.Rows > 1 Then
         ultfila = grillaBaja.Rows - 1
         If grillaBaja.TextMatrix(ultfila, 1) = "Alta" Then
-            estado = 1
+            Estado = 1
         Else
-            estado = 2
+            Estado = 2
         End If
         cSQL = "UPDATE CLIENTE  SET "
-                cSQL = cSQL & "  CLI_ESTADO=" & XS(estado)
+                cSQL = cSQL & "  CLI_ESTADO=" & XS(Estado)
                  cSQL = cSQL & " WHERE CLI_CODIGO = " & txtID.Text
         DBConn.Execute cSQL
     End If
@@ -3440,7 +3445,7 @@ Private Sub Form_Load()
                 txtBuscaOS.Text = ChkNull(rec!OS_NUMERO)
                 txtDiagnostico.Text = ChkNull(rec!CLI_DIAGNO)
                 
-                txtorden.Text = ChkNull(rec!CLI_ORDEN)
+                txtOrden.Text = ChkNull(rec!CLI_ORDEN)
                 txtCliente.Text = ChkNull(rec!CLI_CLIFAC)
                 txtCliente_LostFocus
                 'fechaAlta.Value = Date

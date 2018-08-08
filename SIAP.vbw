@@ -1,4 +1,4 @@
-GENERAL = 322, 285, 1496, 948, C
+GENERAL = 322, 285, 1496, 948, 
 modConstantesDB = 0, 0, 0, 0, C
 modDllBusqueda = 88, 116, 789, 529, C
 modDllListaBaseABM = 225, 225, 1399, 888, C
@@ -26,7 +26,7 @@ ABMTipoComprobante = 0, 0, 0, 0, C, 150, 150, 1324, 813, C
 ABMCondicionIva = 0, 0, 0, 0, C, 125, 125, 1299, 788, C
 ABMEstadoDocumento = 0, 0, 0, 0, C, 100, 100, 1274, 763, C
 ABMFormaPago = 0, 0, 0, 0, C, 75, 75, 1249, 738, C
-ABMClientes = 155, 162, 1329, 1011, , 186, 84, 1360, 747, C
+ABMClientes = 145, 38, 1319, 887, , 186, 84, 1360, 747, C
 ABMVendedor = 175, 175, 1372, 838, C, 25, 25, 1199, 688, C
 ABMProveedor = 0, 0, 0, 0, C, 0, 0, 1174, 663, C
 ABMTipoProveedor = 0, 0, 0, 0, C, 300, 300, 1474, 963, C
