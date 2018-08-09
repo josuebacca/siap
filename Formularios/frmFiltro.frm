@@ -88,7 +88,7 @@ Private Sub cmdAceptarFiltro_Click()
                 .sql = .sql & " AND L.PRO_CODIGO=P.PRO_CODIGO"
                 .sql = .sql & " AND L.LOC_DESCRI LIKE " & XS("%" & txtBusqueda.Text & "%")
             End If
-            If .Caption = "Actualizacion de Pacientes" Then
+            If .Caption = "Actualizacion de Clientes" Then
                 .sql = "SELECT C.CLI_RAZSOC, C.CLI_NRODOC, C.CLI_CODIGO, C.CLI_DOMICI,C.CLI_CODPOS, L.LOC_DESCRI," & _
                     " C.CLI_TELEFONO, C.CLI_EDAD,C.CLI_OCUPACION " & _
                     " FROM CLIENTE C, LOCALIDAD L " & _
@@ -194,7 +194,7 @@ Private Sub cmdAceptarFiltro_Click()
                 .sql = .sql & " AND L.PAI_CODIGO=PA.PAI_CODIGO"
                 .sql = .sql & " AND L.PRO_CODIGO=P.PRO_CODIGO"
             End If
-            If .Caption = "Actualizacion de Pacientes" Then
+            If .Caption = "Actualizacion de Clientes" Then
                 .sql = "SELECT C.CLI_RAZSOC, C.CLI_NRODOC, C.CLI_CODIGO, C.CLI_DOMICI,C.CLI_CODPOS, L.LOC_DESCRI," & _
                     "  C.CLI_TELEFONO, C.CLI_EDAD,C.CLI_OCUPACION " & _
                     " FROM CLIENTE C, LOCALIDAD L " & _
