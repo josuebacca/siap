@@ -500,10 +500,8 @@ Begin VB.Form frmFacturaCliente
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmFacturaCliente.frx":002E
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "frameBuscar"
-      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(0)=   "frameBuscar"
+      Tab(1).Control(1)=   "GrdModulos"
       Tab(1).ControlCount=   2
       Begin VB.Frame FrameCliente 
          Caption         =   "Tipo de Facturacion..."
@@ -525,14 +523,14 @@ Begin VB.Form frmFacturaCliente
             Caption         =   "Factura..."
             BeginProperty Font 
                Name            =   "Tahoma"
-               Size            =   9.75
+               Size            =   8.25
                Charset         =   0
                Weight          =   700
                Underline       =   0   'False
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   1275
+            Height          =   1215
             Left            =   12480
             TabIndex        =   85
             Top             =   250
@@ -591,7 +589,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   54394881
+               Format          =   21037057
                CurrentDate     =   43174
             End
             Begin VB.Label lblEstadoFactura 
@@ -832,7 +830,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   54394881
+               Format          =   21037057
                CurrentDate     =   43174
             End
             Begin MSComCtl2.DTPicker DTPicker2 
@@ -845,7 +843,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   54394881
+               Format          =   21037057
                CurrentDate     =   43174
             End
             Begin VB.Label Label25 
@@ -894,7 +892,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54394881
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -907,7 +905,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54394881
+            Format          =   21037057
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -1967,7 +1965,7 @@ Private Sub Form_Load()
     'CARGO ESTADO
     Call BuscoEstado(1, lblEstadoFactura) 'ESTADO PENDIENTE
     VEstadoFactura = 1
-    FechaFactura.Text = Date
+    FechaFactura.Value = Date
     tabDatos.Tab = 0
     'BUSCO IVA
     'BuscoIva
@@ -2229,10 +2227,6 @@ Private Sub GrdModulos_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyReturn Then GrdModulos_dblClick
 End Sub
 
-Private Sub Label4_Click()
-
-End Sub
-
 Private Sub tabDatos_Click(PreviousTab As Integer)
   If tabDatos.Tab = 1 Then
     'LimpiarBusqueda
@@ -2405,10 +2399,6 @@ Private Sub txtCodCli_LostFocus()
         End If
         If rec.State = 1 Then rec.Close
     End If
-End Sub
-
-Private Sub txtCuit_Change()
-
 End Sub
 
 Private Sub txtCupon_GotFocus()
