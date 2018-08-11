@@ -5,11 +5,11 @@ Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmFacturaCliente 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "Factura de Clientes..."
-   ClientHeight    =   6345
+   Caption         =   "Factura SIAP..."
+   ClientHeight    =   7875
    ClientLeft      =   300
    ClientTop       =   1365
-   ClientWidth     =   10425
+   ClientWidth     =   14475
    ControlBox      =   0   'False
    BeginProperty Font 
       Name            =   "Tahoma"
@@ -22,37 +22,122 @@ Begin VB.Form frmFacturaCliente
    EndProperty
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form2"
-   LockControls    =   -1  'True
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    MinButton       =   0   'False
-   ScaleHeight     =   6345
-   ScaleWidth      =   10425
+   ScaleHeight     =   7875
+   ScaleWidth      =   14475
+   Begin VB.Frame Frame1 
+      Height          =   615
+      Left            =   -1320
+      TabIndex        =   95
+      Top             =   7320
+      Visible         =   0   'False
+      Width           =   10155
+      Begin VB.ComboBox cboCondicion 
+         Height          =   315
+         Left            =   8025
+         Style           =   2  'Dropdown List
+         TabIndex        =   98
+         Top             =   195
+         Width           =   1860
+      End
+      Begin VB.ComboBox cboVendedor 
+         Height          =   315
+         Left            =   945
+         Style           =   2  'Dropdown List
+         TabIndex        =   97
+         Top             =   195
+         Width           =   2745
+      End
+      Begin VB.ComboBox cboListaPrecio 
+         Height          =   315
+         Left            =   4620
+         Style           =   2  'Dropdown List
+         TabIndex        =   96
+         Top             =   210
+         Width           =   2355
+      End
+      Begin VB.Label Label16 
+         AutoSize        =   -1  'True
+         Caption         =   "Condición:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   7125
+         TabIndex        =   101
+         Top             =   240
+         Width           =   810
+      End
+      Begin VB.Label Label11 
+         AutoSize        =   -1  'True
+         Caption         =   "Vendedor:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   60
+         TabIndex        =   100
+         Top             =   240
+         Width           =   735
+      End
+      Begin VB.Label Label13 
+         AutoSize        =   -1  'True
+         Caption         =   "Lst Precio:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   3795
+         TabIndex        =   99
+         Top             =   255
+         Width           =   750
+      End
+   End
    Begin VB.Frame fraTarjeta 
       Height          =   3285
-      Left            =   -735
-      TabIndex        =   60
-      Top             =   4095
+      Left            =   -2535
+      TabIndex        =   34
+      Top             =   7455
       Width           =   4935
       Begin VB.CommandButton cmdAceptoTarjeta 
          Caption         =   "Aceptar"
          Height          =   375
          Left            =   2220
-         TabIndex        =   69
+         TabIndex        =   43
          Top             =   2760
          Width           =   1425
       End
       Begin VB.TextBox txtLote 
          Height          =   315
          Left            =   1665
-         TabIndex        =   65
+         TabIndex        =   39
          Top             =   1605
          Width           =   2505
       End
       Begin VB.TextBox txtCupon 
          Height          =   315
          Left            =   1665
-         TabIndex        =   66
+         TabIndex        =   40
          Top             =   1965
          Width           =   2505
       End
@@ -62,7 +147,7 @@ Begin VB.Form frmFacturaCliente
          Left            =   1665
          List            =   "frmFacturaCliente.frx":0002
          Style           =   2  'Dropdown List
-         TabIndex        =   64
+         TabIndex        =   38
          Top             =   1245
          Width           =   2505
       End
@@ -72,7 +157,7 @@ Begin VB.Form frmFacturaCliente
          Left            =   1665
          List            =   "frmFacturaCliente.frx":0006
          Style           =   2  'Dropdown List
-         TabIndex        =   63
+         TabIndex        =   37
          Top             =   855
          Width           =   2505
       End
@@ -80,7 +165,7 @@ Begin VB.Form frmFacturaCliente
          Height          =   315
          Left            =   1665
          MaxLength       =   30
-         TabIndex        =   67
+         TabIndex        =   41
          Top             =   2325
          Width           =   2505
       End
@@ -88,7 +173,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Cerrar"
          Height          =   375
          Left            =   3690
-         TabIndex        =   71
+         TabIndex        =   45
          Top             =   2760
          Width           =   1095
       End
@@ -105,7 +190,7 @@ Begin VB.Form frmFacturaCliente
          EndProperty
          Height          =   285
          Left            =   4260
-         TabIndex        =   62
+         TabIndex        =   36
          ToolTipText     =   "Alta de Clientes"
          Top             =   870
          Width           =   480
@@ -123,7 +208,7 @@ Begin VB.Form frmFacturaCliente
          EndProperty
          Height          =   285
          Left            =   4260
-         TabIndex        =   61
+         TabIndex        =   35
          ToolTipText     =   "Alta de Clientes"
          Top             =   1260
          Width           =   480
@@ -144,7 +229,7 @@ Begin VB.Form frmFacturaCliente
          ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   30
-         TabIndex        =   75
+         TabIndex        =   49
          Top             =   120
          Width           =   4845
       End
@@ -155,7 +240,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Lote:"
          Height          =   315
          Left            =   405
-         TabIndex        =   74
+         TabIndex        =   48
          Top             =   1605
          Width           =   1215
       End
@@ -166,7 +251,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Cupón:"
          Height          =   315
          Left            =   405
-         TabIndex        =   73
+         TabIndex        =   47
          Top             =   1965
          Width           =   1215
       End
@@ -177,7 +262,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Plan:"
          Height          =   315
          Left            =   405
-         TabIndex        =   72
+         TabIndex        =   46
          Top             =   1245
          Width           =   1215
       End
@@ -188,7 +273,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Tarjeta:"
          Height          =   315
          Left            =   405
-         TabIndex        =   70
+         TabIndex        =   44
          Top             =   855
          Width           =   1215
       End
@@ -199,21 +284,21 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Autorización:"
          Height          =   315
          Left            =   405
-         TabIndex        =   68
+         TabIndex        =   42
          Top             =   2325
          Width           =   1215
       End
    End
    Begin VB.Frame fraPagos 
       Height          =   5175
-      Left            =   1320
-      TabIndex        =   76
-      Top             =   2130
+      Left            =   0
+      TabIndex        =   50
+      Top             =   7410
       Width           =   4935
       Begin VB.TextBox txtImportePago 
          Height          =   315
          Left            =   1470
-         TabIndex        =   84
+         TabIndex        =   58
          Top             =   1815
          Width           =   1245
       End
@@ -221,7 +306,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Aceptar"
          Height          =   375
          Left            =   2160
-         TabIndex        =   85
+         TabIndex        =   59
          Top             =   4695
          Width           =   1425
       End
@@ -231,7 +316,7 @@ Begin VB.Form frmFacturaCliente
          Left            =   1470
          List            =   "frmFacturaCliente.frx":000A
          Style           =   2  'Dropdown List
-         TabIndex        =   83
+         TabIndex        =   57
          Top             =   1470
          Width           =   3330
       End
@@ -239,14 +324,14 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Borrar Fila"
          Height          =   375
          Left            =   90
-         TabIndex        =   82
+         TabIndex        =   56
          Top             =   4695
          Width           =   1095
       End
       Begin VB.Frame Frame2 
          Height          =   795
          Left            =   120
-         TabIndex        =   79
+         TabIndex        =   53
          Top             =   570
          Width           =   4695
          Begin VB.TextBox txtTotalPagos 
@@ -254,7 +339,7 @@ Begin VB.Form frmFacturaCliente
             Enabled         =   0   'False
             Height          =   375
             Left            =   3120
-            TabIndex        =   80
+            TabIndex        =   54
             Top             =   300
             Width           =   1515
          End
@@ -275,7 +360,7 @@ Begin VB.Form frmFacturaCliente
             ForeColor       =   &H00FFFFFF&
             Height          =   375
             Left            =   90
-            TabIndex        =   81
+            TabIndex        =   55
             Top             =   300
             Width           =   3015
          End
@@ -283,7 +368,7 @@ Begin VB.Form frmFacturaCliente
       Begin VB.TextBox txtGrabar 
          Height          =   285
          Left            =   3540
-         TabIndex        =   78
+         TabIndex        =   52
          Top             =   1920
          Visible         =   0   'False
          Width           =   615
@@ -292,14 +377,14 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Cerrar"
          Height          =   375
          Left            =   3630
-         TabIndex        =   77
+         TabIndex        =   51
          Top             =   4695
          Width           =   1095
       End
       Begin MSFlexGridLib.MSFlexGrid grdPagos 
          Height          =   2445
          Left            =   120
-         TabIndex        =   86
+         TabIndex        =   60
          Top             =   2190
          Width           =   4635
          _ExtentX        =   8176
@@ -322,7 +407,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Importe:"
          Height          =   330
          Left            =   120
-         TabIndex        =   89
+         TabIndex        =   63
          Top             =   1815
          Width           =   1320
       End
@@ -342,7 +427,7 @@ Begin VB.Form frmFacturaCliente
          ForeColor       =   &H00FFFFFF&
          Height          =   375
          Left            =   45
-         TabIndex        =   88
+         TabIndex        =   62
          Top             =   120
          Width           =   4845
       End
@@ -352,7 +437,7 @@ Begin VB.Form frmFacturaCliente
          Caption         =   "Forma Pago"
          Height          =   330
          Left            =   120
-         TabIndex        =   87
+         TabIndex        =   61
          Top             =   1470
          Width           =   1320
       End
@@ -360,36 +445,36 @@ Begin VB.Form frmFacturaCliente
    Begin VB.CommandButton cmdImprimir 
       Caption         =   "&Imprimir"
       Height          =   450
-      Left            =   5880
-      TabIndex        =   12
-      Top             =   5850
+      Left            =   9960
+      TabIndex        =   3
+      Top             =   7410
       Visible         =   0   'False
       Width           =   870
    End
    Begin VB.CommandButton CmdSalir 
       Caption         =   "&Salir"
       Height          =   450
-      Left            =   9495
-      TabIndex        =   14
-      Top             =   5850
+      Left            =   13575
+      TabIndex        =   5
+      Top             =   7410
       Width           =   870
    End
    Begin VB.CommandButton cmdNuevo 
       Caption         =   "&Cancelar"
       Height          =   450
-      Left            =   8600
-      TabIndex        =   13
-      Top             =   5850
+      Left            =   12675
+      TabIndex        =   4
+      Top             =   7410
       Width           =   870
    End
    Begin TabDlg.SSTab tabDatos 
-      Height          =   5760
+      Height          =   7305
       Left            =   15
-      TabIndex        =   27
+      TabIndex        =   18
       Top             =   30
-      Width           =   10350
-      _ExtentX        =   18256
-      _ExtentY        =   10160
+      Width           =   14430
+      _ExtentX        =   25453
+      _ExtentY        =   12885
       _Version        =   393216
       Tabs            =   2
       TabsPerRow      =   5
@@ -409,13 +494,9 @@ Begin VB.Form frmFacturaCliente
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Frame3"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "Frame1"
+      Tab(0).Control(1)=   "FrameCliente"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "FrameFactura"
-      Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "FrameCliente"
-      Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).ControlCount=   4
+      Tab(0).ControlCount=   2
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmFacturaCliente.frx":002E
       Tab(1).ControlEnabled=   0   'False
@@ -425,7 +506,7 @@ Begin VB.Form frmFacturaCliente
       Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       Begin VB.Frame FrameCliente 
-         Caption         =   "Cliente..."
+         Caption         =   "Tipo de Facturacion..."
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   9.75
@@ -435,20 +516,249 @@ Begin VB.Form frmFacturaCliente
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   1395
-         Left            =   3585
-         TabIndex        =   46
-         Top             =   345
-         Width           =   6675
-         Begin VB.TextBox txtcodCli 
-            Alignment       =   2  'Center
-            Height          =   315
-            Left            =   990
-            TabIndex        =   4
-            Top             =   300
-            Width           =   870
+         Height          =   1515
+         Left            =   120
+         TabIndex        =   31
+         Top             =   360
+         Width           =   14235
+         Begin VB.Frame FrameFactura 
+            Caption         =   "Factura..."
+            BeginProperty Font 
+               Name            =   "Tahoma"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   1275
+            Left            =   12480
+            TabIndex        =   85
+            Top             =   250
+            Width           =   1680
+            Begin VB.TextBox txtNroFactura 
+               BeginProperty Font 
+                  Name            =   "Tahoma"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   315
+               Left            =   3090
+               TabIndex        =   89
+               Top             =   645
+               Visible         =   0   'False
+               Width           =   1155
+            End
+            Begin VB.ComboBox cboFactura 
+               Height          =   315
+               Left            =   2280
+               Style           =   2  'Dropdown List
+               TabIndex        =   88
+               Top             =   360
+               Visible         =   0   'False
+               Width           =   2400
+            End
+            Begin VB.TextBox txtNroSucursal 
+               BeginProperty Font 
+                  Name            =   "Tahoma"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   315
+               Left            =   2505
+               MaxLength       =   4
+               TabIndex        =   87
+               Top             =   645
+               Visible         =   0   'False
+               Width           =   555
+            End
+            Begin MSComCtl2.DTPicker FechaFactura 
+               Height          =   315
+               Left            =   120
+               TabIndex        =   86
+               Top             =   720
+               Width           =   1455
+               _ExtentX        =   2566
+               _ExtentY        =   556
+               _Version        =   393216
+               CheckBox        =   -1  'True
+               Format          =   54394881
+               CurrentDate     =   43174
+            End
+            Begin VB.Label lblEstadoFactura 
+               AutoSize        =   -1  'True
+               Caption         =   "EST. FACTURA"
+               BeginProperty Font 
+                  Name            =   "Tahoma"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00FF0000&
+               Height          =   195
+               Left            =   2175
+               TabIndex        =   94
+               Top             =   1050
+               Visible         =   0   'False
+               Width           =   1170
+            End
+            Begin VB.Label Label5 
+               AutoSize        =   -1  'True
+               Caption         =   "Estado:"
+               Height          =   195
+               Left            =   2760
+               TabIndex        =   93
+               Top             =   705
+               Visible         =   0   'False
+               Width           =   555
+            End
+            Begin VB.Label Label6 
+               AutoSize        =   -1  'True
+               Caption         =   "Número:"
+               Height          =   195
+               Left            =   2760
+               TabIndex        =   92
+               Top             =   600
+               Visible         =   0   'False
+               Width           =   615
+            End
+            Begin VB.Label Label7 
+               AutoSize        =   -1  'True
+               Caption         =   "Fecha:"
+               Height          =   195
+               Left            =   105
+               TabIndex        =   91
+               Top             =   360
+               Width           =   495
+            End
+            Begin VB.Label Label8 
+               AutoSize        =   -1  'True
+               Caption         =   "Tipo:"
+               Height          =   195
+               Left            =   3600
+               TabIndex        =   90
+               Top             =   360
+               Visible         =   0   'False
+               Width           =   360
+            End
          End
-         Begin VB.TextBox txtRazSoc 
+         Begin VB.Frame Frame5 
+            Caption         =   "Por Cliente"
+            Height          =   1215
+            Left            =   240
+            TabIndex        =   75
+            Top             =   250
+            Width           =   5775
+            Begin VB.TextBox txtCiva 
+               Enabled         =   0   'False
+               Height          =   315
+               Left            =   1020
+               TabIndex        =   79
+               Top             =   930
+               Visible         =   0   'False
+               Width           =   2745
+            End
+            Begin VB.TextBox txtDomici 
+               Enabled         =   0   'False
+               Height          =   315
+               Left            =   1020
+               TabIndex        =   78
+               Top             =   645
+               Width           =   4680
+            End
+            Begin VB.TextBox txtRazSoc 
+               BeginProperty Font 
+                  Name            =   "Tahoma"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   315
+               Left            =   1920
+               TabIndex        =   77
+               Top             =   240
+               Width           =   3780
+            End
+            Begin VB.TextBox txtcodCli 
+               Alignment       =   2  'Center
+               Height          =   315
+               Left            =   1020
+               TabIndex        =   76
+               Top             =   240
+               Width           =   870
+            End
+            Begin MSMask.MaskEdBox txtCuit 
+               Height          =   315
+               Left            =   5055
+               TabIndex        =   80
+               Top             =   930
+               Visible         =   0   'False
+               Width           =   1350
+               _ExtentX        =   2381
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptInclude   =   0   'False
+               Enabled         =   0   'False
+               MaxLength       =   13
+               Mask            =   "##-########-#"
+               PromptChar      =   "_"
+            End
+            Begin VB.Label Label18 
+               AutoSize        =   -1  'True
+               Caption         =   " I.V.A.:"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   84
+               Top             =   990
+               Visible         =   0   'False
+               Width           =   540
+            End
+            Begin VB.Label Label4 
+               AutoSize        =   -1  'True
+               Caption         =   "Domicilio:"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   83
+               Top             =   690
+               Width           =   660
+            End
+            Begin VB.Label Label3 
+               AutoSize        =   -1  'True
+               Caption         =   "Código:"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   82
+               Top             =   270
+               Width           =   555
+            End
+            Begin VB.Label Label1 
+               AutoSize        =   -1  'True
+               Caption         =   "C.U.I.T.:"
+               Height          =   195
+               Index           =   10
+               Left            =   4335
+               TabIndex        =   81
+               Top             =   990
+               Visible         =   0   'False
+               Width           =   660
+            End
+         End
+         Begin VB.Frame Frame4 
             BeginProperty Font 
                Name            =   "Tahoma"
                Size            =   8.25
@@ -458,79 +768,104 @@ Begin VB.Form frmFacturaCliente
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   315
-            Left            =   1890
-            TabIndex        =   5
-            Top             =   300
-            Width           =   4500
-         End
-         Begin VB.TextBox txtDomici 
-            Enabled         =   0   'False
-            Height          =   315
-            Left            =   990
-            TabIndex        =   48
-            Top             =   645
-            Width           =   5400
-         End
-         Begin VB.TextBox txtCiva 
-            Enabled         =   0   'False
-            Height          =   315
-            Left            =   990
-            TabIndex        =   47
-            Top             =   990
-            Width           =   2745
-         End
-         Begin MSMask.MaskEdBox txtCuit 
-            Height          =   315
-            Left            =   5025
-            TabIndex        =   52
-            Top             =   990
-            Width           =   1350
-            _ExtentX        =   2381
-            _ExtentY        =   556
-            _Version        =   393216
-            PromptInclude   =   0   'False
-            Enabled         =   0   'False
-            MaxLength       =   13
-            Mask            =   "##-########-#"
-            PromptChar      =   "_"
-         End
-         Begin VB.Label Label1 
-            AutoSize        =   -1  'True
-            Caption         =   "C.U.I.T.:"
-            Height          =   195
-            Index           =   10
-            Left            =   4305
-            TabIndex        =   53
-            Top             =   1050
-            Width           =   660
-         End
-         Begin VB.Label Label3 
-            AutoSize        =   -1  'True
-            Caption         =   "Código:"
-            Height          =   195
-            Left            =   90
-            TabIndex        =   51
-            Top             =   330
-            Width           =   555
-         End
-         Begin VB.Label Label4 
-            AutoSize        =   -1  'True
-            Caption         =   "Domicilio:"
-            Height          =   195
-            Left            =   90
-            TabIndex        =   50
-            Top             =   690
-            Width           =   660
-         End
-         Begin VB.Label Label18 
-            AutoSize        =   -1  'True
-            Caption         =   " I.V.A.:"
-            Height          =   195
-            Left            =   90
-            TabIndex        =   49
-            Top             =   1050
-            Width           =   540
+            Height          =   1215
+            Left            =   6120
+            TabIndex        =   65
+            Top             =   250
+            Width           =   6255
+            Begin VB.OptionButton Option5 
+               Caption         =   "Entre Fechas"
+               Height          =   255
+               Left            =   240
+               TabIndex        =   70
+               Top             =   720
+               Width           =   1335
+            End
+            Begin VB.OptionButton Option4 
+               Caption         =   "Mensual"
+               Height          =   255
+               Left            =   2400
+               TabIndex        =   69
+               Top             =   360
+               Width           =   1095
+            End
+            Begin VB.OptionButton Option3 
+               Caption         =   "Quincenal"
+               Height          =   255
+               Left            =   4680
+               TabIndex        =   68
+               Top             =   360
+               Width           =   1095
+            End
+            Begin VB.OptionButton Option2 
+               Caption         =   "Semanal"
+               Height          =   255
+               Left            =   240
+               TabIndex        =   67
+               Top             =   360
+               Width           =   1095
+            End
+            Begin VB.OptionButton Option1 
+               Caption         =   "Por Lote"
+               BeginProperty Font 
+                  Name            =   "Tahoma"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   255
+               Left            =   120
+               TabIndex        =   66
+               Top             =   0
+               Width           =   1335
+            End
+            Begin MSComCtl2.DTPicker DTPicker1 
+               Height          =   315
+               Left            =   4680
+               TabIndex        =   71
+               Top             =   720
+               Width           =   1455
+               _ExtentX        =   2566
+               _ExtentY        =   556
+               _Version        =   393216
+               CheckBox        =   -1  'True
+               Format          =   54394881
+               CurrentDate     =   43174
+            End
+            Begin MSComCtl2.DTPicker DTPicker2 
+               Height          =   315
+               Left            =   2280
+               TabIndex        =   72
+               Top             =   720
+               Width           =   1455
+               _ExtentX        =   2566
+               _ExtentY        =   556
+               _Version        =   393216
+               CheckBox        =   -1  'True
+               Format          =   54394881
+               CurrentDate     =   43174
+            End
+            Begin VB.Label Label25 
+               AutoSize        =   -1  'True
+               Caption         =   "Desde:"
+               Height          =   195
+               Left            =   1680
+               TabIndex        =   74
+               Top             =   720
+               Width           =   510
+            End
+            Begin VB.Label Label23 
+               AutoSize        =   -1  'True
+               Caption         =   "Hasta:"
+               Height          =   195
+               Left            =   4080
+               TabIndex        =   73
+               Top             =   720
+               Width           =   480
+            End
          End
       End
       Begin VB.Frame frameBuscar 
@@ -546,33 +881,33 @@ Begin VB.Form frmFacturaCliente
          EndProperty
          Height          =   1470
          Left            =   -74805
-         TabIndex        =   31
+         TabIndex        =   21
          Top             =   420
          Width           =   9990
          Begin MSComCtl2.DTPicker FechaHasta 
             Height          =   315
             Left            =   6120
-            TabIndex        =   19
+            TabIndex        =   10
             Top             =   720
             Width           =   1575
             _ExtentX        =   2778
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   21037057
+            Format          =   54394881
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
             Height          =   315
             Left            =   2520
-            TabIndex        =   18
+            TabIndex        =   9
             Top             =   720
             Width           =   1695
             _ExtentX        =   2990
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   21037057
+            Format          =   54394881
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -588,7 +923,7 @@ Begin VB.Form frmFacturaCliente
             Height          =   315
             Left            =   3180
             MaxLength       =   50
-            TabIndex        =   17
+            TabIndex        =   8
             Tag             =   "Descripción"
             Top             =   330
             Width           =   4155
@@ -598,7 +933,7 @@ Begin VB.Form frmFacturaCliente
             Height          =   315
             Left            =   2490
             MaxLength       =   40
-            TabIndex        =   16
+            TabIndex        =   7
             Top             =   330
             Width           =   675
          End
@@ -606,7 +941,7 @@ Begin VB.Form frmFacturaCliente
             Height          =   315
             Left            =   2490
             Style           =   2  'Dropdown List
-            TabIndex        =   20
+            TabIndex        =   11
             Top             =   990
             Width           =   2400
          End
@@ -615,7 +950,7 @@ Begin VB.Form frmFacturaCliente
             Height          =   390
             Left            =   7935
             MaskColor       =   &H000000FF&
-            TabIndex        =   21
+            TabIndex        =   12
             ToolTipText     =   "Buscar "
             Top             =   915
             UseMaskColor    =   -1  'True
@@ -631,7 +966,7 @@ Begin VB.Form frmFacturaCliente
             Height          =   195
             Index           =   4
             Left            =   1395
-            TabIndex        =   54
+            TabIndex        =   32
             Top             =   375
             Width           =   555
          End
@@ -640,7 +975,7 @@ Begin VB.Form frmFacturaCliente
             Caption         =   "Tipo Factura:"
             Height          =   195
             Left            =   1395
-            TabIndex        =   45
+            TabIndex        =   30
             Top             =   1020
             Width           =   960
          End
@@ -649,7 +984,7 @@ Begin VB.Form frmFacturaCliente
             Caption         =   "Fecha Hasta:"
             Height          =   195
             Left            =   5130
-            TabIndex        =   33
+            TabIndex        =   23
             Top             =   720
             Width           =   960
          End
@@ -658,142 +993,15 @@ Begin VB.Form frmFacturaCliente
             Caption         =   "Fecha Desde:"
             Height          =   195
             Left            =   1395
-            TabIndex        =   32
+            TabIndex        =   22
             Top             =   720
             Width           =   990
-         End
-      End
-      Begin VB.Frame FrameFactura 
-         Caption         =   "Factura..."
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   1395
-         Left            =   105
-         TabIndex        =   29
-         Top             =   345
-         Width           =   3480
-         Begin MSComCtl2.DTPicker FechaFactura 
-            Height          =   315
-            Left            =   960
-            TabIndex        =   3
-            Top             =   960
-            Width           =   1095
-            _ExtentX        =   1931
-            _ExtentY        =   556
-            _Version        =   393216
-            CheckBox        =   -1  'True
-            Format          =   21037057
-            CurrentDate     =   43174
-         End
-         Begin VB.TextBox txtNroSucursal 
-            BeginProperty Font 
-               Name            =   "Tahoma"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   315
-            Left            =   945
-            MaxLength       =   4
-            TabIndex        =   1
-            Top             =   645
-            Width           =   555
-         End
-         Begin VB.ComboBox cboFactura 
-            Height          =   315
-            Left            =   945
-            Style           =   2  'Dropdown List
-            TabIndex        =   0
-            Top             =   300
-            Width           =   2400
-         End
-         Begin VB.TextBox txtNroFactura 
-            BeginProperty Font 
-               Name            =   "Tahoma"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   315
-            Left            =   1530
-            TabIndex        =   2
-            Top             =   645
-            Width           =   1155
-         End
-         Begin VB.Label Label8 
-            AutoSize        =   -1  'True
-            Caption         =   "Tipo:"
-            Height          =   195
-            Left            =   105
-            TabIndex        =   40
-            Top             =   330
-            Width           =   360
-         End
-         Begin VB.Label Label7 
-            AutoSize        =   -1  'True
-            Caption         =   "Fecha:"
-            Height          =   195
-            Left            =   105
-            TabIndex        =   38
-            Top             =   1020
-            Width           =   495
-         End
-         Begin VB.Label Label6 
-            AutoSize        =   -1  'True
-            Caption         =   "Número:"
-            Height          =   195
-            Left            =   105
-            TabIndex        =   37
-            Top             =   660
-            Width           =   615
-         End
-         Begin VB.Label Label5 
-            AutoSize        =   -1  'True
-            Caption         =   "Estado:"
-            Height          =   195
-            Left            =   2760
-            TabIndex        =   36
-            Top             =   705
-            Visible         =   0   'False
-            Width           =   555
-         End
-         Begin VB.Label lblEstadoFactura 
-            AutoSize        =   -1  'True
-            Caption         =   "EST. FACTURA"
-            BeginProperty Font 
-               Name            =   "Tahoma"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00FF0000&
-            Height          =   195
-            Left            =   2175
-            TabIndex        =   35
-            Top             =   1050
-            Width           =   1170
          End
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
          Height          =   3705
          Left            =   -74835
-         TabIndex        =   22
+         TabIndex        =   13
          Top             =   1935
          Width           =   10020
          _ExtentX        =   17674
@@ -817,91 +1025,6 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
       End
-      Begin VB.Frame Frame1 
-         Height          =   615
-         Left            =   105
-         TabIndex        =   55
-         Top             =   1650
-         Width           =   10155
-         Begin VB.ComboBox cboListaPrecio 
-            Height          =   315
-            Left            =   4620
-            Style           =   2  'Dropdown List
-            TabIndex        =   7
-            Top             =   210
-            Width           =   2355
-         End
-         Begin VB.ComboBox cboVendedor 
-            Height          =   315
-            Left            =   945
-            Style           =   2  'Dropdown List
-            TabIndex        =   6
-            Top             =   195
-            Width           =   2745
-         End
-         Begin VB.ComboBox cboCondicion 
-            Height          =   315
-            Left            =   8025
-            Style           =   2  'Dropdown List
-            TabIndex        =   8
-            Top             =   195
-            Width           =   1860
-         End
-         Begin VB.Label Label13 
-            AutoSize        =   -1  'True
-            Caption         =   "Lst Precio:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   3795
-            TabIndex        =   58
-            Top             =   255
-            Width           =   750
-         End
-         Begin VB.Label Label11 
-            AutoSize        =   -1  'True
-            Caption         =   "Vendedor:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   60
-            TabIndex        =   57
-            Top             =   240
-            Width           =   735
-         End
-         Begin VB.Label Label16 
-            AutoSize        =   -1  'True
-            Caption         =   "Condición:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   7125
-            TabIndex        =   56
-            Top             =   240
-            Width           =   810
-         End
-      End
       Begin VB.Frame Frame3 
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -912,17 +1035,17 @@ Begin VB.Form frmFacturaCliente
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   3525
+         Height          =   5325
          Left            =   105
-         TabIndex        =   30
-         Top             =   2175
-         Width           =   10155
+         TabIndex        =   20
+         Top             =   1815
+         Width           =   14235
          Begin VB.CommandButton Command1 
             Caption         =   "Forma Pago"
             Height          =   405
-            Left            =   2445
-            TabIndex        =   90
-            Top             =   3060
+            Left            =   6885
+            TabIndex        =   64
+            Top             =   4740
             Width           =   1140
          End
          Begin VB.TextBox txtImporteIva 
@@ -939,20 +1062,20 @@ Begin VB.Form frmFacturaCliente
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   315
-            Left            =   4695
+            Left            =   9135
             Locked          =   -1  'True
-            TabIndex        =   24
-            Top             =   3120
+            TabIndex        =   15
+            Top             =   4800
             Visible         =   0   'False
             Width           =   1155
          End
          Begin VB.TextBox txtPorcentajeIva 
             Alignment       =   1  'Right Justify
             Height          =   315
-            Left            =   5805
+            Left            =   9765
             Locked          =   -1  'True
-            TabIndex        =   15
-            Top             =   3195
+            TabIndex        =   6
+            Top             =   4875
             Visible         =   0   'False
             Width           =   1155
          End
@@ -970,10 +1093,10 @@ Begin VB.Form frmFacturaCliente
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   405
-            Left            =   7995
+            Left            =   11955
             Locked          =   -1  'True
-            TabIndex        =   26
-            Top             =   3060
+            TabIndex        =   17
+            Top             =   4860
             Width           =   1710
          End
          Begin VB.TextBox txtSubtotal 
@@ -990,20 +1113,20 @@ Begin VB.Form frmFacturaCliente
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   315
-            Left            =   5640
+            Left            =   9600
             Locked          =   -1  'True
-            TabIndex        =   25
-            Top             =   3045
+            TabIndex        =   16
+            Top             =   4725
             Visible         =   0   'False
             Width           =   1350
          End
          Begin VB.TextBox txtObservaciones 
             BackColor       =   &H00C0FFFF&
             Height          =   300
-            Left            =   1335
+            Left            =   5775
             MaxLength       =   60
-            TabIndex        =   10
-            Top             =   3390
+            TabIndex        =   1
+            Top             =   5070
             Visible         =   0   'False
             Width           =   930
          End
@@ -1012,19 +1135,49 @@ Begin VB.Form frmFacturaCliente
             BorderStyle     =   0  'None
             Height          =   330
             Left            =   300
-            TabIndex        =   23
+            TabIndex        =   14
             Top             =   525
             Visible         =   0   'False
             Width           =   1185
          End
          Begin MSFlexGridLib.MSFlexGrid grdGrilla 
-            Height          =   2850
+            Height          =   4410
             Left            =   75
-            TabIndex        =   9
+            TabIndex        =   0
             Top             =   165
-            Width           =   9990
-            _ExtentX        =   17621
-            _ExtentY        =   5027
+            Width           =   13590
+            _ExtentX        =   23971
+            _ExtentY        =   7779
+            _Version        =   393216
+            Rows            =   3
+            Cols            =   6
+            FixedCols       =   0
+            RowHeightMin    =   290
+            BackColorSel    =   12648447
+            ForeColorSel    =   0
+            GridColor       =   -2147483633
+            ScrollTrack     =   -1  'True
+            FocusRect       =   0
+            HighLight       =   2
+            ScrollBars      =   2
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Tahoma"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
+         Begin MSFlexGridLib.MSFlexGrid grdGrillaLote 
+            Height          =   4410
+            Left            =   480
+            TabIndex        =   102
+            Top             =   360
+            Width           =   13590
+            _ExtentX        =   23971
+            _ExtentY        =   7779
             _Version        =   393216
             Rows            =   3
             Cols            =   6
@@ -1060,18 +1213,18 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   240
-            Left            =   105
-            TabIndex        =   59
-            Top             =   3105
+            Left            =   4545
+            TabIndex        =   33
+            Top             =   4785
             Width           =   900
          End
          Begin VB.Label Label15 
             AutoSize        =   -1  'True
             Caption         =   "Importe:"
             Height          =   195
-            Left            =   3900
-            TabIndex        =   44
-            Top             =   3165
+            Left            =   8340
+            TabIndex        =   29
+            Top             =   4845
             Visible         =   0   'False
             Width           =   630
          End
@@ -1079,9 +1232,9 @@ Begin VB.Form frmFacturaCliente
             AutoSize        =   -1  'True
             Caption         =   "% I.V.A.:"
             Height          =   195
-            Left            =   5010
-            TabIndex        =   43
-            Top             =   3225
+            Left            =   5730
+            TabIndex        =   28
+            Top             =   4905
             Visible         =   0   'False
             Width           =   705
          End
@@ -1098,18 +1251,18 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   285
-            Left            =   7155
-            TabIndex        =   42
-            Top             =   3120
+            Left            =   11115
+            TabIndex        =   27
+            Top             =   4920
             Width           =   645
          End
          Begin VB.Label Label9 
             AutoSize        =   -1  'True
             Caption         =   "Sub-Total:"
             Height          =   195
-            Left            =   4845
-            TabIndex        =   41
-            Top             =   3075
+            Left            =   5565
+            TabIndex        =   26
+            Top             =   4755
             Visible         =   0   'False
             Width           =   750
          End
@@ -1117,9 +1270,9 @@ Begin VB.Form frmFacturaCliente
             AutoSize        =   -1  'True
             Caption         =   "Observaciones:"
             Height          =   195
-            Left            =   90
-            TabIndex        =   39
-            Top             =   3435
+            Left            =   4530
+            TabIndex        =   25
+            Top             =   4995
             Visible         =   0   'False
             Width           =   1125
          End
@@ -1139,7 +1292,7 @@ Begin VB.Form frmFacturaCliente
          Height          =   195
          Index           =   0
          Left            =   -74820
-         TabIndex        =   28
+         TabIndex        =   19
          Top             =   570
          Width           =   1065
       End
@@ -1147,9 +1300,9 @@ Begin VB.Form frmFacturaCliente
    Begin VB.CommandButton cmdGrabar 
       Caption         =   "&Aceptar"
       Height          =   450
-      Left            =   7695
-      TabIndex        =   11
-      Top             =   5850
+      Left            =   11775
+      TabIndex        =   2
+      Top             =   7410
       Width           =   870
    End
    Begin VB.Label lblEstado 
@@ -1167,7 +1320,7 @@ Begin VB.Form frmFacturaCliente
       EndProperty
       Height          =   240
       Left            =   195
-      TabIndex        =   34
+      TabIndex        =   24
       Top             =   5895
       Width           =   660
    End
@@ -2076,6 +2229,10 @@ Private Sub GrdModulos_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyReturn Then GrdModulos_dblClick
 End Sub
 
+Private Sub Label4_Click()
+
+End Sub
+
 Private Sub tabDatos_Click(PreviousTab As Integer)
   If tabDatos.Tab = 1 Then
     'LimpiarBusqueda
@@ -2248,6 +2405,10 @@ Private Sub txtCodCli_LostFocus()
         End If
         If rec.State = 1 Then rec.Close
     End If
+End Sub
+
+Private Sub txtCuit_Change()
+
 End Sub
 
 Private Sub txtCupon_GotFocus()

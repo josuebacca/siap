@@ -78,6 +78,7 @@ Form=Formularios\frmPlanillaDiaria.frm
 Form=Formularios\ABMVianda.frm
 Form=Formularios\ABMComida.frm
 Form=Formularios\ABMTipoComida.frm
+Form=Formularios\frmFacturaCliente.frm
 IconForm="Menu"
 Startup="Menu"
 HelpFile=""
