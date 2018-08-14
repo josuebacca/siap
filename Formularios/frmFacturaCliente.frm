@@ -27,6 +27,14 @@ Begin VB.Form frmFacturaCliente
    MinButton       =   0   'False
    ScaleHeight     =   7875
    ScaleWidth      =   14475
+   Begin VB.CommandButton cmdBuscar 
+      Caption         =   "Buscar"
+      Height          =   375
+      Left            =   10560
+      TabIndex        =   104
+      Top             =   7440
+      Width           =   975
+   End
    Begin VB.Frame Frame1 
       Height          =   615
       Left            =   -1320
@@ -445,7 +453,7 @@ Begin VB.Form frmFacturaCliente
    Begin VB.CommandButton cmdImprimir 
       Caption         =   "&Imprimir"
       Height          =   450
-      Left            =   9960
+      Left            =   9000
       TabIndex        =   3
       Top             =   7410
       Visible         =   0   'False
@@ -589,7 +597,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   21037057
+               Format          =   44695553
                CurrentDate     =   43174
             End
             Begin VB.Label lblEstadoFactura 
@@ -653,12 +661,37 @@ Begin VB.Form frmFacturaCliente
             End
          End
          Begin VB.Frame Frame5 
-            Caption         =   "Por Cliente"
+            BeginProperty Font 
+               Name            =   "Tahoma"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
             Height          =   1215
             Left            =   240
             TabIndex        =   75
             Top             =   250
             Width           =   5775
+            Begin VB.OptionButton optCliente 
+               Caption         =   "Por Cliente"
+               BeginProperty Font 
+                  Name            =   "Tahoma"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   255
+               Left            =   120
+               TabIndex        =   103
+               Top             =   0
+               Width           =   1335
+            End
             Begin VB.TextBox txtCiva 
                Enabled         =   0   'False
                Height          =   315
@@ -771,7 +804,7 @@ Begin VB.Form frmFacturaCliente
             TabIndex        =   65
             Top             =   250
             Width           =   6255
-            Begin VB.OptionButton Option5 
+            Begin VB.OptionButton optFechas 
                Caption         =   "Entre Fechas"
                Height          =   255
                Left            =   240
@@ -779,7 +812,7 @@ Begin VB.Form frmFacturaCliente
                Top             =   720
                Width           =   1335
             End
-            Begin VB.OptionButton Option4 
+            Begin VB.OptionButton optMensual 
                Caption         =   "Mensual"
                Height          =   255
                Left            =   2400
@@ -787,7 +820,7 @@ Begin VB.Form frmFacturaCliente
                Top             =   360
                Width           =   1095
             End
-            Begin VB.OptionButton Option3 
+            Begin VB.OptionButton optQuincenal 
                Caption         =   "Quincenal"
                Height          =   255
                Left            =   4680
@@ -795,7 +828,7 @@ Begin VB.Form frmFacturaCliente
                Top             =   360
                Width           =   1095
             End
-            Begin VB.OptionButton Option2 
+            Begin VB.OptionButton optSemanal 
                Caption         =   "Semanal"
                Height          =   255
                Left            =   240
@@ -803,7 +836,7 @@ Begin VB.Form frmFacturaCliente
                Top             =   360
                Width           =   1095
             End
-            Begin VB.OptionButton Option1 
+            Begin VB.OptionButton optLote 
                Caption         =   "Por Lote"
                BeginProperty Font 
                   Name            =   "Tahoma"
@@ -820,7 +853,7 @@ Begin VB.Form frmFacturaCliente
                Top             =   0
                Width           =   1335
             End
-            Begin MSComCtl2.DTPicker DTPicker1 
+            Begin MSComCtl2.DTPicker feHasta 
                Height          =   315
                Left            =   4680
                TabIndex        =   71
@@ -830,10 +863,10 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   21037057
+               Format          =   44695553
                CurrentDate     =   43174
             End
-            Begin MSComCtl2.DTPicker DTPicker2 
+            Begin MSComCtl2.DTPicker feDesde 
                Height          =   315
                Left            =   2280
                TabIndex        =   72
@@ -843,7 +876,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   21037057
+               Format          =   44695553
                CurrentDate     =   43174
             End
             Begin VB.Label Label25 
@@ -892,7 +925,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   21037057
+            Format          =   44695553
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -905,7 +938,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   21037057
+            Format          =   44695553
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -1041,9 +1074,9 @@ Begin VB.Form frmFacturaCliente
          Begin VB.CommandButton Command1 
             Caption         =   "Forma Pago"
             Height          =   405
-            Left            =   6885
+            Left            =   2760
             TabIndex        =   64
-            Top             =   4740
+            Top             =   4680
             Width           =   1140
          End
          Begin VB.TextBox txtImporteIva 
@@ -1091,7 +1124,7 @@ Begin VB.Form frmFacturaCliente
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   405
-            Left            =   11955
+            Left            =   6555
             Locked          =   -1  'True
             TabIndex        =   17
             Top             =   4860
@@ -1140,11 +1173,11 @@ Begin VB.Form frmFacturaCliente
          End
          Begin MSFlexGridLib.MSFlexGrid grdGrilla 
             Height          =   4410
-            Left            =   75
+            Left            =   195
             TabIndex        =   0
-            Top             =   165
-            Width           =   13590
-            _ExtentX        =   23971
+            Top             =   285
+            Width           =   7230
+            _ExtentX        =   12753
             _ExtentY        =   7779
             _Version        =   393216
             Rows            =   3
@@ -1168,13 +1201,13 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin MSFlexGridLib.MSFlexGrid grdGrillaLote 
+         Begin MSFlexGridLib.MSFlexGrid grdGrillaDetalle 
             Height          =   4410
-            Left            =   480
+            Left            =   7440
             TabIndex        =   102
-            Top             =   360
-            Width           =   13590
-            _ExtentX        =   23971
+            Top             =   285
+            Width           =   6495
+            _ExtentX        =   11456
             _ExtentY        =   7779
             _Version        =   393216
             Rows            =   3
@@ -1211,7 +1244,7 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   240
-            Left            =   4545
+            Left            =   3960
             TabIndex        =   33
             Top             =   4785
             Width           =   900
@@ -1230,9 +1263,9 @@ Begin VB.Form frmFacturaCliente
             AutoSize        =   -1  'True
             Caption         =   "% I.V.A.:"
             Height          =   195
-            Left            =   5730
+            Left            =   3960
             TabIndex        =   28
-            Top             =   4905
+            Top             =   4920
             Visible         =   0   'False
             Width           =   705
          End
@@ -1249,18 +1282,18 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   285
-            Left            =   11115
+            Left            =   5835
             TabIndex        =   27
-            Top             =   4920
+            Top             =   4800
             Width           =   645
          End
          Begin VB.Label Label9 
             AutoSize        =   -1  'True
             Caption         =   "Sub-Total:"
             Height          =   195
-            Left            =   5565
+            Left            =   4920
             TabIndex        =   26
-            Top             =   4755
+            Top             =   4680
             Visible         =   0   'False
             Width           =   750
          End
@@ -1541,6 +1574,103 @@ Private Sub CmdBuscAprox_Click()
     rec.Close
 End Sub
 
+Private Sub CmdBuscar_Click()
+'VERIFICO SI ES POR CLIENTE O LOTE
+Dim feFact As Date
+Dim feDes As Date
+Dim feHas As Date
+Dim codcli As Integer
+Dim fact As Integer
+feFact = FechaFactura.Value
+feDes = feDesde.Value
+feHas = feHasta.Value
+codcli = Chk0(txtcodCli.Text)
+grdGrilla.Rows = 1
+grdGrillaDetalle.Rows = 1
+    'si es x cliente
+    If optCliente.Value = True Then
+        buscarFactCliente codcli, feFact
+    Else
+        'tipo facturacion
+        If optSemanal.Value = True Then
+            fact = 2
+        ElseIf optQuincenal.Value = True Then
+            fact = 3
+        ElseIf optMensual.Value = True Then
+            fact = 4
+        End If
+        buscarFactLote fact, feFact
+    End If
+End Sub
+Private Sub buscarFactCliente(codcli As Integer, fechafac As Date)
+Dim Importe As Integer
+    sql = "SELECT FAC.CLI_RAZSOC,SUM(PDD.PDI_PRECIO) as Importe,FAC.CLI_CODIGO "
+    sql = sql & " FROM PLANILLA_DIARIA_DETALLE PDD, CLIENTE COM,CLIENTE FAC"
+    sql = sql & " WHERE PDD.CLI_CODIGO=COM.CLI_CODIGO"
+    sql = sql & " AND COM.CLI_CLIFAC =" & codcli
+    sql = sql & " AND FAC.CLI_CODIGO=COM.CLI_CLIFAC " 'CLIENTE AL QUE SE LE COBRA CON LOS QUE EL PAGA
+    sql = sql & " AND PDD.EST_CODIGO <> " & 2 'NO FACTURADA
+    sql = sql & " GROUP BY FAC.CLI_RAZSOC,FAC.CLI_CODIGO "
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    'cargo planilla pricipal
+    grdGrilla.Rows = 1
+    If rec.EOF = False Then
+            Do While rec.EOF = False
+                grdGrilla.AddItem fechafac & Chr(9) & rec!CLI_RAZSOC & Chr(9) & rec!Importe& & Chr(9) & rec!CLI_CODIGO
+                rec.MoveNext
+            Loop
+    End If
+    rec.Close
+
+
+  '  sql = "SELECT PDD.*"
+   ' sql = sql & " FROM PLANILLA_DIARIA_DETALLE PDD, CLIENTE C"
+  '  sql = sql & " WHERE PDD.CLI_CODIGO=C.CLI_CODIGO"
+  '  sql = sql & " AND C.CLI_CLIFAC=" & codcli
+  '  sql = sql & " AND PDD.EST_CODIGO=" & 1 'NO FACTURADA
+  '  rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+  '  'cargo planilla detalle
+  '  grdGrillaDetalle.Rows = 1
+   ' If rec.EOF = False Then
+  '          Do While rec.EOF = False
+    '            grdGrillaDetalle.AddItem rec!PDI_FECHA & Chr(9) & rec!CLI_CODIGO & Chr(9) & _
+     '                           rec!PDI_ALMUER & Chr(9) & rec!PDI_CENA & Chr(9) & _
+      '                          rec!PDI_POSTRE & Chr(9) & _
+       '                         rec!PDI_PAN & Chr(9) & rec!PDI_SOPA & Chr(9) & _
+        '                        rec!PDI_REMISE & Chr(9) & rec!PDI_PRECIO
+         '       rec.MoveNext
+          '  Loop
+   ' End If
+    'calculo importe total dell cliente
+    'Importe = 0
+    'For i = 1 To grdGrillaDetalle.Rows - 1
+   '     Importe = Importe + grdGrillaDetalle.TextMatrix(i, 8)
+    'Next
+    'cargo grdGrilla
+   ' grdGrilla.Rows = 1
+    'grdGrillaDetalle.Rows = 1
+    'grdGrilla.AddItem fechafac & Chr(9) & codcli & Chr(9) & Importe
+End Sub
+Private Sub buscarFactLote(fact As Integer, fechafac As Date)
+    Dim Importe As Integer
+    sql = "SELECT FAC.CLI_RAZSOC,SUM(PDD.PDI_PRECIO) as Importe,FAC.CLI_CODIGO "
+    sql = sql & " FROM PLANILLA_DIARIA_DETALLE PDD, CLIENTE COM,CLIENTE FAC"
+    sql = sql & " WHERE PDD.CLI_CODIGO=COM.CLI_CODIGO"
+    sql = sql & " AND COM.CLI_FACTURA = " & fact
+    sql = sql & " AND FAC.CLI_CODIGO=COM.CLI_CLIFAC " 'CLIENTE AL QUE SE LE COBRA CON LOS QUE EL PAGA
+    sql = sql & " AND PDD.EST_CODIGO <> " & 2 'NO FACTURADA
+    sql = sql & " GROUP BY FAC.CLI_CODIGO,FAC.CLI_RAZSOC"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    'cargo planilla pricipal
+    grdGrilla.Rows = 1
+    If rec.EOF = False Then
+            Do While rec.EOF = False
+                grdGrilla.AddItem fechafac & Chr(9) & rec!CLI_RAZSOC & Chr(9) & rec!Importe& & Chr(9) & rec!CLI_CODIGO
+                rec.MoveNext
+            Loop
+    End If
+    rec.Close
+End Sub
 Private Sub cmdCerrarPagos_Click()
     fraPagos.Visible = False
 End Sub
@@ -1909,16 +2039,14 @@ Private Sub Form_Load()
     Me.Top = 0
     
     mFormaPago = 0
-    
-    grdGrilla.FormatString = "^Código|<Descipción|^Cant.|>Precio|>Total|Codigo Producto"
-    grdGrilla.ColWidth(0) = 1200 'CODIGO
-    grdGrilla.ColWidth(1) = 5000 'DESCRIPCION
-    grdGrilla.ColWidth(2) = 1000 'CANTIDAD
-    grdGrilla.ColWidth(3) = 1200 'PRECIO
-    grdGrilla.ColWidth(4) = 1200 'TOTAL
-    grdGrilla.ColWidth(5) = 0    'CODIGO PRODUCTO
-    grdGrilla.Rows = 30
-    grdGrilla.Cols = 6
+    'grilla principal
+    grdGrilla.FormatString = "^Fecha|ClienteFact|Importe|CodFac"
+    grdGrilla.ColWidth(0) = 800 'fecha
+    grdGrilla.ColWidth(1) = 2500 'cliente
+    grdGrilla.ColWidth(2) = 1000 'importe
+    grdGrilla.ColWidth(3) = 0     'CODIGO QUIEN FACTURA
+    grdGrilla.Rows = 1
+    grdGrilla.Cols = 4
     'grdGrilla.HighLight = flexHighlightNever
     grdGrilla.BorderStyle = flexBorderNone
     grdGrilla.row = 0
@@ -1929,31 +2057,27 @@ Private Sub Form_Load()
         grdGrilla.CellFontBold = True
     Next
     
-    'GRILLA (GrdModulos) PARA LA BUSQUEDA
-    GrdModulos.FormatString = "^Tipo|^Número|^Fecha|Cliente|Cod_Estado|" _
-                              & "PORCENTAJE IVA|OBSERVACIONES|" _
-                              & "TIPO COMPROBANTE|CONDICION VENTA|CLI CODIGO"
-                              
-    GrdModulos.ColWidth(0) = 900  'TIPO FACTURA
-    GrdModulos.ColWidth(1) = 1400 'NUMERO
-    GrdModulos.ColWidth(2) = 1200 'FECHA
-    GrdModulos.ColWidth(3) = 6000 'CLIENTE
-    GrdModulos.ColWidth(4) = 0    'COD_ESTADO
-    GrdModulos.ColWidth(5) = 0    'PORCENTAJE IVA
-    GrdModulos.ColWidth(6) = 0    'OBSERVACIONES
-    GrdModulos.ColWidth(7) = 0    'TIPO COMPROBANTE
-    GrdModulos.ColWidth(8) = 0    'CONDICION VENTA
-    GrdModulos.ColWidth(9) = 0    'CLI CODIGO
-    GrdModulos.Cols = 10
-    GrdModulos.Rows = 1
-    GrdModulos.HighLight = flexHighlightNever
-    GrdModulos.BorderStyle = flexBorderNone
-    GrdModulos.row = 0
-    For i = 0 To GrdModulos.Cols - 1
-        GrdModulos.Col = i
-        GrdModulos.CellForeColor = &HFFFFFF 'FUENTE COLOR BLANCO
-        GrdModulos.CellBackColor = &H808080    'GRIS OSCURO
-        GrdModulos.CellFontBold = True
+    'GRILLA detalle
+    grdGrillaDetalle.FormatString = "^Fecha|ClienteComio|alm|cena|postre|pan|sopa|remise|importe"
+    grdGrillaDetalle.ColWidth(0) = 900  'fecha
+    grdGrillaDetalle.ColWidth(1) = 1400 'clientecomio
+    grdGrillaDetalle.ColWidth(2) = 500 'alm
+    grdGrillaDetalle.ColWidth(3) = 500 'cena
+    grdGrillaDetalle.ColWidth(4) = 500    'postre
+    grdGrillaDetalle.ColWidth(5) = 500   'pan
+    grdGrillaDetalle.ColWidth(6) = 500    'sopa
+    grdGrillaDetalle.ColWidth(7) = 500    'remise
+    grdGrillaDetalle.ColWidth(8) = 1600   'importe
+    grdGrillaDetalle.Cols = 9
+    grdGrillaDetalle.Rows = 1
+    grdGrillaDetalle.HighLight = flexHighlightNever
+    grdGrillaDetalle.BorderStyle = flexBorderNone
+    grdGrillaDetalle.row = 0
+    For i = 0 To grdGrillaDetalle.Cols - 1
+        grdGrillaDetalle.Col = i
+        grdGrillaDetalle.CellForeColor = &HFFFFFF 'FUENTE COLOR BLANCO
+        grdGrillaDetalle.CellBackColor = &H808080    'GRIS OSCURO
+        grdGrillaDetalle.CellFontBold = True
     Next
     '------------------------------------
     
@@ -2083,6 +2207,31 @@ Private Function BuscoUltimaFactura(TipoFac As Integer) As String
     End If
     rec.Close
 End Function
+
+Private Sub grdGrilla_DblClick()
+Dim codfac As Integer
+    'cargo detalle
+    codfac = grdGrilla.TextMatrix(grdGrilla.RowSel, 3)
+    sql = "SELECT PDD.*,C.CLI_RAZSOC"
+    sql = sql & " FROM PLANILLA_DIARIA_DETALLE PDD, CLIENTE C"
+    sql = sql & " WHERE PDD.CLI_CODIGO=C.CLI_CODIGO"
+    sql = sql & " AND C.CLI_CLIFAC=" & codfac
+    sql = sql & " AND PDD.EST_CODIGO=" & 1 'NO FACTURADA
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    'cargo planilla detalle
+    grdGrillaDetalle.Rows = 1
+    If rec.EOF = False Then
+            Do While rec.EOF = False
+                grdGrillaDetalle.AddItem rec!PDI_FECHA & Chr(9) & rec!CLI_RAZSOC & Chr(9) & _
+                                rec!PDI_ALMUER & Chr(9) & rec!PDI_CENA & Chr(9) & _
+                                rec!PDI_POSTRE & Chr(9) & _
+                                rec!PDI_PAN & Chr(9) & rec!PDI_SOPA & Chr(9) & _
+                                rec!PDI_REMISE & Chr(9) & rec!PDI_PRECIO
+                rec.MoveNext
+            Loop
+    End If
+    rec.Close
+End Sub
 
 Private Sub grdGrilla_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyDelete Then
@@ -2533,10 +2682,10 @@ Private Sub TxtEdit_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 
-Private Function BuscoRepetetidos(codigo As String, linea As Integer) As Boolean
+Private Function BuscoRepetetidos(Codigo As String, linea As Integer) As Boolean
     For i = 1 To grdGrilla.Rows - 1
         If grdGrilla.TextMatrix(i, 5) <> "" Then
-            If codigo = CStr(grdGrilla.TextMatrix(i, 5)) And (i <> linea) Then
+            If Codigo = CStr(grdGrilla.TextMatrix(i, 5)) And (i <> linea) Then
                 MsgBox "El Producto ya fue elegido anteriormente", vbExclamation, TIT_MSGBOX
                 BuscoRepetetidos = False
                 Exit Function

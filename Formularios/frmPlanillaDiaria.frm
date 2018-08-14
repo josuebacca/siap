@@ -112,8 +112,8 @@ Begin VB.Form frmPlanillaDiaria
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(0)=   "frameBuscar"
+      Tab(1).Control(1)=   "GrdModulos"
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -270,7 +270,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   41943041
+            Format          =   111673345
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +329,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   41943041
+            Format          =   111673345
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -405,7 +405,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   41943041
+            Format          =   111673345
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -686,7 +686,7 @@ Private Sub cmdGrabar_Click()
                 'INSERTAR NUEVOS
                 sql = " INSERT INTO PLANILLA_DIARIA_DETALLE "
                 sql = sql & "(PDI_FECHA,CLI_CODIGO, PDI_PRECIO, PDI_ALMUER, PDI_CENA,"
-                sql = sql & "PDI_SOPA,PDI_POSTRE,PDI_PAN,PDI_DESCAR,PDI_REMISE)"
+                sql = sql & "PDI_SOPA,PDI_POSTRE,PDI_PAN,PDI_DESCAR,PDI_REMISE,EST_CODIGO)"
                 sql = sql & " VALUES ("
                 sql = sql & XDQ(Fecha.Value) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 14)) & "," 'CODIGO_CLIENTE
@@ -697,7 +697,8 @@ Private Sub cmdGrabar_Click()
                 sql = sql & XN(grdGrilla.TextMatrix(i, 6)) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","
-                sql = sql & XN(grdGrilla.TextMatrix(i, 16)) & ")"
+                sql = sql & XN(grdGrilla.TextMatrix(i, 16)) & ","
+                sql = sql & 1 & ")"
                 DBConn.Execute sql
             Next
        End If
