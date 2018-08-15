@@ -27,26 +27,28 @@ Begin VB.Form frmFacturaCliente
    MinButton       =   0   'False
    ScaleHeight     =   7875
    ScaleWidth      =   14475
-   Begin VB.CommandButton cmdBuscar 
-      Caption         =   "Buscar"
-      Height          =   375
-      Left            =   10560
-      TabIndex        =   104
-      Top             =   7440
-      Width           =   975
+   Begin VB.CommandButton cmdGrabar 
+      Caption         =   "&Facturar"
+      Height          =   450
+      Left            =   4800
+      Picture         =   "frmFacturaCliente.frx":0000
+      Style           =   1  'Graphical
+      TabIndex        =   2
+      Top             =   7410
+      Width           =   2310
    End
    Begin VB.Frame Frame1 
       Height          =   615
       Left            =   -1320
-      TabIndex        =   95
-      Top             =   7320
+      TabIndex        =   92
+      Top             =   7560
       Visible         =   0   'False
       Width           =   10155
       Begin VB.ComboBox cboCondicion 
          Height          =   315
          Left            =   8025
          Style           =   2  'Dropdown List
-         TabIndex        =   98
+         TabIndex        =   95
          Top             =   195
          Width           =   1860
       End
@@ -54,7 +56,7 @@ Begin VB.Form frmFacturaCliente
          Height          =   315
          Left            =   945
          Style           =   2  'Dropdown List
-         TabIndex        =   97
+         TabIndex        =   94
          Top             =   195
          Width           =   2745
       End
@@ -62,7 +64,7 @@ Begin VB.Form frmFacturaCliente
          Height          =   315
          Left            =   4620
          Style           =   2  'Dropdown List
-         TabIndex        =   96
+         TabIndex        =   93
          Top             =   210
          Width           =   2355
       End
@@ -80,7 +82,7 @@ Begin VB.Form frmFacturaCliente
          EndProperty
          Height          =   195
          Left            =   7125
-         TabIndex        =   101
+         TabIndex        =   98
          Top             =   240
          Width           =   810
       End
@@ -98,7 +100,7 @@ Begin VB.Form frmFacturaCliente
          EndProperty
          Height          =   195
          Left            =   60
-         TabIndex        =   100
+         TabIndex        =   97
          Top             =   240
          Width           =   735
       End
@@ -116,7 +118,7 @@ Begin VB.Form frmFacturaCliente
          EndProperty
          Height          =   195
          Left            =   3795
-         TabIndex        =   99
+         TabIndex        =   96
          Top             =   255
          Width           =   750
       End
@@ -151,9 +153,9 @@ Begin VB.Form frmFacturaCliente
       End
       Begin VB.ComboBox cboPlan 
          Height          =   315
-         ItemData        =   "frmFacturaCliente.frx":0000
+         ItemData        =   "frmFacturaCliente.frx":2072
          Left            =   1665
-         List            =   "frmFacturaCliente.frx":0002
+         List            =   "frmFacturaCliente.frx":2074
          Style           =   2  'Dropdown List
          TabIndex        =   38
          Top             =   1245
@@ -161,9 +163,9 @@ Begin VB.Form frmFacturaCliente
       End
       Begin VB.ComboBox cboTarjeta 
          Height          =   315
-         ItemData        =   "frmFacturaCliente.frx":0004
+         ItemData        =   "frmFacturaCliente.frx":2076
          Left            =   1665
-         List            =   "frmFacturaCliente.frx":0006
+         List            =   "frmFacturaCliente.frx":2078
          Style           =   2  'Dropdown List
          TabIndex        =   37
          Top             =   855
@@ -320,9 +322,9 @@ Begin VB.Form frmFacturaCliente
       End
       Begin VB.ComboBox cboFormaPago 
          Height          =   315
-         ItemData        =   "frmFacturaCliente.frx":0008
+         ItemData        =   "frmFacturaCliente.frx":207A
          Left            =   1470
-         List            =   "frmFacturaCliente.frx":000A
+         List            =   "frmFacturaCliente.frx":207C
          Style           =   2  'Dropdown List
          TabIndex        =   57
          Top             =   1470
@@ -406,7 +408,7 @@ Begin VB.Form frmFacturaCliente
          FocusRect       =   2
          HighLight       =   2
          SelectionMode   =   1
-         FormatString    =   $"frmFacturaCliente.frx":000C
+         FormatString    =   $"frmFacturaCliente.frx":207E
       End
       Begin VB.Label Label38 
          Alignment       =   2  'Center
@@ -498,7 +500,7 @@ Begin VB.Form frmFacturaCliente
          Strikethrough   =   0   'False
       EndProperty
       TabCaption(0)   =   "&Datos"
-      TabPicture(0)   =   "frmFacturaCliente.frx":0012
+      TabPicture(0)   =   "frmFacturaCliente.frx":2084
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Frame3"
       Tab(0).Control(0).Enabled=   0   'False
@@ -506,13 +508,15 @@ Begin VB.Form frmFacturaCliente
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).ControlCount=   2
       TabCaption(1)   =   "&Buscar"
-      TabPicture(1)   =   "frmFacturaCliente.frx":002E
+      TabPicture(1)   =   "frmFacturaCliente.frx":20A0
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameBuscar"
-      Tab(1).Control(1)=   "GrdModulos"
+      Tab(1).Control(0)=   "GrdModulos"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       Begin VB.Frame FrameCliente 
-         Caption         =   "Tipo de Facturacion..."
+         Caption         =   "Facturacion..."
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   9.75
@@ -522,11 +526,21 @@ Begin VB.Form frmFacturaCliente
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   1515
+         Height          =   1755
          Left            =   120
          TabIndex        =   31
          Top             =   360
          Width           =   14235
+         Begin VB.CommandButton cmdBuscar 
+            Caption         =   "Buscar"
+            Height          =   1095
+            Left            =   12480
+            Picture         =   "frmFacturaCliente.frx":20BC
+            Style           =   1  'Graphical
+            TabIndex        =   103
+            Top             =   600
+            Width           =   1455
+         End
          Begin VB.Frame FrameFactura 
             Caption         =   "Factura..."
             BeginProperty Font 
@@ -538,11 +552,12 @@ Begin VB.Form frmFacturaCliente
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   1215
-            Left            =   12480
-            TabIndex        =   85
-            Top             =   250
-            Width           =   1680
+            Height          =   615
+            Left            =   8280
+            TabIndex        =   84
+            Top             =   120
+            Visible         =   0   'False
+            Width           =   3240
             Begin VB.TextBox txtNroFactura 
                BeginProperty Font 
                   Name            =   "Tahoma"
@@ -555,18 +570,17 @@ Begin VB.Form frmFacturaCliente
                EndProperty
                Height          =   315
                Left            =   3090
-               TabIndex        =   89
+               TabIndex        =   87
                Top             =   645
                Visible         =   0   'False
                Width           =   1155
             End
             Begin VB.ComboBox cboFactura 
                Height          =   315
-               Left            =   2280
+               Left            =   600
                Style           =   2  'Dropdown List
-               TabIndex        =   88
-               Top             =   360
-               Visible         =   0   'False
+               TabIndex        =   86
+               Top             =   240
                Width           =   2400
             End
             Begin VB.TextBox txtNroSucursal 
@@ -582,23 +596,10 @@ Begin VB.Form frmFacturaCliente
                Height          =   315
                Left            =   2505
                MaxLength       =   4
-               TabIndex        =   87
+               TabIndex        =   85
                Top             =   645
                Visible         =   0   'False
                Width           =   555
-            End
-            Begin MSComCtl2.DTPicker FechaFactura 
-               Height          =   315
-               Left            =   120
-               TabIndex        =   86
-               Top             =   720
-               Width           =   1455
-               _ExtentX        =   2566
-               _ExtentY        =   556
-               _Version        =   393216
-               CheckBox        =   -1  'True
-               Format          =   44695553
-               CurrentDate     =   43174
             End
             Begin VB.Label lblEstadoFactura 
                AutoSize        =   -1  'True
@@ -615,7 +616,7 @@ Begin VB.Form frmFacturaCliente
                ForeColor       =   &H00FF0000&
                Height          =   195
                Left            =   2175
-               TabIndex        =   94
+               TabIndex        =   91
                Top             =   1050
                Visible         =   0   'False
                Width           =   1170
@@ -625,7 +626,7 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Estado:"
                Height          =   195
                Left            =   2760
-               TabIndex        =   93
+               TabIndex        =   90
                Top             =   705
                Visible         =   0   'False
                Width           =   555
@@ -635,26 +636,17 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Número:"
                Height          =   195
                Left            =   2760
-               TabIndex        =   92
+               TabIndex        =   89
                Top             =   600
                Visible         =   0   'False
                Width           =   615
-            End
-            Begin VB.Label Label7 
-               AutoSize        =   -1  'True
-               Caption         =   "Fecha:"
-               Height          =   195
-               Left            =   105
-               TabIndex        =   91
-               Top             =   360
-               Width           =   495
             End
             Begin VB.Label Label8 
                AutoSize        =   -1  'True
                Caption         =   "Tipo:"
                Height          =   195
                Left            =   3600
-               TabIndex        =   90
+               TabIndex        =   88
                Top             =   360
                Visible         =   0   'False
                Width           =   360
@@ -671,32 +663,15 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   1215
-            Left            =   240
-            TabIndex        =   75
-            Top             =   250
-            Width           =   5775
-            Begin VB.OptionButton optCliente 
-               Caption         =   "Por Cliente"
-               BeginProperty Font 
-                  Name            =   "Tahoma"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               Height          =   255
-               Left            =   120
-               TabIndex        =   103
-               Top             =   0
-               Width           =   1335
-            End
+            Left            =   120
+            TabIndex        =   74
+            Top             =   495
+            Width           =   5895
             Begin VB.TextBox txtCiva 
                Enabled         =   0   'False
                Height          =   315
                Left            =   1020
-               TabIndex        =   79
+               TabIndex        =   78
                Top             =   930
                Visible         =   0   'False
                Width           =   2745
@@ -704,10 +679,10 @@ Begin VB.Form frmFacturaCliente
             Begin VB.TextBox txtDomici 
                Enabled         =   0   'False
                Height          =   315
-               Left            =   1020
-               TabIndex        =   78
+               Left            =   780
+               TabIndex        =   77
                Top             =   645
-               Width           =   4680
+               Width           =   4920
             End
             Begin VB.TextBox txtRazSoc 
                BeginProperty Font 
@@ -720,23 +695,23 @@ Begin VB.Form frmFacturaCliente
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   315
-               Left            =   1920
-               TabIndex        =   77
+               Left            =   1680
+               TabIndex        =   76
                Top             =   240
-               Width           =   3780
+               Width           =   4020
             End
             Begin VB.TextBox txtcodCli 
                Alignment       =   2  'Center
                Height          =   315
-               Left            =   1020
-               TabIndex        =   76
+               Left            =   780
+               TabIndex        =   75
                Top             =   240
                Width           =   870
             End
             Begin MSMask.MaskEdBox txtCuit 
                Height          =   315
                Left            =   5055
-               TabIndex        =   80
+               TabIndex        =   79
                Top             =   930
                Visible         =   0   'False
                Width           =   1350
@@ -754,7 +729,7 @@ Begin VB.Form frmFacturaCliente
                Caption         =   " I.V.A.:"
                Height          =   195
                Left            =   120
-               TabIndex        =   84
+               TabIndex        =   83
                Top             =   990
                Visible         =   0   'False
                Width           =   540
@@ -764,7 +739,7 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Domicilio:"
                Height          =   195
                Left            =   120
-               TabIndex        =   83
+               TabIndex        =   82
                Top             =   690
                Width           =   660
             End
@@ -773,7 +748,7 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Código:"
                Height          =   195
                Left            =   120
-               TabIndex        =   82
+               TabIndex        =   81
                Top             =   270
                Width           =   555
             End
@@ -783,7 +758,7 @@ Begin VB.Form frmFacturaCliente
                Height          =   195
                Index           =   10
                Left            =   4335
-               TabIndex        =   81
+               TabIndex        =   80
                Top             =   990
                Visible         =   0   'False
                Width           =   660
@@ -802,13 +777,13 @@ Begin VB.Form frmFacturaCliente
             Height          =   1215
             Left            =   6120
             TabIndex        =   65
-            Top             =   250
+            Top             =   495
             Width           =   6255
             Begin VB.OptionButton optFechas 
                Caption         =   "Entre Fechas"
                Height          =   255
                Left            =   240
-               TabIndex        =   70
+               TabIndex        =   69
                Top             =   720
                Width           =   1335
             End
@@ -816,7 +791,7 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Mensual"
                Height          =   255
                Left            =   2400
-               TabIndex        =   69
+               TabIndex        =   68
                Top             =   360
                Width           =   1095
             End
@@ -824,7 +799,7 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Quincenal"
                Height          =   255
                Left            =   4680
-               TabIndex        =   68
+               TabIndex        =   67
                Top             =   360
                Width           =   1095
             End
@@ -832,30 +807,26 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Semanal"
                Height          =   255
                Left            =   240
-               TabIndex        =   67
+               TabIndex        =   66
                Top             =   360
                Width           =   1095
-            End
-            Begin VB.OptionButton optLote 
-               Caption         =   "Por Lote"
-               BeginProperty Font 
-                  Name            =   "Tahoma"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               Height          =   255
-               Left            =   120
-               TabIndex        =   66
-               Top             =   0
-               Width           =   1335
             End
             Begin MSComCtl2.DTPicker feHasta 
                Height          =   315
                Left            =   4680
+               TabIndex        =   70
+               Top             =   720
+               Width           =   1455
+               _ExtentX        =   2566
+               _ExtentY        =   556
+               _Version        =   393216
+               CheckBox        =   -1  'True
+               Format          =   20905985
+               CurrentDate     =   43174
+            End
+            Begin MSComCtl2.DTPicker feDesde 
+               Height          =   315
+               Left            =   2280
                TabIndex        =   71
                Top             =   720
                Width           =   1455
@@ -863,20 +834,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   44695553
-               CurrentDate     =   43174
-            End
-            Begin MSComCtl2.DTPicker feDesde 
-               Height          =   315
-               Left            =   2280
-               TabIndex        =   72
-               Top             =   720
-               Width           =   1455
-               _ExtentX        =   2566
-               _ExtentY        =   556
-               _Version        =   393216
-               CheckBox        =   -1  'True
-               Format          =   44695553
+               Format          =   20905985
                CurrentDate     =   43174
             End
             Begin VB.Label Label25 
@@ -884,7 +842,7 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Desde:"
                Height          =   195
                Left            =   1680
-               TabIndex        =   74
+               TabIndex        =   73
                Top             =   720
                Width           =   510
             End
@@ -893,10 +851,50 @@ Begin VB.Form frmFacturaCliente
                Caption         =   "Hasta:"
                Height          =   195
                Left            =   4080
-               TabIndex        =   73
+               TabIndex        =   72
                Top             =   720
                Width           =   480
             End
+         End
+         Begin MSComCtl2.DTPicker FechaFactura 
+            Height          =   315
+            Left            =   12480
+            TabIndex        =   101
+            Top             =   240
+            Width           =   1455
+            _ExtentX        =   2566
+            _ExtentY        =   556
+            _Version        =   393216
+            CheckBox        =   -1  'True
+            Format          =   20905985
+            CurrentDate     =   43174
+         End
+         Begin VB.Label Label7 
+            AutoSize        =   -1  'True
+            Caption         =   "Fecha:"
+            Height          =   195
+            Left            =   11880
+            TabIndex        =   102
+            Top             =   240
+            Width           =   495
+         End
+         Begin VB.Label lblFecha 
+            Caption         =   "Label26"
+            BeginProperty Font 
+               Name            =   "Tahoma"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H8000000D&
+            Height          =   375
+            Left            =   2760
+            TabIndex        =   100
+            Top             =   240
+            Width           =   6495
          End
       End
       Begin VB.Frame frameBuscar 
@@ -914,7 +912,7 @@ Begin VB.Form frmFacturaCliente
          Left            =   -74805
          TabIndex        =   21
          Top             =   420
-         Width           =   9990
+         Width           =   13950
          Begin MSComCtl2.DTPicker FechaHasta 
             Height          =   315
             Left            =   6120
@@ -925,7 +923,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   44695553
+            Format          =   20905985
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -938,7 +936,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   44695553
+            Format          =   20905985
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -1030,13 +1028,13 @@ Begin VB.Form frmFacturaCliente
          End
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
-         Height          =   3705
+         Height          =   5265
          Left            =   -74835
          TabIndex        =   13
          Top             =   1935
-         Width           =   10020
-         _ExtentX        =   17674
-         _ExtentY        =   6535
+         Width           =   14100
+         _ExtentX        =   24871
+         _ExtentY        =   9287
          _Version        =   393216
          Cols            =   12
          FixedCols       =   0
@@ -1066,10 +1064,10 @@ Begin VB.Form frmFacturaCliente
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   5325
+         Height          =   5205
          Left            =   105
          TabIndex        =   20
-         Top             =   1815
+         Top             =   2055
          Width           =   14235
          Begin VB.CommandButton Command1 
             Caption         =   "Forma Pago"
@@ -1077,6 +1075,7 @@ Begin VB.Form frmFacturaCliente
             Left            =   2760
             TabIndex        =   64
             Top             =   4680
+            Visible         =   0   'False
             Width           =   1140
          End
          Begin VB.TextBox txtImporteIva 
@@ -1124,10 +1123,10 @@ Begin VB.Form frmFacturaCliente
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   405
-            Left            =   6555
+            Left            =   4875
             Locked          =   -1  'True
             TabIndex        =   17
-            Top             =   4860
+            Top             =   4740
             Width           =   1710
          End
          Begin VB.TextBox txtSubtotal 
@@ -1176,9 +1175,38 @@ Begin VB.Form frmFacturaCliente
             Left            =   195
             TabIndex        =   0
             Top             =   285
-            Width           =   7230
-            _ExtentX        =   12753
+            Width           =   6630
+            _ExtentX        =   11695
             _ExtentY        =   7779
+            _Version        =   393216
+            Rows            =   3
+            Cols            =   4
+            FixedCols       =   0
+            RowHeightMin    =   290
+            BackColorSel    =   12648447
+            ForeColorSel    =   0
+            GridColor       =   -2147483633
+            ScrollTrack     =   -1  'True
+            FocusRect       =   0
+            HighLight       =   2
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Tahoma"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
+         Begin MSFlexGridLib.MSFlexGrid grdGrillaDetalle 
+            Height          =   3930
+            Left            =   6960
+            TabIndex        =   99
+            Top             =   730
+            Width           =   7215
+            _ExtentX        =   12726
+            _ExtentY        =   6932
             _Version        =   393216
             Rows            =   3
             Cols            =   6
@@ -1190,7 +1218,7 @@ Begin VB.Form frmFacturaCliente
             ScrollTrack     =   -1  'True
             FocusRect       =   0
             HighLight       =   2
-            ScrollBars      =   2
+            AllowUserResizing=   3
             BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "Tahoma"
                Size            =   9.75
@@ -1201,35 +1229,22 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
          End
-         Begin MSFlexGridLib.MSFlexGrid grdGrillaDetalle 
-            Height          =   4410
-            Left            =   7440
-            TabIndex        =   102
-            Top             =   285
-            Width           =   6495
-            _ExtentX        =   11456
-            _ExtentY        =   7779
-            _Version        =   393216
-            Rows            =   3
-            Cols            =   6
-            FixedCols       =   0
-            RowHeightMin    =   290
-            BackColorSel    =   12648447
-            ForeColorSel    =   0
-            GridColor       =   -2147483633
-            ScrollTrack     =   -1  'True
-            FocusRect       =   0
-            HighLight       =   2
-            ScrollBars      =   2
-            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Begin VB.Label lblcliente 
+            BeginProperty Font 
                Name            =   "Tahoma"
                Size            =   9.75
                Charset         =   0
-               Weight          =   400
+               Weight          =   700
                Underline       =   0   'False
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
+            ForeColor       =   &H8000000D&
+            Height          =   375
+            Left            =   7080
+            TabIndex        =   104
+            Top             =   240
+            Width           =   6495
          End
          Begin VB.Label lblConPago 
             AutoSize        =   -1  'True
@@ -1246,7 +1261,8 @@ Begin VB.Form frmFacturaCliente
             Height          =   240
             Left            =   3960
             TabIndex        =   33
-            Top             =   4785
+            Top             =   4680
+            Visible         =   0   'False
             Width           =   900
          End
          Begin VB.Label Label15 
@@ -1282,9 +1298,9 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   285
-            Left            =   5835
+            Left            =   4155
             TabIndex        =   27
-            Top             =   4800
+            Top             =   4680
             Width           =   645
          End
          Begin VB.Label Label9 
@@ -1327,14 +1343,6 @@ Begin VB.Form frmFacturaCliente
          Top             =   570
          Width           =   1065
       End
-   End
-   Begin VB.CommandButton cmdGrabar 
-      Caption         =   "&Aceptar"
-      Height          =   450
-      Left            =   11775
-      TabIndex        =   2
-      Top             =   7410
-      Width           =   870
    End
    Begin VB.Label lblEstado 
       AutoSize        =   -1  'True
@@ -1588,7 +1596,7 @@ codcli = Chk0(txtcodCli.Text)
 grdGrilla.Rows = 1
 grdGrillaDetalle.Rows = 1
     'si es x cliente
-    If optCliente.Value = True Then
+    If txtcodCli.Text <> "" Then
         buscarFactCliente codcli, feFact
     Else
         'tipo facturacion
@@ -1603,7 +1611,7 @@ grdGrillaDetalle.Rows = 1
     End If
 End Sub
 Private Sub buscarFactCliente(codcli As Integer, fechafac As Date)
-Dim Importe As Integer
+    Dim Importe As Integer
     sql = "SELECT FAC.CLI_RAZSOC,SUM(PDD.PDI_PRECIO) as Importe,FAC.CLI_CODIGO "
     sql = sql & " FROM PLANILLA_DIARIA_DETALLE PDD, CLIENTE COM,CLIENTE FAC"
     sql = sql & " WHERE PDD.CLI_CODIGO=COM.CLI_CODIGO"
@@ -1713,7 +1721,7 @@ Private Sub cmdGrabar_Click()
         sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
         sql = sql & XN(txtNroFactura.Text) & ","
         sql = sql & XN(txtNroSucursal.Text) & ","
-        sql = sql & XDQ(FechaFactura.Text) & ","
+        sql = sql & XDQ(FechaFactura.Value) & ","
         sql = sql & XN(txtPorcentajeIva) & ","
         sql = sql & cboCondicion.ItemData(cboCondicion.ListIndex) & ","
         sql = sql & XS(txtObservaciones) & ","
@@ -1926,13 +1934,9 @@ Public Sub ImprimirEncabezado()
 End Sub
 
 Private Sub LIMPIOGRILLA()
-    For i = 1 To grdGrilla.Rows - 1
-        grdGrilla.TextMatrix(i, 0) = ""
-        grdGrilla.TextMatrix(i, 1) = ""
-        grdGrilla.TextMatrix(i, 2) = ""
-        grdGrilla.TextMatrix(i, 3) = ""
-        grdGrilla.TextMatrix(i, 4) = ""
-    Next
+    grdGrilla.Rows = 1
+    grdGrillaDetalle.Rows = 1
+    lblcliente.Caption = ""
 End Sub
 
 Private Sub CmdNuevo_Click()
@@ -1942,7 +1946,7 @@ Private Sub CmdNuevo_Click()
    lblConPago.Caption = ""
    txtNroFactura.Text = ""
    txtNroSucursal.Text = ""
-   FechaFactura.Text = Date
+   FechaFactura.Value = Date
    lblEstadoFactura.Caption = ""
    txtSubtotal.Text = ""
    txtTotal.Text = "0,00"
@@ -1968,12 +1972,10 @@ Private Sub CmdNuevo_Click()
     txtNroFactura_LostFocus
     
     tabDatos.Tab = 0
-    FechaFactura.Text = Date
+    FechaFactura.Value = Date
     cboFactura.ListIndex = 0
     'cboFactura.SetFocus
     txtcodCli.Text = ""
-    txtcodCli.Text = "1"
-    txtCodCli_LostFocus
     
     cmdGrabar.Enabled = True
     FrameCliente.Enabled = True
@@ -2002,6 +2004,14 @@ Private Sub Command1_Click()
     txtGrabar.Text = "N"
     
     cboFormaPago.SetFocus
+End Sub
+
+Private Sub FechaFactura_Change()
+    lblFecha.Caption = FechaLetras(FechaFactura.day, FechaFactura.dayofweek, FechaFactura.month, FechaFactura.year)
+End Sub
+
+Private Sub FechaFactura_LostFocus()
+    lblFecha.Caption = FechaLetras(FechaFactura.day, FechaFactura.dayofweek, FechaFactura.month, FechaFactura.year)
 End Sub
 
 Private Sub Form_Activate()
@@ -2038,12 +2048,15 @@ Private Sub Form_Load()
     Me.Left = 0
     Me.Top = 0
     
+    FechaFactura.Value = Date
+    lblFecha.Caption = FechaLetras(FechaFactura.day, FechaFactura.dayofweek, FechaFactura.month, FechaFactura.year)
+    
     mFormaPago = 0
     'grilla principal
     grdGrilla.FormatString = "^Fecha|ClienteFact|Importe|CodFac"
-    grdGrilla.ColWidth(0) = 800 'fecha
-    grdGrilla.ColWidth(1) = 2500 'cliente
-    grdGrilla.ColWidth(2) = 1000 'importe
+    grdGrilla.ColWidth(0) = 1500 'fecha
+    grdGrilla.ColWidth(1) = 3500 'cliente
+    grdGrilla.ColWidth(2) = 1500 'importe
     grdGrilla.ColWidth(3) = 0     'CODIGO QUIEN FACTURA
     grdGrilla.Rows = 1
     grdGrilla.Cols = 4
@@ -2059,15 +2072,15 @@ Private Sub Form_Load()
     
     'GRILLA detalle
     grdGrillaDetalle.FormatString = "^Fecha|ClienteComio|alm|cena|postre|pan|sopa|remise|importe"
-    grdGrillaDetalle.ColWidth(0) = 900  'fecha
-    grdGrillaDetalle.ColWidth(1) = 1400 'clientecomio
-    grdGrillaDetalle.ColWidth(2) = 500 'alm
-    grdGrillaDetalle.ColWidth(3) = 500 'cena
-    grdGrillaDetalle.ColWidth(4) = 500    'postre
-    grdGrillaDetalle.ColWidth(5) = 500   'pan
-    grdGrillaDetalle.ColWidth(6) = 500    'sopa
-    grdGrillaDetalle.ColWidth(7) = 500    'remise
-    grdGrillaDetalle.ColWidth(8) = 1600   'importe
+    grdGrillaDetalle.ColWidth(0) = 1200  'fecha
+    grdGrillaDetalle.ColWidth(1) = 2500 'clientecomio
+    grdGrillaDetalle.ColWidth(2) = 400 'alm
+    grdGrillaDetalle.ColWidth(3) = 400 'cena
+    grdGrillaDetalle.ColWidth(4) = 400    'postre
+    grdGrillaDetalle.ColWidth(5) = 400   'pan
+    grdGrillaDetalle.ColWidth(6) = 400    'sopa
+    grdGrillaDetalle.ColWidth(7) = 400    'remise
+    grdGrillaDetalle.ColWidth(8) = 1000   'importe
     grdGrillaDetalle.Cols = 9
     grdGrillaDetalle.Rows = 1
     grdGrillaDetalle.HighLight = flexHighlightNever
@@ -2208,10 +2221,11 @@ Private Function BuscoUltimaFactura(TipoFac As Integer) As String
     rec.Close
 End Function
 
-Private Sub grdGrilla_DblClick()
-Dim codfac As Integer
+Private Sub grdGrilla_Click()
+    Dim codfac As Integer
     'cargo detalle
     codfac = grdGrilla.TextMatrix(grdGrilla.RowSel, 3)
+    lblcliente = "Detalle del cliente: " & grdGrilla.TextMatrix(grdGrilla.RowSel, 1)
     sql = "SELECT PDD.*,C.CLI_RAZSOC"
     sql = sql & " FROM PLANILLA_DIARIA_DETALLE PDD, CLIENTE C"
     sql = sql & " WHERE PDD.CLI_CODIGO=C.CLI_CODIGO"
@@ -2231,6 +2245,7 @@ Dim codfac As Integer
             Loop
     End If
     rec.Close
+    
 End Sub
 
 Private Sub grdGrilla_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -2376,6 +2391,10 @@ Private Sub GrdModulos_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyReturn Then GrdModulos_dblClick
 End Sub
 
+Private Sub optLote_Click()
+
+End Sub
+
 Private Sub tabDatos_Click(PreviousTab As Integer)
   If tabDatos.Tab = 1 Then
     'LimpiarBusqueda
@@ -2518,7 +2537,7 @@ End Sub
 
 Private Sub txtcodCli_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyF1 Then
-        BuscarClientes "txtcodCli", "CODIGO"
+        BuscarClientes "txtcodCli", "CADENA"
     End If
 End Sub
 
@@ -2547,6 +2566,9 @@ Private Sub txtCodCli_LostFocus()
             txtcodCli.SetFocus
         End If
         If rec.State = 1 Then rec.Close
+    Else
+    'cliente vacio limpiamos las grillas
+        LIMPIOGRILLA
     End If
 End Sub
 
@@ -2979,7 +3001,7 @@ Public Sub BuscarClientes(Txt As String, mQuien As String, Optional mCadena As S
         cSQL = "SELECT CLI_RAZSOC, CLI_CODIGO"
         cSQL = cSQL & " FROM CLIENTE C"
         If mQuien = "CADENA" Then
-            cSQL = cSQL & " WHERE CLI_RAZSOC LIKE '" & Trim(mCadena) & "%'"
+            cSQL = cSQL & " WHERE CLI_RAZSOC LIKE '%" & Trim(mCadena) & "%'"
         End If
         
         hSQL = "Nombre, Código"

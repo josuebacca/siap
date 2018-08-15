@@ -131,7 +131,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub CmdCancelar_Click()
+Private Sub cmdCancelar_Click()
     If lvwLista.ListItems.Count > 0 Then
         lvwLista.SelectedItem.Selected = False
     End If
@@ -139,7 +139,7 @@ Private Sub CmdCancelar_Click()
 End Sub
 
 Private Sub cmdEje_Click()
-    Dim Rec As ADODB.Recordset
+    Dim rec As ADODB.Recordset
     Dim itmX As ListItem
     Dim ArrWidthColumn() As Integer
     Dim f As Field
@@ -180,9 +180,9 @@ Private Sub cmdEje_Click()
    Else
         tempSQL = sSQL
         If InStr(UCase(sSQL), "WHERE") <> 0 Then ' ya tiene WHERE en la consulta
-            tempSQL = tempSQL & " and " & sField & " like '" & Trim(txtBuscar.Text) & "%' order by " & sOrderBy
+            tempSQL = tempSQL & " and " & sField & " like '%" & Trim(txtBuscar.Text) & "%' order by " & sOrderBy
         Else
-            tempSQL = tempSQL & " WHERE " & sField & " like '" & Trim(txtBuscar.Text) & "%' order by " & sOrderBy
+            tempSQL = tempSQL & " WHERE " & sField & " like '%" & Trim(txtBuscar.Text) & "%' order by " & sOrderBy
         End If
    End If
    
@@ -204,15 +204,15 @@ Private Sub cmdSeleccionar_Click()
 
 Dim itmX As ListItem
 Dim CantCol As Byte
-Dim I As Integer
+Dim i As Integer
 
 CantCol = frmCBusqueda.lvwLista.ColumnHeaders.Count - 1
 
 Set itmX = frmCBusqueda.lvwLista.SelectedItem
 ColSel.Add itmX.Text, frmCBusqueda.lvwLista.ColumnHeaders(1)
-For I = 1 To CantCol
-    ColSel.Add itmX.SubItems(I), frmCBusqueda.lvwLista.ColumnHeaders(I + 1)
-Next I
+For i = 1 To CantCol
+    ColSel.Add itmX.SubItems(i), frmCBusqueda.lvwLista.ColumnHeaders(i + 1)
+Next i
 
 Unload Me
 
@@ -424,7 +424,7 @@ End Sub
 
 Private Sub Form_Load()
     'variables de uso general
-    Dim Rec As ADODB.Recordset
+    Dim rec As ADODB.Recordset
     Dim itmX As ListItem
     Dim ArrWidthColumn() As Integer
     Dim f As Field

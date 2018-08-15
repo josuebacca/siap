@@ -209,7 +209,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   110493697
+               Format          =   212729857
                CurrentDate     =   40071
             End
          End
@@ -977,7 +977,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   110493697
+               Format          =   212729857
                CurrentDate     =   40070
             End
          End
@@ -1402,7 +1402,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110493697
+            Format          =   212729857
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1415,7 +1415,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110493697
+            Format          =   212729857
             CurrentDate     =   40071
          End
          Begin VB.Label Label1 
@@ -4474,7 +4474,7 @@ Private Sub txtorden_GotFocus()
 End Sub
 
 Private Sub txtorden_KeyPress(KeyAscii As Integer)
-    KeyAscii = CarNumeroEntero(KeyAscii)
+    'KeyAscii = CarNumeroEntero(KeyAscii)
 End Sub
 
 'Private Sub txtPTest_Change()
