@@ -270,7 +270,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111673345
+            Format          =   112656385
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +329,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   111673345
+            Format          =   112656385
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -405,7 +405,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   111673345
+            Format          =   112656385
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -666,7 +666,7 @@ Private Sub cmdGrabar_Click()
     
    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
    If rec.EOF = True Then
-       If MsgBox("Confirma la planilla diaria del: " & lblfecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+       If MsgBox("Confirma la planilla diaria del: " & lblFecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
             'PLANILLA_DIARIA
             sql = " INSERT INTO PLANILLA_DIARIA"
             sql = sql & "(PDI_FECHA,PDI_PRINCI, PDI_VARIAN, PDI_TOTAL,PDI_TOTREM, PDI_OBSERVA)"
@@ -704,7 +704,7 @@ Private Sub cmdGrabar_Click()
        End If
        lblEstado.Caption = "Planilla Existente"
    Else
-        If MsgBox("La planilla diaria del dia: " & lblfecha.Caption & " ya ha sido grabada. " & Chr(13) & "Desea modificarla?", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+        If MsgBox("La planilla diaria del dia: " & lblFecha.Caption & " ya ha sido grabada. " & Chr(13) & "Desea modificarla?", vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
             'ACTUALIZO PLANILLA_DIARIA
             
             'PLANILLA_DIARIA
@@ -743,7 +743,7 @@ Private Sub cmdGrabar_Click()
     End If
     rec.Close
     
-    If MsgBox("Desea imprimir la PLANILLA DE INDICACIONES Y DISTRIBUCION del dia: " & lblfecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
+    If MsgBox("Desea imprimir la PLANILLA DE INDICACIONES Y DISTRIBUCION del dia: " & lblFecha.Caption, vbQuestion + vbYesNo, TIT_MSGBOX) = vbYes Then
         cmdImprimir_Click
     End If
 End Sub
@@ -812,14 +812,14 @@ Private Sub CmdSalir_Click()
 End Sub
 
 Private Sub Fecha_Change()
-    lblfecha.Caption = FechaLetras(Fecha.day, Fecha.dayofweek, Fecha.month, Fecha.year)
+    lblFecha.Caption = FechaLetras(Fecha.day, Fecha.dayofweek, Fecha.month, Fecha.year)
     If lblEstado.Caption = "Planilla Existente" Then
         limpiarplanilla
     End If
 End Sub
 
 Private Sub Fecha_LostFocus()
-    lblfecha.Caption = FechaLetras(Fecha.day, Fecha.dayofweek, Fecha.month, Fecha.year)
+    lblFecha.Caption = FechaLetras(Fecha.day, Fecha.dayofweek, Fecha.month, Fecha.year)
 End Sub
 
 Private Function crearplanilla()
@@ -1045,7 +1045,7 @@ Private Sub Form_Load()
     Me.Top = 0
     preparargrillas
     Fecha.Value = Date
-    lblfecha.Caption = FechaLetras(Fecha.day, Fecha.dayofweek, Fecha.month, Fecha.year)
+    lblFecha.Caption = FechaLetras(Fecha.day, Fecha.dayofweek, Fecha.month, Fecha.year)
     cargar_comidas
     cargo_precios
     'lblEstado.Caption = ""

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
@@ -85,10 +85,10 @@ Begin VB.Form ABMClientes
       TabCaption(3)   =   "Vianda"
       TabPicture(3)   =   "ABMClientes.frx":0C16
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "txtMedica"
-      Tab(3).Control(1)=   "Frame2"
-      Tab(3).Control(2)=   "Frame4"
-      Tab(3).Control(3)=   "Frame12"
+      Tab(3).Control(0)=   "Frame12"
+      Tab(3).Control(1)=   "Frame4"
+      Tab(3).Control(2)=   "Frame2"
+      Tab(3).Control(3)=   "txtMedica"
       Tab(3).ControlCount=   4
       Begin VB.Frame Frame12 
          Caption         =   "Facturacion"
@@ -209,7 +209,7 @@ Begin VB.Form ABMClientes
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   212729857
+               Format          =   112787457
                CurrentDate     =   40071
             End
          End
@@ -977,7 +977,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   212729857
+               Format          =   112787457
                CurrentDate     =   40070
             End
          End
@@ -1220,11 +1220,11 @@ Begin VB.Form ABMClientes
          Begin VB.TextBox txtorden 
             Height          =   315
             Left            =   6000
-            MaxLength       =   3
+            MaxLength       =   10
             TabIndex        =   9
             ToolTipText     =   "Ingrese el numero de orden para determinar el recorrido de entrega"
             Top             =   2640
-            Width           =   555
+            Width           =   630
          End
          Begin VB.TextBox txtNombre 
             Height          =   315
@@ -1402,7 +1402,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   212729857
+            Format          =   112787457
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1415,7 +1415,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   212729857
+            Format          =   112787457
             CurrentDate     =   40071
          End
          Begin VB.Label Label1 
@@ -1750,7 +1750,7 @@ Begin VB.Form ABMClientes
       Picture         =   "ABMClientes.frx":1A9C
       Style           =   1  'Graphical
       TabIndex        =   59
-      Top             =   7635
+      Top             =   7680
       Width           =   1065
    End
    Begin MSComDlg.CommonDialog CommonDialog1 
@@ -1836,7 +1836,7 @@ Function ActualizarListaBase(pMode As Integer)
                 If i = 0 Then
                     Select Case pMode
                         Case 1
-                            Set auxListItem = vListView.ListItems.Add(, "'" & rec.Fields(IndiceCampoID) & "'", CStr(IIf(IsNull(rec.Fields(i)), "", rec.Fields(i))), 1)
+                                Set auxListItem = vListView.ListItems.Add(, "'" & rec.Fields(IndiceCampoID) & "'", CStr(IIf(IsNull(rec.Fields(i)), "", rec.Fields(i))), 1)
                             auxListItem.Icon = 1
                             auxListItem.SmallIcon = 1
                             
@@ -2275,6 +2275,7 @@ Private Sub cmdAceptar_Click()
     Dim cSQL As String
     Dim cSQLAnam As String
     Dim cli_fac As Integer
+    Dim est As Integer
     cli_fac = 0
     If optDiaria.Value = True Then cli_fac = 1
     If optSemanal.Value = True Then cli_fac = 2
@@ -2289,7 +2290,7 @@ Private Sub cmdAceptar_Click()
         DBConn.BeginTrans
         Select Case vMode
             Case 1 'nuevo
-            
+                est = 0
                 cSQL = "INSERT INTO " & cTabla
                 cSQL = cSQL & "     (CLI_CODIGO, CLI_RAZSOC, CLI_DNI, CLI_DOMICI, CLI_CUIT,"
                 cSQL = cSQL & " CLI_INGBRU, "
@@ -2305,7 +2306,7 @@ Private Sub cmdAceptar_Click()
                     cSQL = cSQL & "CLI_FECPC,"
                 End If
                 
-                cSQL = cSQL & "OS_NUMERO,CLI_NROAFIL,CLI_FACTURA,CLI_DIAGNO, CLI_TOTAL,CLI_ORDEN,CLI_CLIFAC) "
+                cSQL = cSQL & "OS_NUMERO,CLI_NROAFIL,CLI_FACTURA,CLI_DIAGNO, CLI_TOTAL,CLI_ORDEN,CLI_CLIFAC,CLI_ESTADO) "
                 
 '                cSQL = cSQL & " CLI_MC, CLI_RELAC, CLI_AFA,CLI_APP,CLI_EFISICO, "
 '                cSQL = cSQL & " CLI_DIAG, CLI_ESTCOM, CLI_PTEST,CLI_HC,CLI_MEDICA,CLI_FOTO,CLI_ASPCLI,CLI_FACTURA) "
@@ -2340,13 +2341,14 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & XS(txtNAfiliado.Text) & ", "
                 
                 'AGREGAR el tipo de facturacion del cliente
-
-                
+                est = obtenerEstado() 'es insert
                 cSQL = cSQL & cli_fac & ", "
                 cSQL = cSQL & XS(txtDiagnostico) & ", "
                 cSQL = cSQL & XN(txtTotalVianda) & ", "
-                cSQL = cSQL & XN(txtOrden) & ", "
-                cSQL = cSQL & XN(txtCliente) & ") "
+                cSQL = cSQL & XS(txtorden) & ","
+                cSQL = cSQL & XN(txtCliente) & ", "
+                cSQL = cSQL & est & ")"
+                
                 
 
                 'sql = Insertar PROGRAMA POR CLIENTE
@@ -2429,10 +2431,10 @@ Private Sub cmdAceptar_Click()
                     sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
                     DBConn.Execute sql
                 Next i
-                actualizarEstado
+                
                 
             Case 2 'editar
-                
+                est = 0
                 cSQL = "UPDATE " & cTabla & " SET "
                 cSQL = cSQL & "  CLI_RAZSOC=" & XS(txtNombre.Text)
                 cSQL = cSQL & " ,CLI_DNI=" & XS(txtDNI.Text)
@@ -2463,8 +2465,10 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & " ,CLI_FACTURA=" & cli_fac
                 cSQL = cSQL & " ,CLI_DIAGNO=" & XS(txtDiagnostico.Text)
                 cSQL = cSQL & " ,CLI_TOTAL=" & XN(txtTotalVianda.Text)
-                cSQL = cSQL & " ,CLI_ORDEN=" & XS(txtOrden.Text)
+                cSQL = cSQL & " ,CLI_ORDEN=" & XS(txtorden.Text)
                 cSQL = cSQL & " ,CLI_CLIFAC=" & XN(txtCliente.Text)
+                est = obtenerEstado()
+                cSQL = cSQL & " ,CLI_ESTADO=" & est
                 cSQL = cSQL & " WHERE CLI_CODIGO  = " & XN(txtID.Text)
                 DBConn.Execute cSQL
                 
@@ -2558,7 +2562,7 @@ Private Sub cmdAceptar_Click()
                     sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
                     DBConn.Execute sql
                 Next i
-                actualizarEstado
+                
             Case 4 'eliminar
                 grillaBaja.Rows = 1
                 'elimino altas y bajas
@@ -2596,22 +2600,18 @@ ErrorTran:
     MsgBox Err.Description, vbCritical
     
 End Sub
-Private Sub actualizarEstado()
+Private Function obtenerEstado() As Integer
     Dim ultfila As Integer
     Dim Estado As Integer
     If grillaBaja.Rows > 1 Then
         ultfila = grillaBaja.Rows - 1
         If grillaBaja.TextMatrix(ultfila, 1) = "Alta" Then
-            Estado = 1
+            obtenerEstado = 1
         Else
-            Estado = 2
+            obtenerEstado = 2
         End If
-        cSQL = "UPDATE CLIENTE  SET "
-                cSQL = cSQL & "  CLI_ESTADO=" & XS(Estado)
-                 cSQL = cSQL & " WHERE CLI_CODIGO = " & txtID.Text
-        DBConn.Execute cSQL
     End If
-End Sub
+End Function
 'Private Function InsertAnamnesis() As String
 '    sql = "INSERT INTO CLIENTE_ANAM"
 '    sql = sql & " (CLI_CODIGO, CLA_TOMMED,CLA_CUALME,CLA_ALERGIA,CLA_ANESTE, "
@@ -3445,7 +3445,7 @@ Private Sub Form_Load()
                 txtBuscaOS.Text = ChkNull(rec!OS_NUMERO)
                 txtDiagnostico.Text = ChkNull(rec!CLI_DIAGNO)
                 
-                txtOrden.Text = ChkNull(rec!CLI_ORDEN)
+                txtorden.Text = ChkNull(rec!CLI_ORDEN)
                 txtCliente.Text = ChkNull(rec!CLI_CLIFAC)
                 txtCliente_LostFocus
                 'fechaAlta.Value = Date
@@ -4649,6 +4649,7 @@ Private Sub txtDesCli_Change()
     If txtDesCli.Text = "" Then
         txtCliente.Text = ""
     End If
+    cmdAceptar.Enabled = True
 End Sub
 
 Private Sub txtDesCli_GotFocus()
@@ -4679,6 +4680,7 @@ Private Sub txtDesCli_LostFocus()
                 BuscarClientes "", "CADENA", Trim(txtDesCli.Text)
                 If rec.State = 1 Then rec.Close
                 txtDesCli.SetFocus
+
             Else
                 txtCliente.Text = rec!CLI_CODIGO
                 txtDesCli.Text = rec!CLI_RAZSOC
@@ -4689,7 +4691,7 @@ Private Sub txtDesCli_LostFocus()
         End If
         If rec.State = 1 Then rec.Close
     End If
-    cmdAceptar.Enabled = True
+cmdAceptar.Enabled = True
 End Sub
 
 

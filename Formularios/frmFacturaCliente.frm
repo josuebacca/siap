@@ -511,9 +511,7 @@ Begin VB.Form frmFacturaCliente
       TabPicture(1)   =   "frmFacturaCliente.frx":20A0
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "frameBuscar"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       Begin VB.Frame FrameCliente 
          Caption         =   "Facturacion..."
@@ -821,7 +819,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   20905985
+               Format          =   3342337
                CurrentDate     =   43174
             End
             Begin MSComCtl2.DTPicker feDesde 
@@ -834,7 +832,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   20905985
+               Format          =   3342337
                CurrentDate     =   43174
             End
             Begin VB.Label Label25 
@@ -866,7 +864,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   20905985
+            Format          =   3342337
             CurrentDate     =   43174
          End
          Begin VB.Label Label7 
@@ -923,7 +921,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   20905985
+            Format          =   3342337
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -936,7 +934,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   20905985
+            Format          =   3342337
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -1547,11 +1545,11 @@ Private Sub CmdBuscAprox_Click()
     If txtBuscaCliente.Text <> "" Then
         sql = sql & " AND FC.CLI_CODIGO=" & XN(txtBuscaCliente.Text)
     End If
-    If FechaDesde.Text <> "" Then
-        sql = sql & " AND FC.FCL_FECHA>=" & XDQ(FechaDesde.Text)
+    If FechaDesde.Value <> "" Then
+        sql = sql & " AND FC.FCL_FECHA>=" & XDQ(FechaDesde.Value)
     End If
-    If FechaHasta.Text <> "" Then
-        sql = sql & " AND FC.FCL_FECHA<=" & XDQ(FechaHasta.Text)
+    If FechaHasta.Value <> "" Then
+        sql = sql & " AND FC.FCL_FECHA<=" & XDQ(FechaHasta.Value)
     End If
     If cboFactura1.List(cboFactura1.ListIndex) <> "(Todas)" Then
         sql = sql & " AND FC.TCO_CODIGO=" & cboFactura1.ItemData(cboFactura1.ListIndex)
@@ -1791,7 +1789,7 @@ HayErrorFactura:
 End Sub
 
 Private Function ValidarFactura() As Boolean
-    If FechaFactura.Text = "" Then
+    If FechaFactura.Value = "" Then
         MsgBox "La Fecha de la Factura es requerida", vbExclamation, TIT_MSGBOX
         FechaFactura.SetFocus
         ValidarFactura = False
@@ -2327,7 +2325,7 @@ Private Sub GrdModulos_dblClick()
         Call BuscaCodigoProxItemData(CInt(GrdModulos.TextMatrix(GrdModulos.RowSel, 7)), cboFactura)
         txtNroSucursal.Text = Left(GrdModulos.TextMatrix(GrdModulos.RowSel, 1), 4)
         txtNroFactura.Text = Right(GrdModulos.TextMatrix(GrdModulos.RowSel, 1), 8)
-        FechaFactura.Text = GrdModulos.TextMatrix(GrdModulos.RowSel, 2)
+        FechaFactura.Value = GrdModulos.TextMatrix(GrdModulos.RowSel, 2)
         Call BuscoEstado(CInt(GrdModulos.TextMatrix(GrdModulos.RowSel, 4)), lblEstadoFactura)
         txtcodCli.Text = Trim(GrdModulos.TextMatrix(GrdModulos.RowSel, 9))
         txtCodCli_LostFocus
@@ -2412,8 +2410,8 @@ End Sub
 Private Sub LimpiarBusqueda()
     txtBuscaCliente.Text = ""
     txtBuscarCliDescri.Text = ""
-    FechaDesde.Text = ""
-    FechaHasta.Text = ""
+    FechaDesde.Value = ""
+    FechaHasta.Value = ""
     cboFactura1.ListIndex = 0
     GrdModulos.HighLight = flexHighlightNever
     GrdModulos.Rows = 1
@@ -2528,6 +2526,8 @@ Private Sub txtcodCli_Change()
         txtDomici.Text = ""
         txtCuit.Text = ""
         txtCiva.Text = ""
+        grdGrilla.Rows = 1
+        grdGrillaDetalle.Rows = 1
     End If
 End Sub
 
