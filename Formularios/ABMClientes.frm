@@ -7,7 +7,7 @@ Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form ABMClientes 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Actualizacion de Clientes..."
-   ClientHeight    =   8265
+   ClientHeight    =   8505
    ClientLeft      =   2700
    ClientTop       =   2625
    ClientWidth     =   7410
@@ -25,18 +25,31 @@ Begin VB.Form ABMClientes
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8265
+   ScaleHeight     =   8505
    ScaleMode       =   0  'User
    ScaleWidth      =   7410
    StartUpPosition =   2  'CenterScreen
+   Begin MSComCtl2.DTPicker fin 
+      Height          =   315
+      Left            =   1680
+      TabIndex        =   151
+      Top             =   6000
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   556
+      _Version        =   393216
+      CheckBox        =   -1  'True
+      Format          =   110362625
+      CurrentDate     =   40071
+   End
    Begin TabDlg.SSTab TabClientes 
-      Height          =   7515
+      Height          =   7635
       Left            =   45
       TabIndex        =   69
       Top             =   45
       Width           =   7335
       _ExtentX        =   12938
-      _ExtentY        =   13256
+      _ExtentY        =   13467
       _Version        =   393216
       Tabs            =   4
       TabsPerRow      =   5
@@ -160,28 +173,18 @@ Begin VB.Form ABMClientes
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H8000000D&
-         Height          =   2655
+         Height          =   2775
          Left            =   120
          TabIndex        =   140
          Top             =   4680
          Width           =   7095
          Begin VB.Frame Frame11 
             Caption         =   "Evento"
-            Height          =   2295
+            Height          =   2415
             Left            =   120
             TabIndex        =   142
             Top             =   240
             Width           =   3015
-            Begin VB.TextBox txtmotivo 
-               Height          =   795
-               Left            =   240
-               MaxLength       =   100
-               MultiLine       =   -1  'True
-               TabIndex        =   15
-               ToolTipText     =   "Motivo de Alta o Baja"
-               Top             =   1320
-               Width           =   2685
-            End
             Begin VB.OptionButton optAlta 
                Caption         =   "Alta"
                Height          =   255
@@ -201,16 +204,41 @@ Begin VB.Form ABMClientes
             End
             Begin MSComCtl2.DTPicker fechaevento 
                Height          =   315
-               Left            =   240
+               Left            =   1440
                TabIndex        =   14
-               Top             =   720
+               Top             =   600
                Width           =   1455
                _ExtentX        =   2566
                _ExtentY        =   556
                _Version        =   393216
-               CheckBox        =   -1  'True
-               Format          =   112787457
+               Format          =   110362625
                CurrentDate     =   40071
+            End
+            Begin VB.TextBox txtmotivo 
+               Height          =   795
+               Left            =   240
+               MaxLength       =   100
+               MultiLine       =   -1  'True
+               TabIndex        =   15
+               ToolTipText     =   "Motivo de Alta o Baja"
+               Top             =   1440
+               Width           =   2685
+            End
+            Begin VB.Label Label10 
+               Caption         =   "Fecha Fin:"
+               Height          =   255
+               Left            =   240
+               TabIndex        =   150
+               Top             =   1080
+               Width           =   855
+            End
+            Begin VB.Label Label7 
+               Caption         =   "Fecha Inicio:"
+               Height          =   255
+               Left            =   240
+               TabIndex        =   148
+               Top             =   600
+               Width           =   1095
             End
          End
          Begin VB.CommandButton cmdAgregaEvento 
@@ -977,7 +1005,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   112787457
+               Format          =   110362625
                CurrentDate     =   40070
             End
          End
@@ -1402,7 +1430,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   112787457
+            Format          =   110362625
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1415,7 +1443,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   112787457
+            Format          =   110362625
             CurrentDate     =   40071
          End
          Begin VB.Label Label1 
@@ -1714,12 +1742,25 @@ Begin VB.Form ABMClientes
          Width           =   960
       End
    End
+   Begin MSComCtl2.DTPicker fechaFin 
+      Height          =   315
+      Left            =   1680
+      TabIndex        =   147
+      Top             =   6000
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   556
+      _Version        =   393216
+      CheckBox        =   -1  'True
+      Format          =   110362625
+      CurrentDate     =   40071
+   End
    Begin VB.CommandButton Command1 
       Caption         =   "Command1"
       Height          =   330
       Left            =   2880
       TabIndex        =   68
-      Top             =   7680
+      Top             =   7800
       Visible         =   0   'False
       Width           =   1065
    End
@@ -1729,7 +1770,7 @@ Begin VB.Form ABMClientes
       Picture         =   "ABMClientes.frx":1648
       Style           =   1  'Graphical
       TabIndex        =   67
-      Top             =   7680
+      Top             =   7800
       Visible         =   0   'False
       Width           =   330
    End
@@ -1740,7 +1781,7 @@ Begin VB.Form ABMClientes
       Picture         =   "ABMClientes.frx":1792
       Style           =   1  'Graphical
       TabIndex        =   66
-      Top             =   7635
+      Top             =   7800
       Width           =   1065
    End
    Begin VB.CommandButton cmdAceptar 
@@ -1750,12 +1791,12 @@ Begin VB.Form ABMClientes
       Picture         =   "ABMClientes.frx":1A9C
       Style           =   1  'Graphical
       TabIndex        =   59
-      Top             =   7680
+      Top             =   7800
       Width           =   1065
    End
    Begin MSComDlg.CommonDialog CommonDialog1 
       Left            =   120
-      Top             =   7920
+      Top             =   8040
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
@@ -1764,6 +1805,14 @@ Begin VB.Form ABMClientes
       Filter          =   "*.jgp, *.bmp, *.gif"
       InitDir         =   "...\"
       Orientation     =   2
+   End
+   Begin VB.Label Label9 
+      Caption         =   "Fecha Inicio"
+      Height          =   255
+      Left            =   1560
+      TabIndex        =   149
+      Top             =   6840
+      Width           =   855
    End
 End
 Attribute VB_Name = "ABMClientes"
@@ -2422,13 +2471,14 @@ Private Sub cmdAceptar_Click()
                 
                 'registrar altas/bajas
                 For i = 1 To grillaBaja.Rows - 1
-                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO)"
+                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO,CAB_FECFIN)"
                     sql = sql & " VALUES("
                     sql = sql & XS(i) & ","
                     sql = sql & XN(txtID) & ","
                     sql = sql & XDQ(grillaBaja.TextMatrix(i, 0)) & ","
                     sql = sql & XS(grillaBaja.TextMatrix(i, 1)) & ","
-                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
+                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ","
+                    sql = sql & XDQ(grillaBaja.TextMatrix(i, 3)) & ")"
                     DBConn.Execute sql
                 Next i
                 
@@ -2553,13 +2603,14 @@ Private Sub cmdAceptar_Click()
                 DBConn.Execute "DELETE FROM CLIENTE_ALTABAJA WHERE CLI_CODIGO = " & XN(txtID)
                                 
                 For i = 1 To grillaBaja.Rows - 1
-                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO)"
+                    sql = "INSERT INTO CLIENTE_ALTABAJA (CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO,CAB_FECFIN)"
                     sql = sql & " VALUES("
                     sql = sql & XS(i) & ","
                     sql = sql & XN(txtID) & ","
                     sql = sql & XDQ(grillaBaja.TextMatrix(i, 0)) & ","
                     sql = sql & XS(grillaBaja.TextMatrix(i, 1)) & ","
-                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ")"
+                    sql = sql & XS(grillaBaja.TextMatrix(i, 2)) & ","
+                    sql = sql & XDQ(grillaBaja.TextMatrix(i, 3)) & ")"
                     DBConn.Execute sql
                 Next i
                 
@@ -2918,10 +2969,12 @@ End Sub
 
 Private Sub cmdAgregaEvento_Click()
     Dim evento As String
+    Dim fefin As Date
     If optAlta.Value = True Then
         evento = "Alta"
     Else
         evento = "Baja"
+        fefin = fin.Value
     End If
     If fechaevento.Value = "" Then
         MsgBox "Ingrese la fecha de " & evento & ".", vbExclamation, TIT_MSGBOX
@@ -2945,7 +2998,7 @@ Private Sub cmdAgregaEvento_Click()
         optAlta.SetFocus
         Exit Sub
     End If
-    grillaBaja.AddItem Format(fechaevento.Value, "DD/MM/YYYY") & Chr(9) & evento & Chr(9) & txtmotivo.Text
+    grillaBaja.AddItem Format(fechaevento.Value, "DD/MM/YYYY") & Chr(9) & evento & Chr(9) & txtmotivo.Text & Chr(9) & fefin
     cmdAceptar.Enabled = True
     limpiarAltaBaja
     'End If
@@ -3346,7 +3399,7 @@ Private Sub Form_Load()
     Dim hSQL As String
     Dim rec As ADODB.Recordset
     Set rec = New ADODB.Recordset
-    
+    fin.Enabled = False 'porque aparece seleccionado alta por defecto
     'Me.Top = vFormLlama.Top + 1500
     'Me.Left = vFormLlama.Left + 1000
     Call Centrar_pantalla(Me)
@@ -3511,7 +3564,7 @@ Private Sub Form_Load()
 End Sub
 Private Sub cargarAltaBaja(clicod As Integer)
     grillaComidas.Rows = 1
-    cSQL = "SELECT CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO "
+    cSQL = "SELECT CAB_CODIGO,CLI_CODIGO,CAB_FECHA,CAB_EVENTO,CAB_MOTIVO,CAB_FECFIN  "
     cSQL = cSQL & "FROM CLIENTE_ALTABAJA "
     cSQL = cSQL & " WHERE CLI_CODIGO = " & clicod
     cSQL = cSQL & " ORDER BY CAB_FECHA"
@@ -3519,7 +3572,7 @@ Private Sub cargarAltaBaja(clicod As Integer)
     If (Rec1.BOF And Rec1.EOF) = 0 Then
         Do While Rec1.EOF = False
             grillaBaja.AddItem Rec1!CAB_FECHA & Chr(9) & Rec1!CAB_EVENTO & Chr(9) & _
-                                 Rec1!CAB_MOTIVO '& Chr(9) & Rec1!CAB_CODIGO & Chr(9) & Rec1!CLI_CODIGO
+                                 Rec1!CAB_MOTIVO & Chr(9) & Rec1!CAB_FECFIN '& Chr(9) & Rec1!CAB_CODIGO & Chr(9) & Rec1!CLI_CODIGO
             Rec1.MoveNext
         Loop
     End If
@@ -3803,13 +3856,14 @@ Private Sub configurogrilla()
         grillaComidas.CellFontBold = True
     Next
     
-    grillaBaja.FormatString = "Fecha|Evento|Motivo"
-    grillaBaja.ColWidth(0) = 1200 'Comida
-    grillaBaja.ColWidth(1) = 1200 'grupo
-    grillaBaja.ColWidth(2) = 1500 'CodComida
+    grillaBaja.FormatString = "Fecha|Evento|Motivo|FechaFin"
+    grillaBaja.ColWidth(0) = 1200 'fecha
+    grillaBaja.ColWidth(1) = 1200 'evento
+    grillaBaja.ColWidth(2) = 1500 'motivo
+    grillaBaja.ColWidth(3) = 1200 'fecha fin
     
     grillaBaja.Rows = 1
-    grillaBaja.Cols = 3
+    grillaBaja.Cols = 4
     grillaBaja.BorderStyle = flexBorderNone
     grillaBaja.row = 0
     For i = 0 To grillaBaja.Cols - 1
@@ -3906,6 +3960,18 @@ Private Sub grillaComCli_KeyDown(KeyCode As Integer, Shift As Integer)
             grillaComCli.RemoveItem (grillaComCli.RowSel)
         End If
     End If
+End Sub
+
+Private Sub optAlta_Click()
+        If optAlta.Value = True Then
+        fin.Enabled = False
+    End If
+End Sub
+
+Private Sub optBaja_Click()
+        If optBaja.Value = True Then
+        fin.Enabled = True
+        End If
 End Sub
 
 Private Sub optDiaria_Click()
