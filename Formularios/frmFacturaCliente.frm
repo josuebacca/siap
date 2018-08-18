@@ -29,6 +29,7 @@ Begin VB.Form frmFacturaCliente
    ScaleWidth      =   14475
    Begin VB.CommandButton cmdGrabar 
       Caption         =   "&Facturar"
+      Enabled         =   0   'False
       Height          =   450
       Left            =   4800
       Picture         =   "frmFacturaCliente.frx":0000
@@ -510,8 +511,8 @@ Begin VB.Form frmFacturaCliente
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmFacturaCliente.frx":20A0
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "GrdModulos"
-      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(0)=   "frameBuscar"
+      Tab(1).Control(1)=   "GrdModulos"
       Tab(1).ControlCount=   2
       Begin VB.Frame FrameCliente 
          Caption         =   "Facturacion..."
@@ -550,12 +551,12 @@ Begin VB.Form frmFacturaCliente
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   615
-            Left            =   8280
+            Height          =   495
+            Left            =   7800
             TabIndex        =   84
             Top             =   120
             Visible         =   0   'False
-            Width           =   3240
+            Width           =   4680
             Begin VB.TextBox txtNroFactura 
                BeginProperty Font 
                   Name            =   "Tahoma"
@@ -819,7 +820,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   3342337
+               Format          =   54525953
                CurrentDate     =   43174
             End
             Begin MSComCtl2.DTPicker feDesde 
@@ -832,7 +833,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   3342337
+               Format          =   54525953
                CurrentDate     =   43174
             End
             Begin VB.Label Label25 
@@ -864,7 +865,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   3342337
+            Format          =   54525953
             CurrentDate     =   43174
          End
          Begin VB.Label Label7 
@@ -921,7 +922,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   3342337
+            Format          =   54525953
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -934,7 +935,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   3342337
+            Format          =   54525953
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -1063,9 +1064,9 @@ Begin VB.Form frmFacturaCliente
             Strikethrough   =   0   'False
          EndProperty
          Height          =   5205
-         Left            =   105
+         Left            =   120
          TabIndex        =   20
-         Top             =   2055
+         Top             =   2040
          Width           =   14235
          Begin VB.CommandButton Command1 
             Caption         =   "Forma Pago"
@@ -1582,17 +1583,17 @@ End Sub
 
 Private Sub CmdBuscar_Click()
 'VERIFICO SI ES POR CLIENTE O LOTE
-Dim feFact As Date
-Dim feDes As Date
-Dim feHas As Date
-Dim codcli As Integer
-Dim fact As Integer
-feFact = FechaFactura.Value
-feDes = feDesde.Value
-feHas = feHasta.Value
-codcli = Chk0(txtcodCli.Text)
-grdGrilla.Rows = 1
-grdGrillaDetalle.Rows = 1
+    Dim feFact As Date
+    Dim feDes As Date
+    Dim feHas As Date
+    Dim codcli As Integer
+    Dim fact As Integer
+    feFact = FechaFactura.Value
+    feDes = feDesde.Value
+    feHas = feHasta.Value
+    codcli = Chk0(txtcodCli.Text)
+    grdGrilla.Rows = 1
+    grdGrillaDetalle.Rows = 1
     'si es x cliente
     If txtcodCli.Text <> "" Then
         buscarFactCliente codcli, feFact
@@ -1607,6 +1608,12 @@ grdGrillaDetalle.Rows = 1
         End If
         buscarFactLote fact, feFact
     End If
+    If grdGrilla.Rows > 1 Then
+        cmdGrabar.Enabled = True
+    Else
+        cmdGrabar.Enabled = False
+    End If
+    
 End Sub
 Private Sub buscarFactCliente(codcli As Integer, fechafac As Date)
     Dim Importe As Integer
@@ -1686,7 +1693,100 @@ Private Sub cmdCerrarTarjeta_Click()
     fraTarjeta.Visible = False
     cboFormaPago.SetFocus
 End Sub
+Private Function grabar_factura(cliente As Integer, total As Double)
+    Dim nrofac As Integer
+    Dim remis As Integer
+    Dim totdet As Double
+    'busco ultimo numero de factura
+    sql = "SELECT MAX(FCL_NUMERO) AS MAXIMO FROM FACTURA_CLIENTE"
+    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    Screen.MousePointer = vbHourglass
+    lblEstado.Caption = "Guardando..."
+    
+    If rec.EOF = True Then
+        nrofac = rec!MAXIMO + 1
+    End If
+    rec.Close
+    
+    'INSERT EN TABLA FACTURA_CLIENTE
+    'NUEVA FACTURA
+    sql = "INSERT INTO FACTURA_CLIENTE"
+    sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,FCL_FECHA,"
+    sql = sql & " FCL_IVA,FPG_CODIGO,FCL_OBSERVACION,VEN_CODIGO,"
+    sql = sql & " FCL_SUBTOTAL,FCL_TOTAL,FCL_SALDO,EST_CODIGO,"
+    sql = sql & " FCL_NUMEROTXT,FCL_SUCURSALTXT,CLI_CODIGO)"
+    sql = sql & " VALUES ("
+    sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
+    sql = sql & XN(nrofac) & ","
+    sql = sql & XN(txtNroSucursal.Text) & ","
+    sql = sql & XDQ(FechaFactura.Value) & ","
+    sql = sql & XN(txtPorcentajeIva) & ","
+    sql = sql & cboCondicion.ItemData(cboCondicion.ListIndex) & ","
+    sql = sql & XS(txtObservaciones) & ","
+    sql = sql & cboVendedor.ItemData(cboVendedor.ListIndex) & ","
+    sql = sql & XN(total) & ","
+    sql = sql & XN(total) & ","
+    sql = sql & XN(total) & "," 'SALDO FACTURA
+    sql = sql & "3," 'ESTADO DEFINITIVO
+    sql = sql & XS(Format(nrofac, "00000000")) & ","
+    sql = sql & XS(Format(txtNroSucursal.Text, "0000")) & ","
+    sql = sql & XN(cliente) & ")" 'CLIENTE
+    DBConn.Execute sql
+    
+    'INSERTAR EL DETALLE
+    'ASEGURAR QUE ESTE CARGADA LA GRILLA DEL DETALLE Y GUARDARLA EN LA TABLA DETALLE_FACTURA_CLIENTE
+    For i = 1 To grdGrillaDetalle.Rows - 1
+        'busco si es remise pilar o rio 2
+        remis = VerifRemis(XN(grdGrilla.TextMatrix(i, 9)))
+        'totdet=
+         sql = "INSERT INTO DETALLE_FACTURA_CLIENTE"
+                sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,DFC_NROITEM,"
+                sql = sql & " PTO_CODIGO,PDI_FECHA,CLI_CODIGO,DFC_REMISE,DFC_DESCAR,DFC_TOTAL)"
+                sql = sql & " VALUES ("
+                sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
+                sql = sql & XN(nrofac) & ","
+                sql = sql & 1 & ","
+                sql = sql & i & "," 'PONER EL NRO ITEM
+                sql = sql & 1 & "," 'pto
+                sql = sql & XN(grdGrilla.TextMatrix(i, 0)) & "," 'fecha
+                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & "," 'codigo cliente
+                
+                sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","  'REMIS
+                sql = sql & calcularValorViandas(XN(grdGrilla.TextMatrix(i, 9)), 2) & ","  'DESC
+                sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","  'TOTAL
+                sql = sql & XN(grdGrilla.TextMatrix(i, 3)) & ")"
+                DBConn.Execute sql
 
+        Next
+End Function
+Private Function calcularTotalDetalle(item As Integer)
+    
+End Function
+Private Function VerifRemis(codcli As Integer)
+        sql = "SELECT V.VIA_CODIGO as codigo"
+                sql = sql & " FROM CLIENTE_VIANDAS CV "
+                sql = sql & " WHERE CV.CLI_CODIGO=" & XN(grdGrilla.TextMatrix(i, 9))
+                sql = sql & " AND  (V.VIA_CODIGO=" & 6 & " OR V.VIA_CODIGO= " & 7 & ")"
+                Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
+                If Rec1.EOF = False Then
+                    VerifRemis = Rec1!precio
+                End If
+        Rec1.Close
+End Function
+
+
+Private Function calcularValorViandas(viacodigo As Integer) As Double
+    sql = "SELECT V.VIA_PRECIO as precio"
+    sql = sql & " FROM VIANDAS V,CLIENTE_VIANDAS CV "
+    sql = sql & " WHERE "
+    sql = sql & " V.VIA_CODIGO= " & viacodigo
+    sql = sql & " AND  V.VIA_CODIGO= CV.VIA_CODIGO "
+    Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
+    If Rec1.EOF = False Then
+        calcularValorViandas = Rec1!precio
+    End If
+    Rec1.Close
+End Function
 Private Sub cmdGrabar_Click()
     Dim VStockPendiente As String
     If txtImporteIva.Text = "" Then
@@ -1696,9 +1796,22 @@ Private Sub cmdGrabar_Click()
     If ValidarFactura = False Then Exit Sub
     If MsgBox("¿Confirma Factura?", vbQuestion + vbYesNo, TIT_MSGBOX) = vbNo Then Exit Sub
     
+    DBConn.BeginTrans
+    If txtcodCli.Text <> "" Then
+        'significa que le factura a un cliente (1 insert)
+        grabar_factura txtcodCli, txtTotal
+    Else
+        'le factura a uno o mas clientes que los toma desde grdgrilla (1 o mas inserts)
+        For i = 1 To grdGrilla.Rows - 1
+            If grdGrilla.TextMatrix(i, 0) <> "" Then
+                grabar_factura grdGrilla.TextMatrix(i, 3), grdGrilla.TextMatrix(i, 2)
+            End If
+        Next
+    End If
+    
     On Error GoTo HayErrorFactura
     
-    DBConn.BeginTrans
+    
     sql = "SELECT * FROM FACTURA_CLIENTE"
     sql = sql & " WHERE TCO_CODIGO=" & cboFactura.ItemData(cboFactura.ListIndex)
     sql = sql & " AND FCL_NUMERO = " & XN(txtNroFactura.Text)
@@ -1709,29 +1822,7 @@ Private Sub cmdGrabar_Click()
     lblEstado.Caption = "Guardando..."
     
     If rec.EOF = True Then
-        'NUEVA FACTURA
-        sql = "INSERT INTO FACTURA_CLIENTE"
-        sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,FCL_FECHA,"
-        sql = sql & " FCL_IVA,FPG_CODIGO,FCL_OBSERVACION,VEN_CODIGO,"
-        sql = sql & " FCL_SUBTOTAL,FCL_TOTAL,FCL_SALDO,EST_CODIGO,"
-        sql = sql & " FCL_NUMEROTXT,FCL_SUCURSALTXT,CLI_CODIGO)"
-        sql = sql & " VALUES ("
-        sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
-        sql = sql & XN(txtNroFactura.Text) & ","
-        sql = sql & XN(txtNroSucursal.Text) & ","
-        sql = sql & XDQ(FechaFactura.Value) & ","
-        sql = sql & XN(txtPorcentajeIva) & ","
-        sql = sql & cboCondicion.ItemData(cboCondicion.ListIndex) & ","
-        sql = sql & XS(txtObservaciones) & ","
-        sql = sql & cboVendedor.ItemData(cboVendedor.ListIndex) & ","
-        sql = sql & XN(txtSubtotal.Text) & ","
-        sql = sql & XN(txtTotal.Text) & ","
-        sql = sql & XN(txtTotal.Text) & "," 'SALDO FACTURA
-        sql = sql & "3," 'ESTADO DEFINITIVO
-        sql = sql & XS(Format(txtNroFactura.Text, "00000000")) & ","
-        sql = sql & XS(Format(txtNroSucursal.Text, "0000")) & ","
-        sql = sql & XN(txtcodCli.Text) & ")" 'CLIENTE
-        DBConn.Execute sql
+        
            
         For i = 1 To grdGrilla.Rows - 1
             If grdGrilla.TextMatrix(i, 0) <> "" Then
@@ -1747,20 +1838,6 @@ Private Sub cmdGrabar_Click()
                 sql = sql & XN(grdGrilla.TextMatrix(i, 2)) & ","
                 sql = sql & XN(grdGrilla.TextMatrix(i, 3)) & ")"
                 DBConn.Execute sql
-                
-                sql = "SELECT DST_STKFIS,DST_STKCON"
-                sql = sql & " FROM STOCK"
-                sql = sql & " WHERE STK_CODIGO = " & XN(Sucursal)
-                sql = sql & " AND PTO_CODIGO = " & XN(grdGrilla.TextMatrix(i, 5))
-                Rec1.Open sql, DBConn, adOpenStatic, adLockOptimistic
-                If Rec1.EOF = False Then
-                    sql = "UPDATE STOCK SET"
-                    sql = sql & " DST_STKFIS = DST_STKFIS - " & XN(grdGrilla.TextMatrix(i, 2))
-                    sql = sql & " WHERE STK_CODIGO = " & XN(Sucursal)
-                    sql = sql & " AND PTO_CODIGO = " & XN(grdGrilla.TextMatrix(i, 5))
-                    DBConn.Execute sql
-                End If
-                Rec1.Close
             End If
         Next
         
@@ -1770,6 +1847,9 @@ Private Sub cmdGrabar_Click()
                 sql = "UPDATE PARAMETROS SET FACTURA_C=" & XN(txtNroFactura.Text)
         End Select
         DBConn.Execute sql
+        
+        'actualizar el estado de la planilla diaria
+        
     End If
     rec.Close
     DBConn.CommitTrans
@@ -1795,22 +1875,23 @@ Private Function ValidarFactura() As Boolean
         ValidarFactura = False
         Exit Function
     End If
-    If txtSubtotal.Text = "" Then
-        MsgBox "El Sub Total de la Factura no puede ser Nulo", vbCritical, TIT_MSGBOX
-        grdGrilla.Col = 0
-        grdGrilla.row = 2
-        grdGrilla.SetFocus
-        ValidarFactura = False
-        Exit Function
-    End If
-    If txtTotal.Text = "" Then
-        MsgBox "El Total de la Factura no puede ser Nulo", vbCritical, TIT_MSGBOX
-        grdGrilla.Col = 0
-        grdGrilla.row = 2
-        grdGrilla.SetFocus
-        ValidarFactura = False
-        Exit Function
-    End If
+    
+'    If txtSubtotal.Text = "" Then
+'        MsgBox "El Sub Total de la Factura no puede ser Nulo", vbCritical, TIT_MSGBOX
+'        grdGrilla.Col = 0
+'        grdGrilla.row = 2
+'        grdGrilla.SetFocus
+'        ValidarFactura = False
+'        Exit Function
+'    End If
+'    If txtTotal.Text = "" Then
+'        MsgBox "El Total de la Factura no puede ser Nulo", vbCritical, TIT_MSGBOX
+'        grdGrilla.Col = 0
+'        grdGrilla.row = 2
+'        grdGrilla.SetFocus
+'        ValidarFactura = False
+'        Exit Function
+'    End If
     ValidarFactura = True
 End Function
 
@@ -1978,6 +2059,9 @@ Private Sub CmdNuevo_Click()
     cmdGrabar.Enabled = True
     FrameCliente.Enabled = True
     txtcodCli.SetFocus
+    
+    cmdGrabar.Enabled = False
+    
 End Sub
 
 Private Sub CmdSalir_Click()
@@ -2069,7 +2153,7 @@ Private Sub Form_Load()
     Next
     
     'GRILLA detalle
-    grdGrillaDetalle.FormatString = "^Fecha|ClienteComio|alm|cena|postre|pan|sopa|remise|importe"
+    grdGrillaDetalle.FormatString = "^Fecha|ClienteComio|alm|cena|postre|pan|sopa|remise|descartable|importe|CODCLI"
     grdGrillaDetalle.ColWidth(0) = 1200  'fecha
     grdGrillaDetalle.ColWidth(1) = 2500 'clientecomio
     grdGrillaDetalle.ColWidth(2) = 400 'alm
@@ -2078,8 +2162,11 @@ Private Sub Form_Load()
     grdGrillaDetalle.ColWidth(5) = 400   'pan
     grdGrillaDetalle.ColWidth(6) = 400    'sopa
     grdGrillaDetalle.ColWidth(7) = 400    'remise
-    grdGrillaDetalle.ColWidth(8) = 1000   'importe
-    grdGrillaDetalle.Cols = 9
+    grdGrillaDetalle.ColWidth(8) = 400    'descartable
+    grdGrillaDetalle.ColWidth(9) = 1000   'importe
+    grdGrillaDetalle.ColWidth(10) = 0   'CODCLI
+    
+    grdGrillaDetalle.Cols = 11
     grdGrillaDetalle.Rows = 1
     grdGrillaDetalle.HighLight = flexHighlightNever
     grdGrillaDetalle.BorderStyle = flexBorderNone
@@ -2224,7 +2311,7 @@ Private Sub grdGrilla_Click()
     'cargo detalle
     codfac = grdGrilla.TextMatrix(grdGrilla.RowSel, 3)
     lblcliente = "Detalle del cliente: " & grdGrilla.TextMatrix(grdGrilla.RowSel, 1)
-    sql = "SELECT PDD.*,C.CLI_RAZSOC"
+    sql = "SELECT PDD.*,C.CLI_RAZSOC,C.CLI_CODIGO"
     sql = sql & " FROM PLANILLA_DIARIA_DETALLE PDD, CLIENTE C"
     sql = sql & " WHERE PDD.CLI_CODIGO=C.CLI_CODIGO"
     sql = sql & " AND C.CLI_CLIFAC=" & codfac
@@ -2238,13 +2325,26 @@ Private Sub grdGrilla_Click()
                                 rec!PDI_ALMUER & Chr(9) & rec!PDI_CENA & Chr(9) & _
                                 rec!PDI_POSTRE & Chr(9) & _
                                 rec!PDI_PAN & Chr(9) & rec!PDI_SOPA & Chr(9) & _
-                                rec!PDI_REMISE & Chr(9) & rec!PDI_PRECIO
+                                 rec!PDI_REMISE & Chr(9) & calcularValorViandas(2) 'desc es el 2
                 rec.MoveNext
             Loop
     End If
     rec.Close
     
 End Sub
+Private Function calcularTotalDetalle()
+Dim total As Double
+total = 0
+    For i = 1 To grdGrillaDetalle.Rows - 1
+        For J = 2 To 6
+        If grdGrillaDetalle.TextMatrix(i, J) = 1 Then
+            total = total + calcularValorVianda()
+            
+        Next
+    Next
+End Function
+        
+
 
 Private Sub grdGrilla_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyDelete Then
@@ -2569,6 +2669,11 @@ Private Sub txtCodCli_LostFocus()
     Else
     'cliente vacio limpiamos las grillas
         LIMPIOGRILLA
+    End If
+    If grdGrilla.Rows > 1 Then
+        cmdGrabar.Enabled = True
+    Else
+        cmdGrabar.Enabled = False
     End If
 End Sub
 

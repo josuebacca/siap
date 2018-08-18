@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
@@ -29,19 +29,6 @@ Begin VB.Form ABMClientes
    ScaleMode       =   0  'User
    ScaleWidth      =   7410
    StartUpPosition =   2  'CenterScreen
-   Begin MSComCtl2.DTPicker fin 
-      Height          =   315
-      Left            =   1680
-      TabIndex        =   151
-      Top             =   6000
-      Width           =   1455
-      _ExtentX        =   2566
-      _ExtentY        =   556
-      _Version        =   393216
-      CheckBox        =   -1  'True
-      Format          =   110362625
-      CurrentDate     =   40071
-   End
    Begin TabDlg.SSTab TabClientes 
       Height          =   7635
       Left            =   45
@@ -52,11 +39,12 @@ Begin VB.Form ABMClientes
       _ExtentY        =   13467
       _Version        =   393216
       Tabs            =   4
+      Tab             =   3
       TabsPerRow      =   5
       TabHeight       =   520
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "ABMClientes.frx":0BC2
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Label1(12)"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label1(11)"
@@ -92,16 +80,20 @@ Begin VB.Form ABMClientes
       TabCaption(2)   =   "&Comidas"
       TabPicture(2)   =   "ABMClientes.frx":0BFA
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Frame10"
-      Tab(2).Control(1)=   "Frame6"
+      Tab(2).Control(0)=   "Frame6"
+      Tab(2).Control(1)=   "Frame10"
       Tab(2).ControlCount=   2
       TabCaption(3)   =   "Vianda"
       TabPicture(3)   =   "ABMClientes.frx":0C16
-      Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame12"
-      Tab(3).Control(1)=   "Frame4"
-      Tab(3).Control(2)=   "Frame2"
-      Tab(3).Control(3)=   "txtMedica"
+      Tab(3).ControlEnabled=   -1  'True
+      Tab(3).Control(0)=   "txtMedica"
+      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(1)=   "Frame2"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "Frame4"
+      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(3)=   "Frame12"
+      Tab(3).Control(3).Enabled=   0   'False
       Tab(3).ControlCount=   4
       Begin VB.Frame Frame12 
          Caption         =   "Facturacion"
@@ -116,7 +108,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H8000000D&
          Height          =   855
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   144
          Top             =   480
          Width           =   6855
@@ -174,7 +166,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H8000000D&
          Height          =   2775
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   140
          Top             =   4680
          Width           =   7095
@@ -211,7 +203,7 @@ Begin VB.Form ABMClientes
                _ExtentX        =   2566
                _ExtentY        =   556
                _Version        =   393216
-               Format          =   110362625
+               Format          =   54460417
                CurrentDate     =   40071
             End
             Begin VB.TextBox txtmotivo 
@@ -223,6 +215,19 @@ Begin VB.Form ABMClientes
                ToolTipText     =   "Motivo de Alta o Baja"
                Top             =   1440
                Width           =   2685
+            End
+            Begin MSComCtl2.DTPicker fin 
+               Height          =   315
+               Left            =   1440
+               TabIndex        =   151
+               Top             =   1080
+               Width           =   1455
+               _ExtentX        =   2566
+               _ExtentY        =   556
+               _Version        =   393216
+               CheckBox        =   -1  'True
+               Format          =   54460417
+               CurrentDate     =   40071
             End
             Begin VB.Label Label10 
                Caption         =   "Fecha Fin:"
@@ -318,7 +323,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   5655
-         Left            =   -70800
+         Left            =   4200
          TabIndex        =   60
          Top             =   1440
          Width           =   2775
@@ -368,7 +373,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   5655
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   109
          Top             =   1440
          Width           =   3975
@@ -1005,7 +1010,7 @@ Begin VB.Form ABMClientes
                _Version        =   393216
                CheckBox        =   -1  'True
                DateIsNull      =   -1  'True
-               Format          =   110362625
+               Format          =   54460417
                CurrentDate     =   40070
             End
          End
@@ -1198,7 +1203,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtMedica 
          Height          =   285
-         Left            =   -64440
+         Left            =   10560
          MultiLine       =   -1  'True
          TabIndex        =   99
          Top             =   6380
@@ -1208,7 +1213,7 @@ Begin VB.Form ABMClientes
       Begin VB.ComboBox cboIva 
          Height          =   315
          ItemData        =   "ABMClientes.frx":0C36
-         Left            =   7200
+         Left            =   -67800
          List            =   "ABMClientes.frx":0C38
          Style           =   2  'Dropdown List
          TabIndex        =   97
@@ -1220,7 +1225,7 @@ Begin VB.Form ABMClientes
          Enabled         =   0   'False
          Height          =   315
          ItemData        =   "ABMClientes.frx":0C3A
-         Left            =   7200
+         Left            =   -67800
          List            =   "ABMClientes.frx":0C3C
          Style           =   2  'Dropdown List
          TabIndex        =   96
@@ -1241,7 +1246,7 @@ Begin VB.Form ABMClientes
          EndProperty
          ForeColor       =   &H00C00000&
          Height          =   4215
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   78
          Top             =   480
          Width           =   7095
@@ -1430,7 +1435,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110362625
+            Format          =   54460417
             CurrentDate     =   40071
          End
          Begin MSComCtl2.DTPicker DTFechaNac 
@@ -1443,7 +1448,7 @@ Begin VB.Form ABMClientes
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   110362625
+            Format          =   54460417
             CurrentDate     =   40071
          End
          Begin VB.Label Label1 
@@ -1645,7 +1650,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtObserva 
          Height          =   810
-         Left            =   9945
+         Left            =   -65055
          MaxLength       =   250
          MultiLine       =   -1  'True
          TabIndex        =   77
@@ -1655,7 +1660,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtMail 
          Height          =   315
-         Left            =   9930
+         Left            =   -65070
          MaxLength       =   50
          TabIndex        =   71
          Top             =   5350
@@ -1664,7 +1669,7 @@ Begin VB.Form ABMClientes
       End
       Begin VB.TextBox txtIngresosBrutos 
          Height          =   315
-         Left            =   9840
+         Left            =   -65160
          MaxLength       =   10
          TabIndex        =   70
          Top             =   4120
@@ -1673,7 +1678,7 @@ Begin VB.Form ABMClientes
       End
       Begin MSMask.MaskEdBox txtCuit 
          Height          =   315
-         Left            =   9480
+         Left            =   -65520
          TabIndex        =   72
          Top             =   4735
          Visible         =   0   'False
@@ -1691,7 +1696,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Cond. I.V.A.:"
          Height          =   195
          Index           =   9
-         Left            =   5640
+         Left            =   -69360
          TabIndex        =   98
          Top             =   6040
          Visible         =   0   'False
@@ -1702,7 +1707,7 @@ Begin VB.Form ABMClientes
          Caption         =   "e-mail:"
          Height          =   195
          Index           =   7
-         Left            =   9240
+         Left            =   -65760
          TabIndex        =   76
          Top             =   5395
          Visible         =   0   'False
@@ -1713,7 +1718,7 @@ Begin VB.Form ABMClientes
          Caption         =   "C.U.I.T.:"
          Height          =   195
          Index           =   10
-         Left            =   9480
+         Left            =   -65520
          TabIndex        =   75
          Top             =   5080
          Visible         =   0   'False
@@ -1724,7 +1729,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Ing. Brutos:"
          Height          =   195
          Index           =   11
-         Left            =   9960
+         Left            =   -65040
          TabIndex        =   74
          Top             =   4480
          Visible         =   0   'False
@@ -1735,7 +1740,7 @@ Begin VB.Form ABMClientes
          Caption         =   "Observación:"
          Height          =   195
          Index           =   12
-         Left            =   8880
+         Left            =   -66120
          TabIndex        =   73
          Top             =   5815
          Visible         =   0   'False
@@ -1752,7 +1757,7 @@ Begin VB.Form ABMClientes
       _ExtentY        =   556
       _Version        =   393216
       CheckBox        =   -1  'True
-      Format          =   110362625
+      Format          =   54460417
       CurrentDate     =   40071
    End
    Begin VB.CommandButton Command1 
@@ -2394,7 +2399,7 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & cli_fac & ", "
                 cSQL = cSQL & XS(txtDiagnostico) & ", "
                 cSQL = cSQL & XN(txtTotalVianda) & ", "
-                cSQL = cSQL & XS(txtorden) & ","
+                cSQL = cSQL & XS(txtOrden) & ","
                 cSQL = cSQL & XN(txtCliente) & ", "
                 cSQL = cSQL & est & ")"
                 
@@ -2515,7 +2520,7 @@ Private Sub cmdAceptar_Click()
                 cSQL = cSQL & " ,CLI_FACTURA=" & cli_fac
                 cSQL = cSQL & " ,CLI_DIAGNO=" & XS(txtDiagnostico.Text)
                 cSQL = cSQL & " ,CLI_TOTAL=" & XN(txtTotalVianda.Text)
-                cSQL = cSQL & " ,CLI_ORDEN=" & XS(txtorden.Text)
+                cSQL = cSQL & " ,CLI_ORDEN=" & XS(txtOrden.Text)
                 cSQL = cSQL & " ,CLI_CLIFAC=" & XN(txtCliente.Text)
                 est = obtenerEstado()
                 cSQL = cSQL & " ,CLI_ESTADO=" & est
@@ -3498,7 +3503,7 @@ Private Sub Form_Load()
                 txtBuscaOS.Text = ChkNull(rec!OS_NUMERO)
                 txtDiagnostico.Text = ChkNull(rec!CLI_DIAGNO)
                 
-                txtorden.Text = ChkNull(rec!CLI_ORDEN)
+                txtOrden.Text = ChkNull(rec!CLI_ORDEN)
                 txtCliente.Text = ChkNull(rec!CLI_CLIFAC)
                 txtCliente_LostFocus
                 'fechaAlta.Value = Date
