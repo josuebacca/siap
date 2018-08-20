@@ -270,7 +270,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   112656385
+            Format          =   11010049
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +329,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   112656385
+            Format          =   11010049
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -405,7 +405,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   112656385
+            Format          =   11010049
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -887,14 +887,14 @@ Private Function crearplanilla()
             If rec.EOF = False Then
                 Do While rec.EOF = False
                     Select Case rec!VIA_CODIGO
-                        Case 2 ' Sopa
-                            grdGrilla.TextMatrix(i, 5) = 1
-                        Case 3 ' Postre
-                            grdGrilla.TextMatrix(i, 6) = 1
-                        Case 4 ' Pan
-                            grdGrilla.TextMatrix(i, 7) = 1
-                        Case 5 ' Descartable
+                        Case 2 ' descartable
                             grdGrilla.TextMatrix(i, 8) = 1
+                        Case 3 ' sopa
+                            grdGrilla.TextMatrix(i, 5) = 1
+                        Case 4 ' Postre
+                            grdGrilla.TextMatrix(i, 6) = 1
+                        Case 5 ' pan
+                            grdGrilla.TextMatrix(i, 7) = 1
                         Case 6 ' Remise Pilar
                             grdGrilla.TextMatrix(i, 9) = "$ " & Chk0(rec!VIA_PRECIO)
                             grdGrilla.TextMatrix(i, 16) = Chk0(rec!VIA_PRECIO)

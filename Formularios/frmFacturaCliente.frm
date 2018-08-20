@@ -820,7 +820,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   54525953
+               Format          =   43909121
                CurrentDate     =   43174
             End
             Begin MSComCtl2.DTPicker feDesde 
@@ -833,7 +833,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   54525953
+               Format          =   43909121
                CurrentDate     =   43174
             End
             Begin VB.Label Label25 
@@ -865,7 +865,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54525953
+            Format          =   43909121
             CurrentDate     =   43174
          End
          Begin VB.Label Label7 
@@ -922,7 +922,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54525953
+            Format          =   43909121
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -935,7 +935,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   54525953
+            Format          =   43909121
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -1693,7 +1693,7 @@ Private Sub cmdCerrarTarjeta_Click()
     fraTarjeta.Visible = False
     cboFormaPago.SetFocus
 End Sub
-Private Function grabar_factura(cliente As Integer, total As Double)
+Private Function grabar_factura(Cliente As Integer, total As Double)
     Dim nrofac As Integer
     Dim remis As Integer
     Dim totdet As Double
@@ -1730,15 +1730,12 @@ Private Function grabar_factura(cliente As Integer, total As Double)
     sql = sql & "3," 'ESTADO DEFINITIVO
     sql = sql & XS(Format(nrofac, "00000000")) & ","
     sql = sql & XS(Format(txtNroSucursal.Text, "0000")) & ","
-    sql = sql & XN(cliente) & ")" 'CLIENTE
+    sql = sql & XN(Cliente) & ")" 'CLIENTE
     DBConn.Execute sql
     
     'INSERTAR EL DETALLE
     'ASEGURAR QUE ESTE CARGADA LA GRILLA DEL DETALLE Y GUARDARLA EN LA TABLA DETALLE_FACTURA_CLIENTE
     For i = 1 To grdGrillaDetalle.Rows - 1
-        'busco si es remise pilar o rio 2
-        remis = VerifRemis(XN(grdGrilla.TextMatrix(i, 9)))
-        'totdet=
          sql = "INSERT INTO DETALLE_FACTURA_CLIENTE"
                 sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,DFC_NROITEM,"
                 sql = sql & " PTO_CODIGO,PDI_FECHA,CLI_CODIGO,DFC_REMISE,DFC_DESCAR,DFC_TOTAL)"
@@ -1749,19 +1746,15 @@ Private Function grabar_factura(cliente As Integer, total As Double)
                 sql = sql & i & "," 'PONER EL NRO ITEM
                 sql = sql & 1 & "," 'pto
                 sql = sql & XN(grdGrilla.TextMatrix(i, 0)) & "," 'fecha
-                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & "," 'codigo cliente
-                
+                sql = sql & XN(grdGrilla.TextMatrix(i, 10)) & "," 'codigo cliente
                 sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","  'REMIS
-                sql = sql & calcularValorViandas(XN(grdGrilla.TextMatrix(i, 9)), 2) & ","  'DESC
-                sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","  'TOTAL
-                sql = sql & XN(grdGrilla.TextMatrix(i, 3)) & ")"
+                sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","  'DESC
+                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & ","  'TOTAL
                 DBConn.Execute sql
 
         Next
 End Function
-Private Function calcularTotalDetalle(item As Integer)
-    
-End Function
+
 Private Function VerifRemis(codcli As Integer)
         sql = "SELECT V.VIA_CODIGO as codigo"
                 sql = sql & " FROM CLIENTE_VIANDAS CV "
@@ -2153,14 +2146,14 @@ Private Sub Form_Load()
     Next
     
     'GRILLA detalle
-    grdGrillaDetalle.FormatString = "^Fecha|ClienteComio|alm|cena|postre|pan|sopa|remise|descartable|importe|CODCLI"
+    grdGrillaDetalle.FormatString = "^Fecha|ClienteComio|alm|cena|sopa|postre|pan|remise|descartable|importe|CODCLI"
     grdGrillaDetalle.ColWidth(0) = 1200  'fecha
     grdGrillaDetalle.ColWidth(1) = 2500 'clientecomio
     grdGrillaDetalle.ColWidth(2) = 400 'alm
     grdGrillaDetalle.ColWidth(3) = 400 'cena
-    grdGrillaDetalle.ColWidth(4) = 400    'postre
-    grdGrillaDetalle.ColWidth(5) = 400   'pan
-    grdGrillaDetalle.ColWidth(6) = 400    'sopa
+    grdGrillaDetalle.ColWidth(4) = 400    'sopa
+    grdGrillaDetalle.ColWidth(5) = 400   'postre
+    grdGrillaDetalle.ColWidth(6) = 400    'pan
     grdGrillaDetalle.ColWidth(7) = 400    'remise
     grdGrillaDetalle.ColWidth(8) = 400    'descartable
     grdGrillaDetalle.ColWidth(9) = 1000   'importe
@@ -2323,26 +2316,30 @@ Private Sub grdGrilla_Click()
             Do While rec.EOF = False
                 grdGrillaDetalle.AddItem rec!PDI_FECHA & Chr(9) & rec!CLI_RAZSOC & Chr(9) & _
                                 rec!PDI_ALMUER & Chr(9) & rec!PDI_CENA & Chr(9) & _
-                                rec!PDI_POSTRE & Chr(9) & _
-                                rec!PDI_PAN & Chr(9) & rec!PDI_SOPA & Chr(9) & _
-                                 rec!PDI_REMISE & Chr(9) & calcularValorViandas(2) 'desc es el 2
+                                rec!PDI_SOPA & Chr(9) & _
+                                rec!PDI_POSTRE & Chr(9) & rec!PDI_PAN & Chr(9) & _
+                                 rec!PDI_REMISE & Chr(9) & calcularValorViandas(2) & Chr(9) & rec!PDI_PRECIO
                 rec.MoveNext
             Loop
     End If
     rec.Close
-    
+    calcularTotalDetalle
 End Sub
-Private Function calcularTotalDetalle()
+Private Sub calcularTotalDetalle()
 Dim total As Double
-total = 0
     For i = 1 To grdGrillaDetalle.Rows - 1
-        For J = 2 To 6
-        If grdGrillaDetalle.TextMatrix(i, J) = 1 Then
-            total = total + calcularValorVianda()
-            
+    total = grdGrillaDetalle.TextMatrix(i, 9)
+        If Chk0(grdGrillaDetalle.TextMatrix(i, 2)) = 1 And Chk0(grdGrillaDetalle.TextMatrix(i, 3)) = 1 Then ' si almuerza y cena
+            grdGrillaDetalle.TextMatrix(i, 9) = (total) * 2 '..multiplico vianda x 2
+        End If
+        For J = 4 To 6
+            If Chk0(grdGrillaDetalle.TextMatrix(i, J)) = 1 Then
+                total = total + calcularValorViandas(J - 1)
+            End If
         Next
+        grdGrillaDetalle.TextMatrix(i, 9) = total
     Next
-End Function
+End Sub
         
 
 
