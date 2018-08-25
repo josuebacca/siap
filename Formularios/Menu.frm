@@ -9,6 +9,7 @@ Begin VB.MDIForm Menu
    Icon            =   "Menu.frx":0000
    LinkTopic       =   "MDIForm1"
    OLEDropMode     =   1  'Manual
+   Picture         =   "Menu.frx":044A
    StartUpPosition =   1  'CenterOwner
    WindowState     =   2  'Maximized
    Begin ComctlLib.Toolbar tbrPrincipal 
@@ -98,99 +99,6 @@ Begin VB.MDIForm Menu
       Left            =   0
       Top             =   4920
    End
-   Begin VB.PictureBox Picture1 
-      Align           =   1  'Align Top
-      Appearance      =   0  'Flat
-      BackColor       =   &H0080FF80&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   735
-      Left            =   0
-      ScaleHeight     =   735
-      ScaleWidth      =   10755
-      TabIndex        =   2
-      Top             =   420
-      Width           =   10755
-      Begin VB.PictureBox Picture2 
-         Appearance      =   0  'Flat
-         BackColor       =   &H000080FF&
-         BorderStyle     =   0  'None
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H8000000E&
-         Height          =   495
-         Left            =   3000
-         ScaleHeight     =   495
-         ScaleWidth      =   9375
-         TabIndex        =   7
-         Top             =   120
-         Width           =   9375
-      End
-      Begin VB.CommandButton cmdCommunicator 
-         Appearance      =   0  'Flat
-         Height          =   615
-         Left            =   12720
-         Picture         =   "Menu.frx":044A
-         Style           =   1  'Graphical
-         TabIndex        =   6
-         Top             =   240
-         Visible         =   0   'False
-         Width           =   735
-      End
-      Begin VB.CommandButton cmdActLetrero 
-         Height          =   495
-         Left            =   2520
-         Picture         =   "Menu.frx":1D68
-         Style           =   1  'Graphical
-         TabIndex        =   5
-         ToolTipText     =   "Actualizar Letrero"
-         Top             =   120
-         Width           =   495
-      End
-      Begin VB.TextBox txtPaciente 
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   355
-         Left            =   360
-         TabIndex        =   3
-         Top             =   240
-         Width           =   1455
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Buscar Cliente:"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H8000000E&
-         Height          =   195
-         Left            =   360
-         TabIndex        =   4
-         Top             =   0
-         Width           =   1305
-      End
-   End
    Begin ComctlLib.StatusBar stbPrincipal 
       Align           =   2  'Align Bottom
       Height          =   315
@@ -208,14 +116,12 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   6526
             MinWidth        =   6526
-            TextSave        =   ""
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
          BeginProperty Panel2 {0713E89F-850A-101B-AFC0-4210102A8DA7} 
             Object.Width           =   7673
             MinWidth        =   7673
-            TextSave        =   ""
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -246,7 +152,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1587
             MinWidth        =   1587
-            TextSave        =   "17:06"
+            TextSave        =   "10:48"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -256,7 +162,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1940
             MinWidth        =   1940
-            TextSave        =   "11/08/2018"
+            TextSave        =   "25/08/2018"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -284,31 +190,31 @@ Begin VB.MDIForm Menu
       BeginProperty Images {0713E8C2-850A-101B-AFC0-4210102A8DA7} 
          NumListImages   =   7
          BeginProperty ListImage1 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
-            Picture         =   "Menu.frx":2632
+            Picture         =   "Menu.frx":51D0
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
-            Picture         =   "Menu.frx":280C
+            Picture         =   "Menu.frx":53AA
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
-            Picture         =   "Menu.frx":2B26
+            Picture         =   "Menu.frx":56C4
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
-            Picture         =   "Menu.frx":2E40
+            Picture         =   "Menu.frx":59DE
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
-            Picture         =   "Menu.frx":315A
+            Picture         =   "Menu.frx":5CF8
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
-            Picture         =   "Menu.frx":3474
+            Picture         =   "Menu.frx":6012
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
-            Picture         =   "Menu.frx":378E
+            Picture         =   "Menu.frx":632C
             Key             =   ""
          EndProperty
       EndProperty
@@ -1397,22 +1303,22 @@ Private Function configuroLetrero(Fecha As Date) As String
 End Function
 Private Sub Timer1_Timer()
     
-    Static Anterior As Boolean
-    Static tamañoLetrero As Single
-    Static X As Single
-    If Not Anterior Then
-        tamañoLetrero = Menu.Picture2.TextWidth(Letrero)
-        Anterior = True
-        X = Menu.Picture2.ScaleWidth
-    End If
-    Menu.Picture2.Cls
-    Menu.Picture2.CurrentX = X
-    Menu.Picture2.CurrentY = 100
-'Para cambiar el tipo de letra
-    Menu.Picture2.FontName = "Arial"
-    Menu.Picture2.FontBold = True
-    Menu.Picture2.Print Letrero
-    X = X - 25
-    If X < -tamañoLetrero Then X = Menu.Picture2.ScaleWidth
+'    Static Anterior As Boolean
+'    Static tamañoLetrero As Single
+'    Static X As Single
+'    If Not Anterior Then
+'        tamañoLetrero = Menu.Picture2.TextWidth(Letrero)
+'        Anterior = True
+'        X = Menu.Picture2.ScaleWidth
+'    End If
+'    Menu.Picture2.Cls
+'    Menu.Picture2.CurrentX = X
+'    Menu.Picture2.CurrentY = 100
+''Para cambiar el tipo de letra
+'    Menu.Picture2.FontName = "Arial"
+'    Menu.Picture2.FontBold = True
+'    Menu.Picture2.Print Letrero
+'    X = X - 25
+'    If X < -tamañoLetrero Then X = Menu.Picture2.ScaleWidth
 End Sub
 

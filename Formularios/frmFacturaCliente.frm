@@ -820,7 +820,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   43909121
+               Format          =   54591489
                CurrentDate     =   43174
             End
             Begin MSComCtl2.DTPicker feDesde 
@@ -833,7 +833,7 @@ Begin VB.Form frmFacturaCliente
                _ExtentY        =   556
                _Version        =   393216
                CheckBox        =   -1  'True
-               Format          =   43909121
+               Format          =   54591489
                CurrentDate     =   43174
             End
             Begin VB.Label Label25 
@@ -865,7 +865,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   43909121
+            Format          =   54591489
             CurrentDate     =   43174
          End
          Begin VB.Label Label7 
@@ -922,7 +922,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   43909121
+            Format          =   54591489
             CurrentDate     =   43174
          End
          Begin MSComCtl2.DTPicker FechaDesde 
@@ -935,7 +935,7 @@ Begin VB.Form frmFacturaCliente
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   43909121
+            Format          =   54591489
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -1071,7 +1071,7 @@ Begin VB.Form frmFacturaCliente
          Begin VB.CommandButton Command1 
             Caption         =   "Forma Pago"
             Height          =   405
-            Left            =   2760
+            Left            =   360
             TabIndex        =   64
             Top             =   4680
             Visible         =   0   'False
@@ -1122,10 +1122,10 @@ Begin VB.Form frmFacturaCliente
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   405
-            Left            =   4875
+            Left            =   4920
             Locked          =   -1  'True
             TabIndex        =   17
-            Top             =   4740
+            Top             =   4680
             Width           =   1710
          End
          Begin VB.TextBox txtSubtotal 
@@ -1258,7 +1258,7 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   240
-            Left            =   3960
+            Left            =   2040
             TabIndex        =   33
             Top             =   4680
             Visible         =   0   'False
@@ -1278,7 +1278,7 @@ Begin VB.Form frmFacturaCliente
             AutoSize        =   -1  'True
             Caption         =   "% I.V.A.:"
             Height          =   195
-            Left            =   3960
+            Left            =   2040
             TabIndex        =   28
             Top             =   4920
             Visible         =   0   'False
@@ -1297,7 +1297,7 @@ Begin VB.Form frmFacturaCliente
                Strikethrough   =   0   'False
             EndProperty
             Height          =   285
-            Left            =   4155
+            Left            =   4080
             TabIndex        =   27
             Top             =   4680
             Width           =   645
@@ -1306,7 +1306,7 @@ Begin VB.Form frmFacturaCliente
             AutoSize        =   -1  'True
             Caption         =   "Sub-Total:"
             Height          =   195
-            Left            =   4920
+            Left            =   3120
             TabIndex        =   26
             Top             =   4680
             Visible         =   0   'False
@@ -1316,7 +1316,7 @@ Begin VB.Form frmFacturaCliente
             AutoSize        =   -1  'True
             Caption         =   "Observaciones:"
             Height          =   195
-            Left            =   4530
+            Left            =   3120
             TabIndex        =   25
             Top             =   4995
             Visible         =   0   'False
@@ -1702,7 +1702,7 @@ Private Function grabar_factura(Cliente As Integer, total As Double)
     rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
     Screen.MousePointer = vbHourglass
     lblEstado.Caption = "Guardando..."
-    
+    nrofac = 1
     If rec.EOF = True Then
         nrofac = rec!MAXIMO + 1
     End If
@@ -1717,42 +1717,51 @@ Private Function grabar_factura(Cliente As Integer, total As Double)
     sql = sql & " FCL_NUMEROTXT,FCL_SUCURSALTXT,CLI_CODIGO)"
     sql = sql & " VALUES ("
     sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
-    sql = sql & XN(nrofac) & ","
+    sql = sql & nrofac & ","
     sql = sql & XN(txtNroSucursal.Text) & ","
     sql = sql & XDQ(FechaFactura.Value) & ","
     sql = sql & XN(txtPorcentajeIva) & ","
     sql = sql & cboCondicion.ItemData(cboCondicion.ListIndex) & ","
     sql = sql & XS(txtObservaciones) & ","
     sql = sql & cboVendedor.ItemData(cboVendedor.ListIndex) & ","
-    sql = sql & XN(total) & ","
-    sql = sql & XN(total) & ","
-    sql = sql & XN(total) & "," 'SALDO FACTURA
+    sql = sql & total & ","
+    sql = sql & total & ","
+    sql = sql & total & "," 'SALDO FACTURA
     sql = sql & "3," 'ESTADO DEFINITIVO
     sql = sql & XS(Format(nrofac, "00000000")) & ","
     sql = sql & XS(Format(txtNroSucursal.Text, "0000")) & ","
-    sql = sql & XN(Cliente) & ")" 'CLIENTE
+    sql = sql & Cliente & ")" 'CLIENTE
     DBConn.Execute sql
     
     'INSERTAR EL DETALLE
     'ASEGURAR QUE ESTE CARGADA LA GRILLA DEL DETALLE Y GUARDARLA EN LA TABLA DETALLE_FACTURA_CLIENTE
     For i = 1 To grdGrillaDetalle.Rows - 1
-         sql = "INSERT INTO DETALLE_FACTURA_CLIENTE"
-                sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,DFC_NROITEM,"
-                sql = sql & " PTO_CODIGO,PDI_FECHA,CLI_CODIGO,DFC_REMISE,DFC_DESCAR,DFC_TOTAL)"
-                sql = sql & " VALUES ("
-                sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
-                sql = sql & XN(nrofac) & ","
-                sql = sql & 1 & ","
-                sql = sql & i & "," 'PONER EL NRO ITEM
-                sql = sql & 1 & "," 'pto
-                sql = sql & XN(grdGrilla.TextMatrix(i, 0)) & "," 'fecha
-                sql = sql & XN(grdGrilla.TextMatrix(i, 10)) & "," 'codigo cliente
-                sql = sql & XN(grdGrilla.TextMatrix(i, 7)) & ","  'REMIS
-                sql = sql & XN(grdGrilla.TextMatrix(i, 8)) & ","  'DESC
-                sql = sql & XN(grdGrilla.TextMatrix(i, 9)) & ","  'TOTAL
-                DBConn.Execute sql
-
-        Next
+        sql = "INSERT INTO DETALLE_FACTURA_CLIENTE"
+        sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,DFC_NROITEM,"
+        sql = sql & " PTO_CODIGO,DFC_FECHA,DFC_CLIENTE,DFC_REMISE,DFC_DESCAR,DFC_TOTAL)"
+        sql = sql & " VALUES ("
+        sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
+        sql = sql & nrofac & ","
+        sql = sql & 1 & ","
+        sql = sql & i & "," 'PONER EL NRO ITEM
+        sql = sql & 1 & "," 'pto
+        sql = sql & XDQ(grdGrillaDetalle.TextMatrix(i, 0)) & "," 'fecha
+        sql = sql & XN(grdGrillaDetalle.TextMatrix(i, 10)) & "," 'codigo cliente
+        sql = sql & XN(grdGrillaDetalle.TextMatrix(i, 7)) & ","  'REMIS
+        sql = sql & XN(grdGrillaDetalle.TextMatrix(i, 8)) & ","  'DESC
+        sql = sql & XN(grdGrillaDetalle.TextMatrix(i, 9)) & ")"  'TOTAL
+        DBConn.Execute sql
+    Next
+    
+    'actualizar el estado de la planilla diaria
+    For i = 1 To grdGrillaDetalle.Rows - 1
+        sql = "UPDATE PLANILLA_DIARIA_DETALLE " & _
+             "SET EST_CODIGO = " & 2 & _
+            " WHERE PDI_FECHA = " & XDQ(grdGrillaDetalle.TextMatrix(i, 0)) & _
+            "AND CLI_CODIGO =" & XN(grdGrillaDetalle.TextMatrix(i, 10))
+        DBConn.Execute sql, dbExecDirect
+    Next
+    
 End Function
 
 Private Function VerifRemis(codcli As Integer)
@@ -1805,46 +1814,46 @@ Private Sub cmdGrabar_Click()
     On Error GoTo HayErrorFactura
     
     
-    sql = "SELECT * FROM FACTURA_CLIENTE"
-    sql = sql & " WHERE TCO_CODIGO=" & cboFactura.ItemData(cboFactura.ListIndex)
-    sql = sql & " AND FCL_NUMERO = " & XN(txtNroFactura.Text)
-    sql = sql & " AND FCL_SUCURSAL=" & XN(txtNroSucursal.Text)
-    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+'    sql = "SELECT * FROM FACTURA_CLIENTE"
+'    sql = sql & " WHERE TCO_CODIGO=" & cboFactura.ItemData(cboFactura.ListIndex)
+'    sql = sql & " AND FCL_NUMERO = " & XN(txtNroFactura.Text)
+'    sql = sql & " AND FCL_SUCURSAL=" & XN(txtNroSucursal.Text)
+'    rec.Open sql, DBConn, adOpenStatic, adLockOptimistic
+'
+'    Screen.MousePointer = vbHourglass
+'    lblEstado.Caption = "Guardando..."
     
-    Screen.MousePointer = vbHourglass
-    lblEstado.Caption = "Guardando..."
-    
-    If rec.EOF = True Then
-        
-           
-        For i = 1 To grdGrilla.Rows - 1
-            If grdGrilla.TextMatrix(i, 0) <> "" Then
-                sql = "INSERT INTO DETALLE_FACTURA_CLIENTE"
-                sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,DFC_NROITEM,"
-                sql = sql & " PTO_CODIGO,DFC_CANTIDAD,DFC_PRECIO)"
-                sql = sql & " VALUES ("
-                sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
-                sql = sql & XN(txtNroFactura.Text) & ","
-                sql = sql & XN(txtNroSucursal.Text) & ","
-                sql = sql & i & "," 'PONER EL NRO ITEM
-                sql = sql & XN(grdGrilla.TextMatrix(i, 5)) & ","
-                sql = sql & XN(grdGrilla.TextMatrix(i, 2)) & ","
-                sql = sql & XN(grdGrilla.TextMatrix(i, 3)) & ")"
-                DBConn.Execute sql
-            End If
-        Next
-        
-        'ACTUALIZO LA TABLA PARAMENTROS Y LE SUMO UNO A LA FACTURA QUE CORRESPONDE
-        Select Case cboFactura.ItemData(cboFactura.ListIndex)
-            Case 3
-                sql = "UPDATE PARAMETROS SET FACTURA_C=" & XN(txtNroFactura.Text)
-        End Select
-        DBConn.Execute sql
-        
-        'actualizar el estado de la planilla diaria
-        
-    End If
-    rec.Close
+'    If rec.EOF = True Then
+'
+'
+'        For i = 1 To grdGrilla.Rows - 1
+'            If grdGrilla.TextMatrix(i, 0) <> "" Then
+'                sql = "INSERT INTO DETALLE_FACTURA_CLIENTE"
+'                sql = sql & " (TCO_CODIGO,FCL_NUMERO,FCL_SUCURSAL,DFC_NROITEM,"
+'                sql = sql & " PTO_CODIGO,DFC_CANTIDAD,DFC_PRECIO)"
+'                sql = sql & " VALUES ("
+'                sql = sql & cboFactura.ItemData(cboFactura.ListIndex) & ","
+'                sql = sql & XN(txtNroFactura.Text) & ","
+'                sql = sql & XN(txtNroSucursal.Text) & ","
+'                sql = sql & i & "," 'PONER EL NRO ITEM
+'                sql = sql & XN(grdGrilla.TextMatrix(i, 5)) & ","
+'                sql = sql & XN(grdGrilla.TextMatrix(i, 2)) & ","
+'                sql = sql & XN(grdGrilla.TextMatrix(i, 3)) & ")"
+'                DBConn.Execute sql
+'            End If
+'        Next
+'
+'        'ACTUALIZO LA TABLA PARAMENTROS Y LE SUMO UNO A LA FACTURA QUE CORRESPONDE
+'        Select Case cboFactura.ItemData(cboFactura.ListIndex)
+'            Case 3
+'                sql = "UPDATE PARAMETROS SET FACTURA_C=" & XN(txtNroFactura.Text)
+'        End Select
+'        DBConn.Execute sql
+'
+
+'
+'    End If
+'    rec.Close
     DBConn.CommitTrans
     'cmdImprimir_Click
     Screen.MousePointer = vbNormal
@@ -2318,7 +2327,8 @@ Private Sub grdGrilla_Click()
                                 rec!PDI_ALMUER & Chr(9) & rec!PDI_CENA & Chr(9) & _
                                 rec!PDI_SOPA & Chr(9) & _
                                 rec!PDI_POSTRE & Chr(9) & rec!PDI_PAN & Chr(9) & _
-                                 rec!PDI_REMISE & Chr(9) & calcularValorViandas(2) & Chr(9) & rec!PDI_PRECIO
+                                 rec!PDI_REMISE & Chr(9) & _
+                                 IIf(rec!PDI_DESCAR <> "", calcularValorViandas(2), "") & Chr(9) & rec!PDI_PRECIO & Chr(9) & rec!CLI_CODIGO
                 rec.MoveNext
             Loop
     End If
@@ -2326,17 +2336,21 @@ Private Sub grdGrilla_Click()
     calcularTotalDetalle
 End Sub
 Private Sub calcularTotalDetalle()
-Dim total As Double
+    Dim total As Double
     For i = 1 To grdGrillaDetalle.Rows - 1
-    total = grdGrillaDetalle.TextMatrix(i, 9)
-        If Chk0(grdGrillaDetalle.TextMatrix(i, 2)) = 1 And Chk0(grdGrillaDetalle.TextMatrix(i, 3)) = 1 Then ' si almuerza y cena
-            grdGrillaDetalle.TextMatrix(i, 9) = (total) * 2 '..multiplico vianda x 2
+        total = grdGrillaDetalle.TextMatrix(i, 9)
+'        If Chk0(grdGrillaDetalle.TextMatrix(i, 2)) = 1 And Chk0(grdGrillaDetalle.TextMatrix(i, 3)) = 1 Then ' si almuerza y cena
+'            grdGrillaDetalle.TextMatrix(i, 9) = (total) * 2 '..multiplico vianda x 2
+'        End If
+        'preguntar si tiene descartable y descontarle en caso que tenga
+        If Chk0(grdGrillaDetalle.TextMatrix(i, 8)) <> "" Then
+            total = total - Chk0(grdGrillaDetalle.TextMatrix(i, 8))
         End If
-        For J = 4 To 6
-            If Chk0(grdGrillaDetalle.TextMatrix(i, J)) = 1 Then
-                total = total + calcularValorViandas(J - 1)
-            End If
-        Next
+'        For J = 4 To 6
+'            If Chk0(grdGrillaDetalle.TextMatrix(i, J)) = 1 Then
+'                total = total + calcularValorViandas(J - 1) 'ojo si cambia la numeracion de BD abm viandas
+'            End If
+'        Next
         grdGrillaDetalle.TextMatrix(i, 9) = total
     Next
 End Sub
