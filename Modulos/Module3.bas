@@ -170,7 +170,7 @@ Sub DesacCtrlx(CtrlName As Control)
     'CtrlName.TabStop = False
 End Sub
 
-Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVal sql As String, Optional IDReg As String, Optional pHeaderSQL As String, Optional pImgList As Variant, Optional pMaxRec As Long)
+Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVal sql As String, esCli As Boolean, Optional IDReg As String, Optional pHeaderSQL As String, Optional pImgList As Variant, Optional pMaxRec As Long)
 
     'Carga un control de tipo ListView a partir de un string SQL dado como parametro
     'Parámetro: lvwSource es el control que será cargado
@@ -204,6 +204,7 @@ Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVa
     Dim TextHeader As String
     
     Dim mRaz As ADODB.Recordset
+    
     Set mRaz = New ADODB.Recordset
     
     'control de parametros opcionales
@@ -276,7 +277,7 @@ Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVa
                 Else
                     lvwSource.ColumnHeaders.Add , , TextHeader, lvwSource.Width / 5, AlinColumna
                 End If
-                
+
                 'guardo el ancho del texto del header
                 ArrWidthColumn(IndiceCampo) = pForm.TextWidth(TextHeader)
                 
@@ -316,7 +317,8 @@ Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVa
             Next f
         End If
                 
-        
+        Dim reg As Integer
+        reg = 0
         ' cargo los items y subitems de la lista
         While Not vRec.EOF
         
@@ -340,13 +342,14 @@ Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVa
                             DatoMostrar = vRec.Fields(IndiceCampo)
                     End Select
                 End If
-            
+                Dim item As Variant
                 'muestro el campo formateado
                 If IndiceCampo = 0 Then
                     'si es el primero, lo agrego como ITEM
                     
                     If Not IsMissing(pImgList) Then
                         If IsMissing(IDReg) Or Trim(IDReg) = "" Then
+                            
                             Set itmX = lvwSource.ListItems.Add(, , DatoMostrar, 1)
                         Else
                             Set itmX = lvwSource.ListItems.Add(, "'" & vRec.Fields(CantCampos - 1) & "'", DatoMostrar, 1)
@@ -356,14 +359,26 @@ Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVa
                     Else
                         If IsMissing(IDReg) Or Trim(IDReg) = "" Then
                             Set itmX = lvwSource.ListItems.Add(, , DatoMostrar)
+
                         Else
                             Set itmX = lvwSource.ListItems.Add(, "'" & vRec.Fields(CantCampos - 1) & "'", DatoMostrar)
+                            
                         End If
                     End If
                 Else
                     'si no es el primero, lo agrego como SUBITEM
                     itmX.SubItems(IndiceCampo) = DatoMostrar
+                    
+                    If IndiceCampo = 9 Then
+                        'MsgBox "hola"
+                            If DatoMostrar = 0 Then
+                              'Set lvSI = itmX.listSubItems(IndiceCampo)
+                              'lvSI.ForeColor = vbRed
+                            End If
+                    End If
+                
                 End If
+                
                 
                 ' calculo el ancho y mantengo guardado el ancho mayor para asignarlo luego como el de la columna
                 If IndiceCampo = 0 Then
@@ -384,7 +399,15 @@ Public Sub CargarListView(ByRef pForm As Form, ByRef lvwSource As ListView, ByVa
         For IndiceColumna = 0 To HastaCampo
             lvwSource.ColumnHeaders(IndiceColumna + 1).Width = ArrWidthColumn(IndiceColumna)
         Next IndiceColumna
+
+        If esCli = True Then
         
+            For J = 1 To lvwSource.ListItems.Count - 1
+                If lvwSource.ListItems(J).SubItems(9) = "" Or lvwSource.ListItems(J).SubItems(9) = "2" Then
+                    lvwSource.ListItems(J).SmallIcon = 2
+                End If
+            Next
+        End If
         vRec.Close
     End If
     

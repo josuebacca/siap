@@ -36,6 +36,8 @@ Private pShowEditar As Boolean
 Private pShowEliminar As Boolean
 Private pShowVer As Boolean
 Private pShowImprimir As Boolean
+Public esCli As Boolean
+
 
 Public Property Let CenterWindow(ByVal NewCenterWindow As Boolean)
 
@@ -134,10 +136,13 @@ End Property
 Public Sub Show()
 
     Dim i As Integer
+    
 
     Set pFormBase = New frmCListaBaseABM
+    pFormBase.esCli = esCli
     
     pFormBase.SetWindow pStringSQL, pFieldID, pHeaderSQL, auxDllActiva, pMaxRecords
+    
     Set auxDllActiva = Nothing
     
     'establece el nombre a la ventana

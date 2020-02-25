@@ -152,7 +152,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1587
             MinWidth        =   1587
-            TextSave        =   "10:48"
+            TextSave        =   "10:14"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -162,7 +162,7 @@ Begin VB.MDIForm Menu
             Bevel           =   2
             Object.Width           =   1940
             MinWidth        =   1940
-            TextSave        =   "25/08/2018"
+            TextSave        =   "25/02/2020"
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -752,19 +752,20 @@ Private Sub mnuArchivoActualizaciones_Click()
     
     With vABMClientes
         .Caption = "Actualizacion de Clientes"
-        .sql = "SELECT C.CLI_RAZSOC,C.CLI_NRODOC, C.CLI_CODIGO, C.CLI_DOMICI,C.CLI_CODPOS, L.LOC_DESCRI," & _
-               "  C.CLI_TELEFONO, C.CLI_EDAD,C.CLI_OCUPACION " & _
+        .sql = "SELECT C.CLI_RAZSOC,C.CLI_NRODOC, C.CLI_CODIGO, C.CLI_DOMICI,C.CLI_CODPOS, L.LOC_DESCRI, " & _
+               "  C.CLI_TELEFONO, C.CLI_EDAD,C.CLI_OCUPACION,C.CLI_ESTADO " & _
                " FROM CLIENTE C, LOCALIDAD L " & _
                " WHERE C.LOC_CODIGO = L.LOC_CODIGO"
-        .HeaderSQL = "Nombre,Documento, Código, Domicilio, Código Postal,Localidad,Teléfono, Edad, Ocupacion "
+        .HeaderSQL = "Nombre,Documento, Código, Domicilio, Código Postal,Localidad,Teléfono, Edad, Ocupacion, Activo "
         .FieldID = "CLI_CODIGO"
         '.Report = RptPath & "tipocomp.rpt"
         Set .FormBase = vFormClientes
         Set .FormDatos = ABMClientes
+
     End With
     
     Set auxDllActiva = vABMClientes
-    
+    vABMClientes.esCli = True
     vABMClientes.Show
 End Sub
 Private Sub mnuCalculadora_Click()
@@ -1107,23 +1108,23 @@ Private Sub tbrPrincipal_ButtonClick(ByVal Button As ComctlLib.Button)
 End Sub
 
 
-Private Sub txtPaciente_GotFocus()
-    SelecTexto txtPaciente
-End Sub
+'Private Sub txtPaciente_GotFocus()
+'    SelecTexto txtPaciente
+'End Sub
 
-Private Sub txtPaciente_KeyDown(KeyCode As Integer, Shift As Integer)
-    If KeyCode = vbEnter Then
+'Private Sub txtPaciente_KeyDown(KeyCode As Integer, Shift As Integer)
+'    If KeyCode = vbEnter Then
         'txtPaciente_LostFocus
-    End If
-    If KeyCode = vbKeyF1 Then
-        BuscarClientes "txtPaciente", "CODIGO"
-    End If
-End Sub
+'    End If
+'    If KeyCode = vbKeyF1 Then
+'        BuscarClientes "txtPaciente", "CODIGO"
+'    End If
+'End Sub
 
-Private Sub txtPaciente_KeyPress(KeyAscii As Integer)
-    KeyAscii = CarNumeroEntero(KeyAscii)
+'Private Sub txtPaciente_KeyPress(KeyAscii As Integer)
+'    KeyAscii = CarNumeroEntero(KeyAscii)
 
-End Sub
+'End Sub
 Public Sub BuscarClientes(Txt As String, mQuien As String, Optional mCadena As String)
     Dim cSQL As String
     Dim hSQL As String
@@ -1161,8 +1162,8 @@ Public Sub BuscarClientes(Txt As String, mQuien As String, Optional mCadena As S
                 'txtCliente.Text = .ResultFields(2)
                 'txtCliente_LostFocus
             Else
-                txtPaciente.Text = .ResultFields(3)
-                txtPaciente_LostFocus
+                'txtPaciente.Text = .ResultFields(3)
+                'txtPaciente_LostFocus
             End If
         End If
     End With
@@ -1170,44 +1171,44 @@ Public Sub BuscarClientes(Txt As String, mQuien As String, Optional mCadena As S
     Set B = Nothing
 End Sub
 
-Private Sub txtPaciente_LostFocus()
-    Set Rec2 = New ADODB.Recordset
-    
-    If txtPaciente.Text <> "" Then
-        Set Rec2 = New ADODB.Recordset
-        sql = "SELECT CLI_CODIGO, CLI_RAZSOC,CLI_NRODOC"
-        sql = sql & " FROM CLIENTE"
-        sql = sql & " WHERE "
-        If txtPaciente.Text <> "" Then
-            sql = sql & " CLI_NRODOC=" & XN(txtPaciente)
-        Else
-            sql = sql & " CLI_RAZSOC LIKE '" & Trim(txtPaciente) & "%'"
-        End If
-        Rec2.Open sql, DBConn, adOpenStatic, adLockOptimistic
-        If Rec2.EOF = False Then
+'Private Sub txtPaciente_LostFocus()
+'    Set Rec2 = New ADODB.Recordset
+        
+'    If txtPaciente.Text <> "" Then
+'        Set Rec2 = New ADODB.Recordset
+'        sql = "SELECT CLI_CODIGO, CLI_RAZSOC,CLI_NRODOC"
+'        sql = sql & " FROM CLIENTE"
+'        sql = sql & " WHERE "
+'        If txtPaciente.Text <> "" Then
+'            sql = sql & " CLI_NRODOC=" & XN(txtPaciente)
+'        Else
+'            sql = sql & " CLI_RAZSOC LIKE '" & Trim(txtPaciente) & "%'"
+'        End If
+'        Rec2.Open sql, DBConn, adOpenStatic, adLockOptimistic
+'        If Rec2.EOF = False Then
             ' aca entra al formulario que tiene que contener
             ' la HC, Turnos, Presupuestos del cliente
             ' Pagos y Cobros
-            frmDatosClientes.txtDNI.Text = Rec2!CLI_NRODOC
-            frmDatosClientes.txtDNI.ToolTipText = Rec2!CLI_CODIGO
-            frmDatosClientes.Caption = "Paciente: " & Rec2!CLI_RAZSOC
-            frmDatosClientes.lblPaciente = Rec2!CLI_RAZSOC
-            If frmDatosClientes.Visible = False Then
-                frmDatosClientes.Show vbModal
-                txtPaciente.Text = ""
-            End If
+'            frmDatosClientes.txtDNI.Text = Rec2!CLI_NRODOC
+'            frmDatosClientes.txtDNI.ToolTipText = Rec2!CLI_CODIGO
+'            frmDatosClientes.Caption = "Paciente: " & Rec2!CLI_RAZSOC
+'            frmDatosClientes.lblPaciente = Rec2!CLI_RAZSOC
+'            If frmDatosClientes.Visible = False Then
+'                frmDatosClientes.Show vbModal
+'                txtPaciente.Text = ""
+ '           End If
             'txtDesCli.Text = rec!CLI_RAZSOC
             'txtcodigo.Text = rec!CLI_CODIGO
-        Else
-            MsgBox "El Paciente no existe", vbExclamation, TIT_MSGBOX
-            txtPaciente.SetFocus
-            txtPaciente.Text = ""
-        End If
-        If Rec2.State = 1 Then
-            Rec2.Close
-        End If
-    End If
-End Sub
+'        Else
+'            MsgBox "El Paciente no existe", vbExclamation, TIT_MSGBOX
+'            txtPaciente.SetFocus
+'            txtPaciente.Text = ""
+'        End If
+'        If Rec2.State = 1 Then
+'            Rec2.Close
+'        End If
+'    End If
+'End Sub
 
 Private Function buscarcumples(hoy As Date)
 Dim nHayCumple As Integer '1 hay 0 no hay

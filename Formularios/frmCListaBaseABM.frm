@@ -134,9 +134,8 @@ Begin VB.Form frmCListaBaseABM
          BeginProperty Panel1 {0713E89F-850A-101B-AFC0-4210102A8DA7} 
             AutoSize        =   1
             Bevel           =   0
-            Object.Width           =   13582
+            Object.Width           =   13555
             MinWidth        =   8819
-            TextSave        =   ""
             Key             =   ""
             Object.Tag             =   ""
          EndProperty
@@ -235,9 +234,13 @@ Begin VB.Form frmCListaBaseABM
       ImageHeight     =   15
       _Version        =   327682
       BeginProperty Images {0713E8C2-850A-101B-AFC0-4210102A8DA7} 
-         NumListImages   =   1
+         NumListImages   =   2
          BeginProperty ListImage1 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
             Picture         =   "frmCListaBaseABM.frx":095C
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage2 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "frmCListaBaseABM.frx":0AA2
             Key             =   ""
          EndProperty
       EndProperty
@@ -256,6 +259,7 @@ Private vStringSQL As String
 Private vFieldID As String
 Private vMaxRecords As Long
 Private vHeaderSQL As String
+Public esCli As Boolean
 'Dim WidthWindow As Long
 'Dim HeightWindow As Long
 'Dim CenterWindow As Boolean
@@ -296,7 +300,7 @@ End Sub
 
 Private Sub Form_Load()
                 
-    CargarListView Me, lstvLista, vStringSQL, vFieldID, vHeaderSQL, ImgLstLista
+    CargarListView Me, lstvLista, vStringSQL, esCli, vFieldID, vHeaderSQL, ImgLstLista
     'rptListado.Formulas(0) = "EMPRESA = '" & vDesEmpresa & "'"
     rptListado.Formulas(0) = ""
     If mOrigen = False And mAdentro = False Then

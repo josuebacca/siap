@@ -89,6 +89,7 @@ Begin VB.Form frmPlanillaDiaria
       _ExtentY        =   12912
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   512
       ForeColor       =   -2147483630
@@ -103,7 +104,7 @@ Begin VB.Form frmPlanillaDiaria
       EndProperty
       TabCaption(0)   =   "&Datos"
       TabPicture(0)   =   "frmPlanillaDiaria.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "FrameFactura"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Frame3"
@@ -111,9 +112,11 @@ Begin VB.Form frmPlanillaDiaria
       Tab(0).ControlCount=   2
       TabCaption(1)   =   "&Buscar"
       TabPicture(1)   =   "frmPlanillaDiaria.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "frameBuscar"
-      Tab(1).Control(1)=   "GrdModulos"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "GrdModulos"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "frameBuscar"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       Begin VB.Frame Frame3 
          BeginProperty Font 
@@ -126,7 +129,7 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   5805
-         Left            =   105
+         Left            =   -74895
          TabIndex        =   20
          Top             =   1455
          Width           =   14235
@@ -256,7 +259,7 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1470
-         Left            =   -74805
+         Left            =   195
          TabIndex        =   14
          Top             =   420
          Width           =   14070
@@ -270,7 +273,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   11010049
+            Format          =   59965441
             CurrentDate     =   43174
          End
          Begin VB.TextBox txtBuscarCliDescri 
@@ -329,7 +332,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentY        =   556
             _Version        =   393216
             CheckBox        =   -1  'True
-            Format          =   11010049
+            Format          =   59965441
             CurrentDate     =   43174
          End
          Begin VB.Label lbl 
@@ -385,7 +388,7 @@ Begin VB.Form frmPlanillaDiaria
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   105
+         Left            =   -74895
          TabIndex        =   13
          Top             =   345
          Width           =   14040
@@ -405,7 +408,7 @@ Begin VB.Form frmPlanillaDiaria
             _ExtentX        =   2143
             _ExtentY        =   556
             _Version        =   393216
-            Format          =   11010049
+            Format          =   59965441
             CurrentDate     =   43169
          End
          Begin VB.ComboBox cboVariantes 
@@ -488,7 +491,7 @@ Begin VB.Form frmPlanillaDiaria
       End
       Begin MSFlexGridLib.MSFlexGrid GrdModulos 
          Height          =   5145
-         Left            =   -74835
+         Left            =   165
          TabIndex        =   10
          Top             =   1935
          Width           =   14100
